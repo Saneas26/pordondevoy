@@ -1,5 +1,5 @@
-const CACHE = "pdv-v2";
-const ASSETS = ["./", "index.html", "manifest.json", "icon.svg", "icon-192.png", "icon-512.png", "quicksand-bold.woff2"];
+const CACHE = "pdv-v3";
+const ASSETS = ["./", "index.html", "rutas.js", "manifest.json", "icon.svg", "icon-192.png", "icon-512.png", "quicksand-bold.woff2"];
 
 self.addEventListener("install", e => {
   e.waitUntil(

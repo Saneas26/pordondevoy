@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <title>Por dónde voy</title>
-<meta name="description" content="Sigue tu vuelo Madrid → Gran Canaria sin conexión, en modo avión.">
+<meta name="description" content="Sigue tu vuelo desde Madrid sin conexión, en modo avión.">
 <meta name="theme-color" content="#041e3f">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -48,6 +48,7 @@ select,input[type=time],input[type=text]{
   width:100%; padding:12px; border-radius:10px; border:1px solid var(--line);
   background:var(--panel-2); color:var(--text); font-size:16px; appearance:none;
 }
+#destino{border-color:var(--accent); font-weight:700;}
 .row{display:flex; gap:12px;}
 .row>div{flex:1;}
 .check{display:flex; align-items:flex-start; gap:10px; margin-top:14px; font-size:13px; color:var(--muted); cursor:pointer;}
@@ -65,8 +66,9 @@ select,input[type=time],input[type=text]{
 }
 #resumen{font-size:15px; line-height:1.6;}
 #resumen strong{color:var(--accent);}
-#mapwrap{margin:4px 16px; background:#052a57; border-radius:16px; overflow:hidden; border:1px solid var(--line);}
-#map{display:block; width:100%; height:auto;}
+#mapwrap{margin:4px 16px; background:#052a57; border-radius:16px; overflow:hidden; border:1px solid var(--line);
+  display:flex; justify-content:center;}
+#map{display:block; width:100%; height:auto; max-height:56vh;}
 #situacion{margin:8px 16px 0; padding:12px 16px; background:var(--panel); border-radius:14px;}
 #situacion .lugar{font-size:17px; font-weight:700; color:var(--accent);}
 #situacion .detalle{font-size:13px; color:var(--muted); margin-top:3px; line-height:1.45;}
@@ -107,12 +109,18 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
       <img src="icon.svg" alt="">
       <div>
         <h1>Por dónde voy</h1>
-        <p>Madrid → Gran Canaria · funciona en modo avión</p>
+        <p>Elige tu destino · funciona en modo avión</p>
       </div>
     </header>
 
     <div class="card">
-      <h2>Tu vuelo</h2>
+      <h2>1 · Tu destino</h2>
+      <label for="destino">¿A dónde vuelas desde Madrid?</label>
+      <select id="destino"></select>
+    </div>
+
+    <div class="card">
+      <h2>2 · Tu vuelo</h2>
       <label for="aerolinea">Aerolínea</label>
       <select id="aerolinea">
         <option>Iberia</option>
@@ -120,6 +128,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
         <option>Air Europa</option>
         <option>Vueling</option>
         <option>Ryanair</option>
+        <option>easyJet</option>
         <option>Binter Canarias</option>
         <option>Otra</option>
       </select>
@@ -135,9 +144,9 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
           <input type="time" id="hllegada" value="11:45">
         </div>
       </div>
-      <label class="check">
-        <input type="checkbox" id="horaCanaria" checked>
-        <span>La hora de llegada del billete está en <b>hora canaria</b> (una hora menos que en Madrid)</span>
+      <label class="check" id="tzRow">
+        <input type="checkbox" id="tzCheck" checked>
+        <span id="tzTexto"></span>
       </label>
       <label class="check">
         <input type="checkbox" id="modoDemo">
@@ -160,7 +169,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
     <div id="flightHead">
       <img src="icon.svg" alt="" style="width:34px;height:34px;border-radius:9px;">
       <div>
-        <div class="tit">Madrid → Gran Canaria</div>
+        <div class="tit" id="titVuelo">Madrid → …</div>
         <div class="sub" id="subVuelo"></div>
       </div>
       <div class="spacer"></div>
@@ -176,7 +185,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 
     <div id="barra">
       <div class="track"><div class="fill" id="barraFill"></div></div>
-      <div class="pcts"><span>MAD</span><span id="pct">0 %</span><span>LPA</span></div>
+      <div class="pcts"><span>MAD</span><span id="pct">0 %</span><span id="codDestino">···</span></div>
     </div>
 
     <div id="stats">
@@ -196,77 +205,49 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
     </a>
   </section>
 
-  <footer>Por dónde voy · funciona sin conexión · v1</footer>
+  <footer>Por dónde voy · funciona sin conexión · v2 · 12 destinos</footer>
 </div>
 <div id="toast"></div>
 
+<script src="rutas.js"></script>
 <script>
 "use strict";
-/* ================= DATOS GEOGRÁFICOS =================
-   Costas simplificadas a partir de datos libres (Natural Earth).
-   Formato: [lat, lon]. Se proyectan a SVG en tiempo de ejecución. */
-const GEO = {
-  latMax: 42.2, latMin: 26.7, lonMin: -19.3, lonMax: -2.9,
-  pxPerLon: 28, pxPerLat: 33.8
-};
-const W = Math.round((GEO.lonMax - GEO.lonMin) * GEO.pxPerLon);   // ancho svg
-const H = Math.round((GEO.latMax - GEO.latMin) * GEO.pxPerLat);   // alto svg
-const P = (lat, lon) => [ (lon - GEO.lonMin) * GEO.pxPerLon, (GEO.latMax - lat) * GEO.pxPerLat ];
+/* rutas.js define REGIONES (mapas: costas de Natural Earth + etiquetas)
+   y RUTAS (12 destinos con waypoints narrados, duración típica y zona horaria). */
 
-const IBERIA = [[42.2,-8.8],[41.9,-8.87],[41.15,-8.68],[40.65,-8.75],[40.15,-8.87],[39.6,-9.15],[39.36,-9.4],[38.78,-9.5],[38.68,-9.42],[38.55,-9.18],[38.42,-8.8],[38.05,-8.85],[37.55,-8.82],[37.02,-8.99],[36.98,-8.6],[37.02,-7.95],[37.15,-7.42],[37.2,-6.96],[36.95,-6.42],[36.75,-6.35],[36.52,-6.28],[36.28,-6.09],[36.05,-5.75],[36.0,-5.6],[36.13,-5.35],[36.35,-5.2],[36.5,-4.9],[36.72,-4.42],[36.7,-3.9],[36.73,-3.3],[36.74,-2.9],[42.2,-2.9]];
-const AFRICA = [[35.2,-2.9],[35.15,-3.9],[35.25,-4.35],[35.4,-4.9],[35.75,-5.3],[35.9,-5.47],[35.79,-5.81],[35.45,-5.99],[35.18,-6.15],[34.88,-6.22],[34.3,-6.6],[34.03,-6.83],[33.6,-7.62],[33.25,-8.5],[32.78,-8.9],[32.3,-9.25],[31.5,-9.77],[31.0,-9.83],[30.42,-9.62],[30.05,-9.7],[29.55,-10.1],[29.1,-10.45],[28.75,-11.0],[28.45,-11.3],[28.05,-12.05],[27.95,-12.92],[27.66,-13.2],[27.1,-13.3],[26.7,-13.5],[26.7,-2.9]];
-const ISLAS = [
-  {pts:[[29.23,-13.46],[29.06,-13.52],[28.9,-13.78],[28.85,-13.87],[28.94,-13.9],[29.12,-13.62],[29.22,-13.52]]},                     // Lanzarote
-  {pts:[[28.74,-13.8],[28.45,-13.88],[28.15,-14.15],[28.04,-14.5],[28.18,-14.42],[28.45,-14.05],[28.7,-13.88]]},                      // Fuerteventura
-  {circ:[27.96,-15.6,24]},                                                                                                            // Gran Canaria
-  {pts:[[28.57,-16.12],[28.05,-16.6],[28.05,-16.75],[28.3,-16.87],[28.42,-16.62],[28.55,-16.25]]},                                    // Tenerife
-  {circ:[28.1,-17.24,11]},                                                                                                            // La Gomera
-  {pts:[[28.85,-17.91],[28.6,-18.0],[28.46,-17.86],[28.62,-17.72],[28.83,-17.83]]},                                                   // La Palma
-  {circ:[27.73,-18.02,10]},                                                                                                           // El Hierro
-  {circ:[32.75,-17.0,14]}                                                                                                             // Madeira
-];
-const CIUDADES = [
-  {lat:40.42,lon:-3.7,n:"Madrid",dx:0,dy:-10},
-  {lat:38.72,lon:-9.14,n:"Lisboa",dx:-6,dy:-8},
-  {lat:37.39,lon:-5.99,n:"Sevilla",dx:16,dy:12},
-  {lat:33.6,lon:-7.62,n:"Casablanca",dx:34,dy:4},
-  {lat:31.63,lon:-8.0,n:"Marrakech",dx:0,dy:14},
-  {lat:30.42,lon:-9.6,n:"Agadir",dx:26,dy:6}
-];
-const ETIQ = [
-  {lat:29.35,lon:-13.4,n:"Lanzarote"},
-  {lat:28.6,lon:-16.9,n:"Tenerife"},
-  {lat:32.4,lon:-17.0,n:"Madeira"},
-  {lat:27.55,lon:-15.6,n:"Gran Canaria",acc:true}
-];
+const $ = id => document.getElementById(id);
+const ORDEN_RUTAS = ["lpa","tfn","ace","fue","pmi","ibz","mah","bcn","lis","par","lon","rom"];
 
-/* ================= RUTA Y NARRATIVA ================= */
-const RUTA = [
-  {lat:40.472,lon:-3.561,name:"Madrid-Barajas",desc:"¡Despegue! El avión gira hacia el suroeste."},
-  {lat:39.86,lon:-4.02,name:"Toledo",desc:"El Tajo y la ciudad imperial quedan abajo."},
-  {lat:38.9,lon:-4.6,name:"Castilla-La Mancha",desc:"Llanuras, viñedos y molinos mientras seguimos subiendo."},
-  {lat:37.88,lon:-4.78,name:"Córdoba",desc:"El Guadalquivir serpentea hacia el mar. Ya en altitud de crucero."},
-  {lat:37.4,lon:-5.9,name:"Sevilla",desc:"La Giralda queda bajo el ala derecha."},
-  {lat:37.0,lon:-6.55,name:"Doñana y la costa de Huelva",desc:"Última tierra peninsular: marismas, playas y el Atlántico por delante."},
-  {lat:36.1,lon:-7.4,name:"Golfo de Cádiz",desc:"Mar abierto. La costa de Marruecos aparecerá a la izquierda."},
-  {lat:33.9,lon:-8.4,name:"Frente a Casablanca",desc:"La costa marroquí se dibuja en el horizonte, a tu izquierda."},
-  {lat:31.6,lon:-10.3,name:"Frente a Essaouira",desc:"Crucero tranquilo sobre el Atlántico marroquí."},
-  {lat:30.1,lon:-11.4,name:"Frente a Agadir",desc:"El Sáhara queda al este. Las islas ya no están lejos."},
-  {lat:29.0,lon:-13.2,name:"Lanzarote a la vista",desc:"¡Las primeras islas! Lanzarote y Fuerteventura por la izquierda."},
-  {lat:28.35,lon:-14.6,name:"Descenso sobre Fuerteventura",desc:"Empieza la bajada. Se nota en los oídos."},
-  {lat:27.932,lon:-15.387,name:"Gran Canaria — Gando",desc:"¡Bienvenido a Gran Canaria! Tomando tierra en Gando."}
-];
+/* ================= ESTADO DE RUTA Y PROYECCIÓN ================= */
+let rutaId = "lpa", rutaActual = null, REG = null, PROY = null;
+let RUTA = [], CUM = [], TOTAL_KM = 0;
 
-/* Distancias acumuladas (haversine) */
 const RKM = 6371;
 function havKm(a, b){
   const r = x => x * Math.PI / 180;
   const s = Math.sin(r(b.lat-a.lat)/2)**2 + Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(r(b.lon-a.lon)/2)**2;
   return 2 * RKM * Math.asin(Math.sqrt(s));
 }
-const CUM = [0];
-for (let i = 1; i < RUTA.length; i++) CUM[i] = CUM[i-1] + havKm(RUTA[i-1], RUTA[i]);
-const TOTAL_KM = CUM[CUM.length-1];
+function calcProy(reg){
+  const [latMin, latMax, lonMin, lonMax] = reg.bbox;
+  const W = 456;
+  const pxLon = W / (lonMax - lonMin);
+  const pxLat = pxLon / Math.cos((latMin + latMax) / 2 * Math.PI / 180);
+  return {W, H: Math.round((latMax - latMin) * pxLat), latMax, lonMin, pxLon, pxLat};
+}
+const P = (lat, lon) => [(lon - PROY.lonMin) * PROY.pxLon, (PROY.latMax - lat) * PROY.pxLat];
+
+function setRuta(id){
+  rutaId = id;
+  rutaActual = RUTAS[id];
+  REG = REGIONES[rutaActual.region];
+  PROY = calcProy(REG);
+  RUTA = rutaActual.wp;
+  CUM = [0];
+  for (let i = 1; i < RUTA.length; i++) CUM[i] = CUM[i-1] + havKm(RUTA[i-1], RUTA[i]);
+  TOTAL_KM = CUM[CUM.length-1];
+  construirMapa();
+}
 
 function posEnKm(km){
   km = Math.max(0, Math.min(TOTAL_KM, km));
@@ -277,10 +258,7 @@ function posEnKm(km){
   return {lat: a.lat + (b.lat-a.lat)*f, lon: a.lon + (b.lon-a.lon)*f, seg: i-1};
 }
 
-/* ================= PERFIL DE VUELO =================
-   Velocidad (km/h) y altitud (m) según el minuto de vuelo.
-   Se integra numéricamente y se escala para que la distancia
-   recorrida coincida exactamente con la ruta. */
+/* ================= PERFIL DE VUELO ================= */
 function perfil(tMin, T){
   const climb = Math.min(22, T * 0.22);
   const desc  = Math.min(26, T * 0.26);
@@ -302,60 +280,47 @@ function tablaDistancia(T){
     const t = (i - .5) / N * T;
     tab[i] = tab[i-1] + perfil(t, T).v * (T / N / 60);
   }
-  const k = TOTAL_KM / tab[N];
-  return {tab, k, N};
+  return {tab, k: TOTAL_KM / tab[N], N};
 }
 
 /* ================= MAPA SVG ================= */
-function pathDe(pts, close){
-  return pts.map((p,i) => (i ? "L" : "M") + P(p[0],p[1]).map(n=>n.toFixed(1)).join(",")).join(" ") + (close ? " Z" : "");
-}
 function construirMapa(){
   const land = "#155293", landLine = "#2f74c0", sea = "#052a57";
-  let s = `<svg id="map" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa del vuelo">`;
-  s += `<rect width="${W}" height="${H}" fill="${sea}"/>`;
-  s += `<path d="${pathDe(IBERIA,true)}" fill="${land}" stroke="${landLine}" stroke-width="1.2"/>`;
-  s += `<path d="${pathDe(AFRICA,true)}" fill="${land}" stroke="${landLine}" stroke-width="1.2"/>`;
-  for (const isla of ISLAS){
-    if (isla.circ){
-      const [la,lo,rkm] = isla.circ, c = P(la,lo);
-      s += `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="${(rkm/111*GEO.pxPerLat).toFixed(1)}" fill="${land}" stroke="${landLine}" stroke-width="1"/>`;
-    } else {
-      s += `<path d="${pathDe(isla.pts,true)}" fill="${land}" stroke="${landLine}" stroke-width="1"/>`;
-    }
+  const Wv = PROY.W, Hv = PROY.H;
+  let s = `<svg id="map" viewBox="0 0 ${Wv} ${Hv}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa del vuelo">`;
+  s += `<rect width="${Wv}" height="${Hv}" fill="${sea}"/>`;
+  for (const poly of REG.land){
+    const d = poly.map((p,i) => (i?"L":"M") + P(p[0],p[1]).map(n=>n.toFixed(1)).join(",")).join(" ") + " Z";
+    s += `<path d="${d}" fill="${land}" stroke="${landLine}" stroke-width="1.2"/>`;
   }
-  for (const c of CIUDADES){
-    const p = P(c.lat, c.lon);
-    s += `<circle cx="${p[0]}" cy="${p[1]}" r="2.2" fill="#9ec7f0"/>`;
-    s += `<text x="${p[0]+c.dx}" y="${p[1]+c.dy}" font-size="11" fill="#9ec7f0" text-anchor="middle" font-family="inherit">${c.n}</text>`;
-  }
-  for (const e of ETIQ){
-    const p = P(e.lat, e.lon);
-    s += `<text x="${p[0]}" y="${p[1]}" font-size="${e.acc?12:11}" font-weight="${e.acc?"700":"400"}" fill="${e.acc?"#f7b731":"#7fa9d8"}" text-anchor="middle" font-family="inherit">${e.n}</text>`;
+  const dest = RUTA[RUTA.length-1], destP = P(dest.lat, dest.lon);
+  for (const [la, lo, n] of REG.labels){
+    const p = P(la, lo);
+    if (rutaActual.nombre.includes(n)) continue;
+    if (Math.hypot(p[0]-destP[0], p[1]-destP[1]) < 38) continue;
+    s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="#9ec7f0"/>`;
+    s += `<text x="${p[0].toFixed(1)}" y="${(p[1]-7).toFixed(1)}" font-size="11" fill="#9ec7f0" text-anchor="middle" font-family="inherit">${n}</text>`;
   }
   const rutaPts = RUTA.map(w => P(w.lat, w.lon));
   const d = rutaPts.map((p,i) => (i?"L":"M") + p.map(n=>n.toFixed(1)).join(",")).join(" ");
   s += `<path d="${d}" fill="none" stroke="#3a6ea8" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>`;
   s += `<path id="trail" d="${d}" fill="none" stroke="#f7b731" stroke-width="2.5" stroke-linecap="round"/>`;
-  for (const [i,w] of RUTA.entries()){
-    const p = P(w.lat, w.lon);
+  for (const [i] of RUTA.entries()){
+    const p = rutaPts[i];
     s += `<circle id="wp${i}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#4a76ad"/>`;
   }
-  const mad = P(RUTA[0].lat, RUTA[0].lon), lpa = P(RUTA[RUTA.length-1].lat, RUTA[RUTA.length-1].lon);
-  s += `<circle cx="${mad[0]}" cy="${mad[1]}" r="4.5" fill="#eaf3fd"/>`;
-  s += `<circle cx="${lpa[0]}" cy="${lpa[1]}" r="4.5" fill="#f7b731"/>`;
+  s += `<circle cx="${rutaPts[0][0].toFixed(1)}" cy="${rutaPts[0][1].toFixed(1)}" r="4.5" fill="#eaf3fd"/>`;
+  s += `<circle cx="${destP[0].toFixed(1)}" cy="${destP[1].toFixed(1)}" r="4.5" fill="#f7b731"/>`;
+  const dy = destP[1] > Hv - 26 ? -12 : 18;
+  s += `<text x="${destP[0].toFixed(1)}" y="${(destP[1]+dy).toFixed(1)}" font-size="12" font-weight="700" fill="#f7b731" text-anchor="middle" font-family="inherit">${rutaActual.nombre}</text>`;
   s += `<g id="plane"><path d="M0,-14 L2.6,-3 L13,5.5 L13,8.6 L2.6,4.8 L1.6,11.8 L5.4,15.6 L0,14 L-5.4,15.6 L-1.6,11.8 L-2.6,4.8 L-13,8.6 L-13,5.5 L-2.6,-3 Z" fill="#ffffff" stroke="#052a57" stroke-width="1"/></g>`;
   s += `</svg>`;
-  document.getElementById("mapwrap").innerHTML = s;
+  $("mapwrap").innerHTML = s;
 }
 
-/* ================= ESTADO ================= */
-const $ = id => document.getElementById(id);
+/* ================= ESTADO DEL VUELO ================= */
 const KEY = "pdv-vuelo";
-let vuelo = null;       // {t0, durMin, airMin, aerolinea, nvuelo, salida, llegada, demo}
-let dist = null;        // tabla de integración
-let timer = null;
-let trailLen = 0, trailTotal = 0;
+let vuelo = null, dist = null, timer = null, trailTotal = 0;
 
 function fmtMin(m){
   m = Math.max(0, Math.round(m));
@@ -368,41 +333,65 @@ function toast(msg){
   clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove("show"), 3200);
 }
 
-/* Duración a partir de las horas del billete */
+/* ================= SELECTOR Y HORAS ================= */
+function pintarSelector(){
+  $("destino").innerHTML = ORDEN_RUTAS.map(id =>
+    `<option value="${id}">${RUTAS[id].nombre} (${RUTAS[id].codigo})</option>`).join("");
+  $("destino").value = rutaId;
+}
+function actualizarTz(){
+  const tz = rutaActual.tz;
+  $("tzRow").style.display = tz < 0 ? "flex" : "none";
+  if (tz < 0){
+    $("tzCheck").checked = true;
+    $("tzTexto").innerHTML = `La hora de llegada del billete está en <b>hora local de ${rutaActual.nombre}</b> (1 h menos que en Madrid)`;
+  }
+}
+function sugerirLlegada(){
+  const s = $("hsalida").value;
+  if (!s) return;
+  const [sh, sm] = s.split(":").map(Number);
+  const total = (sh*60 + sm + rutaActual.dur + rutaActual.tz + 1440) % 1440;
+  $("hllegada").value = `${String(Math.floor(total/60)).padStart(2,"0")}:${String(total%60).padStart(2,"0")}`;
+}
 function calcularDuracion(){
   const s = $("hsalida").value, l = $("hllegada").value;
   if (!s || !l) return null;
   const [sh,sm] = s.split(":").map(Number), [lh,lm] = l.split(":").map(Number);
   let d = (lh*60+lm) - (sh*60+sm);
-  if ($("horaCanaria").checked) d += 60;        // llegada en hora canaria = +1 h real
-  if (d <= 0) d += 24*60;                        // por si cruza medianoche
+  if (rutaActual.tz < 0 && $("tzCheck").checked) d -= rutaActual.tz;   // llegada en hora local → suma la diferencia
+  if (d <= 0) d += 24*60;
   return d;
 }
+function limites(){
+  return {min: Math.round(rutaActual.dur * 0.65), max: Math.round(rutaActual.dur * 1.9)};
+}
 function refrescarResumen(){
-  const d = calcularDuracion();
+  const d = calcularDuracion(), lim = limites();
   const card = $("cardResumen");
-  if (!d || d < 60 || d > 360){ card.style.display = "none"; return; }
+  if (!d || d < lim.min || d > lim.max){ card.style.display = "none"; return; }
   card.style.display = "block";
-  const air = Math.max(100, d - 20);
+  const air = Math.max(45, d - 20);
   $("resumen").innerHTML =
-    `${$("aerolinea").value}${$("nvuelo").value ? " · " + $("nvuelo").value : ""}<br>` +
+    `Madrid → <strong>${rutaActual.nombre}</strong> · ${$("aerolinea").value}${$("nvuelo").value ? " · " + $("nvuelo").value : ""}<br>` +
     `Salida <strong>${$("hsalida").value}</strong> → llegada <strong>${$("hllegada").value}</strong>` +
-    `${$("horaCanaria").checked ? " (hora canaria)" : ""}<br>` +
+    `${rutaActual.tz < 0 && $("tzCheck").checked ? " (hora local)" : ""}<br>` +
     `Duración total: <strong>${fmtMin(d)}</strong> · en el aire: <strong>≈ ${fmtMin(air)}</strong><br>` +
     `Distancia: <strong>${Math.round(TOTAL_KM)} km</strong>`;
 }
 
 /* ================= DESPEGUE ================= */
 function despegar(){
-  const d = calcularDuracion();
-  if (!d || d < 60 || d > 360){
-    toast("Revisa las horas: la duración no parece la de un MAD → LPA");
+  const d = calcularDuracion(), lim = limites();
+  if (!d || d < lim.min || d > lim.max){
+    toast(`Revisa las horas: la duración no parece la de un Madrid → ${rutaActual.nombre}`);
     return;
   }
   vuelo = {
     t0: Date.now(),
+    ruta: rutaId,
     durMin: d,
-    airMin: Math.max(100, d - 20),
+    airMin: Math.max(45, d - 20),
     aerolinea: $("aerolinea").value,
     nvuelo: $("nvuelo").value.trim(),
     demo: $("modoDemo").checked
@@ -411,9 +400,12 @@ function despegar(){
   iniciarVuelo();
 }
 function iniciarVuelo(){
+  setRuta(vuelo.ruta);
   dist = tablaDistancia(vuelo.airMin);
   $("scr-setup").classList.remove("active");
   $("scr-flight").classList.add("active");
+  $("titVuelo").textContent = "Madrid → " + rutaActual.nombre;
+  $("codDestino").textContent = rutaActual.codigo;
   $("subVuelo").textContent = vuelo.aerolinea + (vuelo.nvuelo ? " " + vuelo.nvuelo : "") +
     (vuelo.demo ? " · DEMO" : "");
   const tr = document.getElementById("trail");
@@ -426,9 +418,8 @@ function iniciarVuelo(){
   timer = setInterval(tick, 1000);
 }
 function minutosVuelo(){
-  const realMs = Date.now() - vuelo.t0;
   const escala = vuelo.demo ? (vuelo.airMin * 60000) / 90000 : 1;
-  return (realMs * escala) / 60000;
+  return ((Date.now() - vuelo.t0) * escala) / 60000;
 }
 function kmEnMin(tMin){
   const f = Math.max(0, Math.min(1, tMin / vuelo.airMin));
@@ -448,7 +439,6 @@ function tick(){
   const pf = perfil(Math.min(t, T), T);
   const pct = km / TOTAL_KM;
 
-  // avión y estela
   const p = P(pos.lat, pos.lon);
   const p2pos = posEnKm(Math.min(TOTAL_KM, km + 15));
   const p2 = P(p2pos.lat, p2pos.lon);
@@ -457,21 +447,19 @@ function tick(){
   const tr = document.getElementById("trail");
   tr.style.strokeDashoffset = trailTotal * (1 - pct);
 
-  // waypoints pasados
   RUTA.forEach((w,i) => {
     const el = document.getElementById("wp"+i);
     if (el) el.setAttribute("fill", CUM[i] <= km ? "#f7b731" : "#4a76ad");
   });
 
-  // textos
   const seg = pos.seg;
   const wp = km < 20 ? RUTA[0] : RUTA[Math.min(seg + (km - CUM[seg] > havKm(RUTA[seg],RUTA[seg+1])/2 ? 1 : 0), RUTA.length-1)];
   if (fin){
     $("sitLugar").textContent = "🌴 " + RUTA[RUTA.length-1].name;
-    $("sitDetalle").textContent = "Vuelo completado. Rodando hacia la terminal, ¡que disfrutes la isla!";
+    $("sitDetalle").textContent = "Vuelo completado. Rodando hacia la terminal, ¡disfruta del viaje!";
     $("faseTag").textContent = "En tierra";
   } else {
-    $("sitLugar").textContent = (pf.fase === "Crucero" && wp.name.startsWith("Frente") ? "" : "") + wp.name;
+    $("sitLugar").textContent = wp.name;
     $("sitDetalle").textContent = wp.desc;
     $("faseTag").textContent = pf.fase;
   }
@@ -497,7 +485,6 @@ function ajustarGPS(){
       if (d < mejorD){ mejorD = d; mejorKm = km; }
     }
     if (mejorD > 300){ toast("La posición GPS no cuadra con la ruta (¿aún en tierra?)"); return; }
-    // retrocede la hora de despegue para que la simulación coincida con el GPS
     let lo = 0, hi = vuelo.airMin;
     for (let i = 0; i < 30; i++){
       const mid = (lo + hi) / 2;
@@ -521,10 +508,21 @@ document.addEventListener("visibilitychange", () => {
 });
 
 /* ================= ARRANQUE ================= */
-construirMapa();
-["hsalida","hllegada","horaCanaria","aerolinea","nvuelo"].forEach(id =>
-  $(id).addEventListener("input", refrescarResumen));
+pintarSelector();
+setRuta(rutaId);
+actualizarTz();
+sugerirLlegada();
 refrescarResumen();
+
+$("destino").addEventListener("change", () => {
+  setRuta($("destino").value);
+  actualizarTz();
+  sugerirLlegada();
+  refrescarResumen();
+});
+["hsalida","hllegada","tzCheck","aerolinea","nvuelo"].forEach(id =>
+  $(id).addEventListener("input", refrescarResumen));
+$("hsalida").addEventListener("input", () => { sugerirLlegada(); refrescarResumen(); });
 $("btnDespegue").addEventListener("click", despegar);
 $("btnGps").addEventListener("click", ajustarGPS);
 $("btnFin").addEventListener("click", () => {
@@ -540,10 +538,11 @@ $("btnFin").addEventListener("click", () => {
 // si había un vuelo en marcha (la app se cerró a mitad), lo retomamos
 try {
   const saved = JSON.parse(localStorage.getItem(KEY));
-  if (saved && saved.t0){
+  if (saved && saved.t0 && RUTAS[saved.ruta || "lpa"]){
     const transMin = (Date.now() - saved.t0) / 60000 * (saved.demo ? (saved.airMin*60000)/90000 : 1);
     if (transMin < saved.airMin + 45){
       vuelo = saved;
+      vuelo.ruta = vuelo.ruta || "lpa";
       iniciarVuelo();
     } else {
       localStorage.removeItem(KEY);
