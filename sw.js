@@ -1,4 +1,4 @@
-const CACHE = "pdv-v4";
+const CACHE = "pdv-v5";
 const ASSETS = ["./", "index.html", "rutas.js", "manifest.json", "icon.svg", "icon-192.png", "icon-512.png", "quicksand-bold.woff2"];
 
 self.addEventListener("install", e => {

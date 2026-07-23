@@ -95,17 +95,61 @@ select,input[type=time],input[type=text]{
   padding:10px 18px; border-radius:99px; font-size:14px; opacity:0; transition:opacity .3s; pointer-events:none; white-space:nowrap;}
 #toast.show{opacity:1;}
 #saneas{
-  display:block; margin:2px 16px 14px; padding:18px 16px;
-  background:#ffffff; border-radius:16px; text-align:center; text-decoration:none;
+  display:block; margin:4px 16px 14px; padding:26px 20px 24px;
+  background:#ffffff; border-radius:20px; text-align:center; text-decoration:none;
   font-family:"Quicksand",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; font-weight:700;
+  box-shadow:0 10px 28px rgba(0,0,0,.35);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
-#saneas .marca{font-size:24px; color:#3890a4; letter-spacing:.5px;}
-#saneas .lema{font-size:13px; color:#3890a4; margin-top:6px; line-height:1.45;}
+#saneas .marca{font-size:32px; color:#3890a4; letter-spacing:.3px;}
+#saneas .lema{font-size:19px; color:#1d3140; margin-top:12px; line-height:1.4; letter-spacing:.1px;}
+#saneas .lema em{font-style:normal; color:#ed9138;}
 footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 .aviso{font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px;}
+/* ---- splash de arranque ---- */
+#splash{
+  position:fixed; inset:0; z-index:50; background:var(--bg);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; transition:opacity .65s ease;
+  font-family:"Quicksand",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+#splash.fuera{opacity:0; pointer-events:none;}
+#splash svg{width:270px; height:150px; margin-bottom:2px;}
+#splash .sp-cover{animation:spTrail 1.7s cubic-bezier(.45,0,.25,1) .15s forwards;}
+#splash .sp-plane{opacity:0; animation:spPlane 1.7s cubic-bezier(.45,0,.25,1) .15s forwards;}
+#splash .t1{font-size:34px; font-weight:700; color:#eaf3fd; opacity:0; animation:spUp .7s ease .6s forwards;}
+#splash .t1 b{color:var(--accent);}
+#splash .t2{font-size:15px; font-weight:700; color:var(--muted); margin-top:12px; max-width:300px;
+  line-height:1.5; opacity:0; animation:spUp .7s ease 1.1s forwards;}
+#splash .t3{position:absolute; bottom:36px; font-size:13px; font-weight:700; letter-spacing:3px;
+  color:#4aa8bd; opacity:0; animation:spUp .8s ease 1.6s forwards;}
+@keyframes spUp{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:none;}}
+@keyframes spTrail{to{stroke-dashoffset:300;}}
+@keyframes spPlane{
+  0%{transform:translate(20px,130px) rotate(79deg) scale(.8); opacity:0;}
+  12%{opacity:1;}
+  45%{transform:translate(112px,76px) rotate(56deg) scale(1);}
+  100%{transform:translate(228px,30px) rotate(72deg) scale(1); opacity:1;}
+}
+@media (prefers-reduced-motion: reduce){
+  #splash .sp-cover, #splash .sp-plane, #splash .t1, #splash .t2, #splash .t3{
+    animation-duration:.01s !important; animation-delay:0s !important;
+  }
+}
 </style>
 </head>
 <body>
+<div id="splash" role="dialog" aria-label="Por dónde voy">
+  <svg viewBox="0 0 260 150" aria-hidden="true">
+    <circle cx="20" cy="130" r="4.5" fill="#f7b731"/>
+    <path d="M20,130 C70,120 100,80 130,62 C160,44 200,40 228,30" fill="none" stroke="#eaf3fd" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="0.5 11" pathLength="300"/>
+    <path class="sp-cover" d="M20,130 C70,120 100,80 130,62 C160,44 200,40 228,30" fill="none" stroke="#041e3f" stroke-width="11" pathLength="300" stroke-dasharray="300"/>
+    <g class="sp-plane"><path d="M0,-14 L2.6,-3 L13,5.5 L13,8.6 L2.6,4.8 L1.6,11.8 L5.4,15.6 L0,14 L-5.4,15.6 L-1.6,11.8 L-2.6,4.8 L-13,8.6 L-13,5.5 L-2.6,-3 Z" fill="#ffffff"/></g>
+  </svg>
+  <div class="t1">Por dónde <b>voy</b></div>
+  <div class="t2">Sigue tu vuelo sin conexión de datos ni wifi</div>
+  <div class="t3">GRUPO SANEAS</div>
+</div>
 <div id="app">
 
   <!-- ====== PANTALLA 1: CONFIGURACIÓN ====== -->
@@ -210,7 +254,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 
     <a id="saneas" href="https://saneas.es">
       <span class="marca">Saneas.es</span>
-      <div class="lema">No es una dieta.<br>Es alguien que te lleva hasta el final.</div>
+      <div class="lema">No es una dieta.<br>Es alguien que te lleva <em>hasta el final</em>.</div>
     </a>
   </section>
 
@@ -537,6 +581,12 @@ document.addEventListener("visibilitychange", () => {
 });
 
 /* ================= ARRANQUE ================= */
+(function(){
+  const sp = $("splash");
+  const cerrar = () => { sp.classList.add("fuera"); setTimeout(() => sp.remove(), 700); };
+  sp.addEventListener("click", cerrar);
+  setTimeout(cerrar, 3400);
+})();
 pintarSelector();
 setRuta(rutaId, "ida");
 actualizarDir();
