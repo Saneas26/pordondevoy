@@ -49,6 +49,11 @@ select,input[type=time],input[type=text]{
   background:var(--panel-2); color:var(--text); font-size:16px; appearance:none;
 }
 #destino{border-color:var(--accent); font-weight:700;}
+.dirbtn{
+  flex:1; padding:11px 6px; border-radius:10px; border:1px solid var(--line);
+  background:var(--panel-2); color:var(--muted); font-size:13px; font-weight:600; cursor:pointer;
+}
+.dirbtn.activo{background:var(--accent); border-color:var(--accent); color:var(--accent-dark);}
 .row{display:flex; gap:12px;}
 .row>div{flex:1;}
 .check{display:flex; align-items:flex-start; gap:10px; margin-top:14px; font-size:13px; color:var(--muted); cursor:pointer;}
@@ -115,8 +120,12 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 
     <div class="card">
       <h2>1 · Tu destino</h2>
-      <label for="destino">¿A dónde vuelas desde Madrid?</label>
+      <label for="destino">¿Cuál es tu ruta?</label>
       <select id="destino"></select>
+      <div class="row" style="margin-top:12px;">
+        <button type="button" class="dirbtn activo" id="dirIda">Madrid → destino</button>
+        <button type="button" class="dirbtn" id="dirVuelta">destino → Madrid</button>
+      </div>
     </div>
 
     <div class="card">
@@ -185,7 +194,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 
     <div id="barra">
       <div class="track"><div class="fill" id="barraFill"></div></div>
-      <div class="pcts"><span>MAD</span><span id="pct">0 %</span><span id="codDestino">···</span></div>
+      <div class="pcts"><span id="codOrigenLbl">MAD</span><span id="pct">0 %</span><span id="codDestino">···</span></div>
     </div>
 
     <div id="stats">
@@ -219,8 +228,13 @@ const $ = id => document.getElementById(id);
 const ORDEN_RUTAS = ["lpa","tfn","ace","fue","pmi","ibz","mah","bcn","lis","par","lon","rom"];
 
 /* ================= ESTADO DE RUTA Y PROYECCIÓN ================= */
-let rutaId = "lpa", rutaActual = null, REG = null, PROY = null;
+let rutaId = "lpa", sentido = "ida", rutaActual = null, REG = null, PROY = null;
 let RUTA = [], CUM = [], TOTAL_KM = 0;
+
+const nombreOrigen  = () => sentido === "ida" ? "Madrid" : rutaActual.nombre;
+const nombreDestino = () => sentido === "ida" ? rutaActual.nombre : "Madrid";
+const codOrigen  = () => sentido === "ida" ? "MAD" : rutaActual.codigo;
+const codDestino = () => sentido === "ida" ? rutaActual.codigo : "MAD";
 
 const RKM = 6371;
 function havKm(a, b){
@@ -237,12 +251,15 @@ function calcProy(reg){
 }
 const P = (lat, lon) => [(lon - PROY.lonMin) * PROY.pxLon, (PROY.latMax - lat) * PROY.pxLat];
 
-function setRuta(id){
+function setRuta(id, dir){
   rutaId = id;
+  sentido = dir || sentido;
   rutaActual = RUTAS[id];
   REG = REGIONES[rutaActual.region];
   PROY = calcProy(REG);
-  RUTA = rutaActual.wp;
+  RUTA = sentido === "ida"
+    ? rutaActual.wp
+    : rutaActual.wp.slice().reverse().map(w => ({...w, desc: w.rdesc || w.desc}));
   CUM = [0];
   for (let i = 1; i < RUTA.length; i++) CUM[i] = CUM[i-1] + havKm(RUTA[i-1], RUTA[i]);
   TOTAL_KM = CUM[CUM.length-1];
@@ -296,7 +313,7 @@ function construirMapa(){
   const dest = RUTA[RUTA.length-1], destP = P(dest.lat, dest.lon);
   for (const [la, lo, n] of REG.labels){
     const p = P(la, lo);
-    if (rutaActual.nombre.includes(n)) continue;
+    if (nombreDestino().includes(n)) continue;
     if (Math.hypot(p[0]-destP[0], p[1]-destP[1]) < 38) continue;
     s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="#9ec7f0"/>`;
     s += `<text x="${p[0].toFixed(1)}" y="${(p[1]-7).toFixed(1)}" font-size="11" fill="#9ec7f0" text-anchor="middle" font-family="inherit">${n}</text>`;
@@ -312,7 +329,7 @@ function construirMapa(){
   s += `<circle cx="${rutaPts[0][0].toFixed(1)}" cy="${rutaPts[0][1].toFixed(1)}" r="4.5" fill="#eaf3fd"/>`;
   s += `<circle cx="${destP[0].toFixed(1)}" cy="${destP[1].toFixed(1)}" r="4.5" fill="#f7b731"/>`;
   const dy = destP[1] > Hv - 26 ? -12 : 18;
-  s += `<text x="${destP[0].toFixed(1)}" y="${(destP[1]+dy).toFixed(1)}" font-size="12" font-weight="700" fill="#f7b731" text-anchor="middle" font-family="inherit">${rutaActual.nombre}</text>`;
+  s += `<text x="${destP[0].toFixed(1)}" y="${(destP[1]+dy).toFixed(1)}" font-size="12" font-weight="700" fill="#f7b731" text-anchor="middle" font-family="inherit">${nombreDestino()}</text>`;
   s += `<g id="plane"><path d="M0,-14 L2.6,-3 L13,5.5 L13,8.6 L2.6,4.8 L1.6,11.8 L5.4,15.6 L0,14 L-5.4,15.6 L-1.6,11.8 L-2.6,4.8 L-13,8.6 L-13,5.5 L-2.6,-3 Z" fill="#ffffff" stroke="#052a57" stroke-width="1"/></g>`;
   s += `</svg>`;
   $("mapwrap").innerHTML = s;
@@ -339,27 +356,37 @@ function pintarSelector(){
     `<option value="${id}">${RUTAS[id].nombre} (${RUTAS[id].codigo})</option>`).join("");
   $("destino").value = rutaId;
 }
+function actualizarDir(){
+  $("dirIda").textContent = `Madrid → ${rutaActual.nombre}`;
+  $("dirVuelta").textContent = `${rutaActual.nombre} → Madrid`;
+  $("dirIda").classList.toggle("activo", sentido === "ida");
+  $("dirVuelta").classList.toggle("activo", sentido === "vuelta");
+}
 function actualizarTz(){
   const tz = rutaActual.tz;
   $("tzRow").style.display = tz < 0 ? "flex" : "none";
   if (tz < 0){
     $("tzCheck").checked = true;
-    $("tzTexto").innerHTML = `La hora de llegada del billete está en <b>hora local de ${rutaActual.nombre}</b> (1 h menos que en Madrid)`;
+    $("tzTexto").innerHTML = `Las horas del billete van en <b>hora local de cada aeropuerto</b> (${rutaActual.nombre} va 1 h por detrás de Madrid)`;
   }
+}
+/* Desfase que hay que sumar a (llegada − salida) del billete para obtener la duración real */
+function ajusteTz(){
+  if (rutaActual.tz >= 0 || !$("tzCheck").checked) return 0;
+  return sentido === "ida" ? -rutaActual.tz : rutaActual.tz;
 }
 function sugerirLlegada(){
   const s = $("hsalida").value;
   if (!s) return;
   const [sh, sm] = s.split(":").map(Number);
-  const total = (sh*60 + sm + rutaActual.dur + rutaActual.tz + 1440) % 1440;
+  const total = (sh*60 + sm + rutaActual.dur - ajusteTz() + 2880) % 1440;
   $("hllegada").value = `${String(Math.floor(total/60)).padStart(2,"0")}:${String(total%60).padStart(2,"0")}`;
 }
 function calcularDuracion(){
   const s = $("hsalida").value, l = $("hllegada").value;
   if (!s || !l) return null;
   const [sh,sm] = s.split(":").map(Number), [lh,lm] = l.split(":").map(Number);
-  let d = (lh*60+lm) - (sh*60+sm);
-  if (rutaActual.tz < 0 && $("tzCheck").checked) d -= rutaActual.tz;   // llegada en hora local → suma la diferencia
+  let d = (lh*60+lm) - (sh*60+sm) + ajusteTz();
   if (d <= 0) d += 24*60;
   return d;
 }
@@ -373,7 +400,7 @@ function refrescarResumen(){
   card.style.display = "block";
   const air = Math.max(45, d - 20);
   $("resumen").innerHTML =
-    `Madrid → <strong>${rutaActual.nombre}</strong> · ${$("aerolinea").value}${$("nvuelo").value ? " · " + $("nvuelo").value : ""}<br>` +
+    `${nombreOrigen()} → <strong>${nombreDestino()}</strong> · ${$("aerolinea").value}${$("nvuelo").value ? " · " + $("nvuelo").value : ""}<br>` +
     `Salida <strong>${$("hsalida").value}</strong> → llegada <strong>${$("hllegada").value}</strong>` +
     `${rutaActual.tz < 0 && $("tzCheck").checked ? " (hora local)" : ""}<br>` +
     `Duración total: <strong>${fmtMin(d)}</strong> · en el aire: <strong>≈ ${fmtMin(air)}</strong><br>` +
@@ -384,12 +411,13 @@ function refrescarResumen(){
 function despegar(){
   const d = calcularDuracion(), lim = limites();
   if (!d || d < lim.min || d > lim.max){
-    toast(`Revisa las horas: la duración no parece la de un Madrid → ${rutaActual.nombre}`);
+    toast(`Revisa las horas: la duración no parece la de un ${nombreOrigen()} → ${nombreDestino()}`);
     return;
   }
   vuelo = {
     t0: Date.now(),
     ruta: rutaId,
+    sentido: sentido,
     durMin: d,
     airMin: Math.max(45, d - 20),
     aerolinea: $("aerolinea").value,
@@ -400,12 +428,13 @@ function despegar(){
   iniciarVuelo();
 }
 function iniciarVuelo(){
-  setRuta(vuelo.ruta);
+  setRuta(vuelo.ruta, vuelo.sentido || "ida");
   dist = tablaDistancia(vuelo.airMin);
   $("scr-setup").classList.remove("active");
   $("scr-flight").classList.add("active");
-  $("titVuelo").textContent = "Madrid → " + rutaActual.nombre;
-  $("codDestino").textContent = rutaActual.codigo;
+  $("titVuelo").textContent = nombreOrigen() + " → " + nombreDestino();
+  $("codOrigenLbl").textContent = codOrigen();
+  $("codDestino").textContent = codDestino();
   $("subVuelo").textContent = vuelo.aerolinea + (vuelo.nvuelo ? " " + vuelo.nvuelo : "") +
     (vuelo.demo ? " · DEMO" : "");
   const tr = document.getElementById("trail");
@@ -455,7 +484,7 @@ function tick(){
   const seg = pos.seg;
   const wp = km < 20 ? RUTA[0] : RUTA[Math.min(seg + (km - CUM[seg] > havKm(RUTA[seg],RUTA[seg+1])/2 ? 1 : 0), RUTA.length-1)];
   if (fin){
-    $("sitLugar").textContent = "🌴 " + RUTA[RUTA.length-1].name;
+    $("sitLugar").textContent = "🛬 " + RUTA[RUTA.length-1].name;
     $("sitDetalle").textContent = "Vuelo completado. Rodando hacia la terminal, ¡disfruta del viaje!";
     $("faseTag").textContent = "En tierra";
   } else {
@@ -509,17 +538,27 @@ document.addEventListener("visibilitychange", () => {
 
 /* ================= ARRANQUE ================= */
 pintarSelector();
-setRuta(rutaId);
+setRuta(rutaId, "ida");
+actualizarDir();
 actualizarTz();
 sugerirLlegada();
 refrescarResumen();
 
 $("destino").addEventListener("change", () => {
   setRuta($("destino").value);
+  actualizarDir();
   actualizarTz();
   sugerirLlegada();
   refrescarResumen();
 });
+function cambiarSentido(dir){
+  setRuta(rutaId, dir);
+  actualizarDir();
+  sugerirLlegada();
+  refrescarResumen();
+}
+$("dirIda").addEventListener("click", () => cambiarSentido("ida"));
+$("dirVuelta").addEventListener("click", () => cambiarSentido("vuelta"));
 ["hsalida","hllegada","tzCheck","aerolinea","nvuelo"].forEach(id =>
   $(id).addEventListener("input", refrescarResumen));
 $("hsalida").addEventListener("input", () => { sugerirLlegada(); refrescarResumen(); });
