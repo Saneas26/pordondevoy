@@ -771,7 +771,11 @@ async function pedirWakeLock(){
   try { wakeLock = await navigator.wakeLock.request("screen"); } catch(e){}
 }
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible" && vuelo) pedirWakeLock();
+  if (document.visibilityState !== "visible") return;
+  if (vuelo) pedirWakeLock();
+  // al volver a primer plano, refresca las noticias si tienen más de 30 min
+  const d = JSON.parse(localStorage.getItem(KEY_NOT) || "null");
+  if (!d || Date.now() - new Date(d.actualizado).getTime() > 30 * 60000) cargarNoticias();
 });
 
 /* ================= ARRANQUE ================= */
