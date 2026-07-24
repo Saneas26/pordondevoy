@@ -39,23 +39,27 @@ export default async function handler(req, res) {
       const e = bloque.match(/<enclosure[^>]*url="([^"]+)"/);
       const f = bloque.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
       const d = bloque.match(/<itunes:duration>([\s\S]*?)<\/itunes:duration>/);
+      const de = bloque.match(/<description>([\s\S]*?)<\/description>/);
       if (!t || !e) continue;
+      const titulo = limpiar(t[1]);
       todos.push({
-        titulo: limpiar(t[1]),
+        titulo,
+        texto: titulo + " " + (de ? limpiar(de[1]).slice(0, 400) : ""),
         audio: e[1].replace(/&amp;/g, "&"),
         fecha: f ? limpiar(f[1]) : "",
         duracion: d ? limpiar(d[1]) : "",
       });
     }
-    // Con filtro, los episodios del ponente van primero; con "solo", únicamente los suyos
+    // Con filtro (título o descripción), los episodios del ponente van primero; con "solo", únicamente los suyos
     let episodios = todos;
     if (pod.filtro) {
-      const destacados = todos.filter(e => pod.filtro.test(e.titulo));
-      const resto = todos.filter(e => !pod.filtro.test(e.titulo));
+      const destacados = todos.filter(e => pod.filtro.test(e.texto));
+      const resto = todos.filter(e => !pod.filtro.test(e.texto));
       episodios = pod.solo ? destacados : destacados.concat(resto);
     }
+    episodios = episodios.slice(0, 10).map(({ texto, ...e }) => e);
     res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=86400");
-    res.status(200).json({ id, nombre: pod.nombre, episodios: episodios.slice(0, 10) });
+    res.status(200).json({ id, nombre: pod.nombre, episodios });
   } catch (err) {
     res.status(502).json({ error: "no se pudo leer el feed" });
   }
