@@ -10,12 +10,15 @@ const FEEDS = [
 function limpiar(s) {
   return (s || "")
     .replace(/<!\[CDATA\[|\]\]>/g, "")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&lt;/g, "<").replace(/&gt;/g, ">")   // desescapa posibles tags embebidos…
+    .replace(/<[^>]+>/g, " ")                       // …y ahora sí, fuera TODO el HTML
+    .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'")
     .replace(/&aacute;/g, "á").replace(/&eacute;/g, "é").replace(/&iacute;/g, "í")
     .replace(/&oacute;/g, "ó").replace(/&uacute;/g, "ú").replace(/&ntilde;/g, "ñ")
     .replace(/&#(\d+);/g, (m, n) => String.fromCharCode(n))
+    .replace(/Leer la noticia completa.*$/i, "")
+    .replace(/\s+Leer$/i, "")
     .replace(/\s+/g, " ").trim();
 }
 
