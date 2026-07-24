@@ -20,6 +20,13 @@
   font-display:swap;
   src:url("quicksand-bold.woff2") format("woff2");
 }
+@font-face{
+  font-family:"Montserrat";
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url("montserrat-bold.woff2") format("woff2");
+}
 :root{
   --bg:#041e3f; --panel:#0a3060; --panel-2:#0d3a73; --line:#1c4d8f;
   --text:#eaf3fd; --muted:#8fb8e6; --accent:#f7b731; --accent-dark:#4a3403;
@@ -101,8 +108,11 @@ select,input[type=time],input[type=text]{
   box-shadow:0 10px 28px rgba(0,0,0,.35);
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
-#saneas .marca{font-size:32px; color:#3890a4; letter-spacing:.3px;}
-#saneas .lema{font-size:19px; color:#1d3140; margin-top:12px; line-height:1.4; letter-spacing:.1px;}
+#saneas .marca{display:block; font-size:32px; color:#3890a4; letter-spacing:.3px; line-height:1;}
+#saneas .lema{
+  font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; font-weight:700;
+  font-size:15px; color:#1d3140; margin-top:14px; line-height:1.25; letter-spacing:0;
+}
 #saneas .lema em{font-style:normal; color:#ed9138;}
 footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 .aviso{font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px;}
@@ -148,7 +158,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
     <g class="sp-plane"><path d="M0,-14 L2.6,-3 L13,5.5 L13,8.6 L2.6,4.8 L1.6,11.8 L5.4,15.6 L0,14 L-5.4,15.6 L-1.6,11.8 L-2.6,4.8 L-13,8.6 L-13,5.5 L-2.6,-3 Z" fill="#ffffff"/></g>
   </svg>
   <div class="t1">Por dónde <b>voy</b></div>
-  <div class="t2">Sigue tu vuelo sin conexión<br><b>de datos ni wifi</b></div>
+  <div class="t2">Sigue tu vuelo sin conexión<br><b>de datos o wifi</b></div>
   <div class="t3">Grupo Saneas</div>
 </div>
 <div id="app">
