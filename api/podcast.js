@@ -1,9 +1,11 @@
 // /api/podcast — lista los últimos episodios de podcasts (RSS públicos).
 // La app permite descargar el audio a la caché del móvil para escucharlo en modo avión.
 
+const FEED_BBVA = "https://rss.libsyn.com/shows/109232/destinations/631374.xml";
 const PODCASTS = {
-  kuppers: { nombre: "Víctor Küppers", feed: "https://anchor.fm/s/32211394/podcast/rss" },
-  aprendemos: { nombre: "BBVA Aprendemos juntos", feed: "https://rss.libsyn.com/shows/109232/destinations/631374.xml", filtro: /k(ü|u)ppers|marian\s+rojas/i },
+  kuppers: { nombre: "Víctor Küppers — Aprendemos juntos", feed: FEED_BBVA, filtro: /k(ü|u)ppers/i, solo: true },
+  marian: { nombre: "Marian Rojas Estapé — Aprendemos juntos", feed: FEED_BBVA, filtro: /marian\s+rojas/i, solo: true },
+  aprendemos: { nombre: "BBVA Aprendemos juntos", feed: FEED_BBVA, filtro: /k(ü|u)ppers|marian\s+rojas/i },
   dietacojea: { nombre: "Mi Dieta Cojea — Aitor Sánchez", feed: "https://feeds.ivoox.com/feed_fg_f1135597_filtro_1.xml" },
 };
 
@@ -45,12 +47,12 @@ export default async function handler(req, res) {
         duracion: d ? limpiar(d[1]) : "",
       });
     }
-    // Si el podcast tiene filtro (p.ej. Küppers / Marian Rojas), sus episodios van primero
+    // Con filtro, los episodios del ponente van primero; con "solo", únicamente los suyos
     let episodios = todos;
     if (pod.filtro) {
       const destacados = todos.filter(e => pod.filtro.test(e.titulo));
       const resto = todos.filter(e => !pod.filtro.test(e.titulo));
-      episodios = destacados.concat(resto);
+      episodios = pod.solo ? destacados : destacados.concat(resto);
     }
     res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=86400");
     res.status(200).json({ id, nombre: pod.nombre, episodios: episodios.slice(0, 10) });
