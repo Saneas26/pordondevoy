@@ -119,9 +119,10 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 #splash .sp-plane{opacity:0; animation:spPlane 1.7s cubic-bezier(.45,0,.25,1) .15s forwards;}
 #splash .t1{font-size:34px; font-weight:700; color:#eaf3fd; opacity:0; animation:spUp .7s ease .6s forwards;}
 #splash .t1 b{color:var(--accent);}
-#splash .t2{font-size:15px; font-weight:700; color:var(--muted); margin-top:12px; max-width:300px;
-  line-height:1.5; opacity:0; animation:spUp .7s ease 1.1s forwards;}
-#splash .t3{position:absolute; bottom:36px; font-size:13px; font-weight:700; letter-spacing:3px;
+#splash .t2{font-size:16px; font-weight:700; color:var(--muted); margin-top:12px; max-width:320px;
+  line-height:1.55; opacity:0; animation:spUp .7s ease 1.1s forwards;}
+#splash .t2 b{color:var(--accent);}
+#splash .t3{font-size:15px; font-weight:700; letter-spacing:1.5px; margin-top:30px;
   color:#4aa8bd; opacity:0; animation:spUp .8s ease 1.6s forwards;}
 @keyframes spUp{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:none;}}
 @keyframes spTrail{to{stroke-dashoffset:300;}}
@@ -147,8 +148,8 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
     <g class="sp-plane"><path d="M0,-14 L2.6,-3 L13,5.5 L13,8.6 L2.6,4.8 L1.6,11.8 L5.4,15.6 L0,14 L-5.4,15.6 L-1.6,11.8 L-2.6,4.8 L-13,8.6 L-13,5.5 L-2.6,-3 Z" fill="#ffffff"/></g>
   </svg>
   <div class="t1">Por dónde <b>voy</b></div>
-  <div class="t2">Sigue tu vuelo sin conexión de datos ni wifi</div>
-  <div class="t3">GRUPO SANEAS</div>
+  <div class="t2">Sigue tu vuelo sin conexión<br><b>de datos ni wifi</b></div>
+  <div class="t3">Grupo Saneas</div>
 </div>
 <div id="app">
 
@@ -585,7 +586,7 @@ document.addEventListener("visibilitychange", () => {
   const sp = $("splash");
   const cerrar = () => { sp.classList.add("fuera"); setTimeout(() => sp.remove(), 700); };
   sp.addEventListener("click", cerrar);
-  setTimeout(cerrar, 3400);
+  setTimeout(cerrar, 3900);
 })();
 pintarSelector();
 setRuta(rutaId, "ida");
