@@ -1,4 +1,4 @@
-const CACHE = "pdv-v9";
+const CACHE = "pdv-v10";
 const ASSETS = ["./", "index.html", "rutas.js", "manifest.json", "icon.svg", "icon-192.png", "icon-512.png", "quicksand-bold.woff2", "montserrat-bold.woff2"];
 
 self.addEventListener("install", e => {
@@ -19,6 +19,7 @@ self.addEventListener("activate", e => {
 
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
+  if (new URL(e.request.url).pathname.startsWith("/api/")) return;   // API siempre por red; la app guarda copia local
   e.respondWith(
     caches.match(e.request, {ignoreSearch: true}).then(hit => {
       const red = fetch(e.request).then(res => {

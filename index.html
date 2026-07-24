@@ -117,6 +117,25 @@ select,input[type=time],input[type=text]{
 #saneas .lema em{font-style:normal; color:#3890a4;}
 footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 .aviso{font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px;}
+/* ---- entretenimiento: noticias y podcast ---- */
+.estado{font-size:13px; color:var(--muted); margin-top:4px; line-height:1.5;}
+.estado b{color:var(--ok);}
+.ep{background:var(--panel-2); border-radius:12px; padding:10px 12px; margin-top:10px;}
+.ep .et{font-size:13.5px; font-weight:600; line-height:1.35;}
+.ep .em{font-size:11.5px; color:var(--muted); margin-top:3px;}
+.ep .ghostbtn{margin-top:8px; width:100%;}
+.ep .ghostbtn.listo{border-color:var(--ok); color:var(--ok);}
+.panel{position:fixed; inset:0; z-index:40; background:var(--bg); display:none; flex-direction:column;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);}
+.panel.abierto{display:flex;}
+.panel .cab{display:flex; align-items:center; gap:12px; padding:16px;}
+.panel .cab h3{font-size:18px; flex:1;}
+.panel .cuerpo{flex:1; overflow-y:auto; padding:0 16px 30px; max-width:480px; width:100%; margin:0 auto;}
+.noti{background:var(--panel); border-radius:14px; padding:13px 15px; margin-bottom:10px;}
+.noti .fu{font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:.6px; font-weight:700;}
+.noti .ti{font-size:15.5px; font-weight:700; margin:5px 0 6px; line-height:1.35;}
+.noti .re{font-size:13.5px; color:var(--muted); line-height:1.55;}
+audio{width:100%; margin-top:10px;}
 /* ---- splash de arranque ---- */
 #splash{
   position:fixed; inset:0; z-index:50; background:var(--bg);
@@ -219,6 +238,20 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
       </label>
     </div>
 
+    <div class="card">
+      <h2>3 · Entretenimiento para el vuelo</h2>
+      <div class="estado">📰 Noticias del día: <span id="estNoticias">comprobando…</span></div>
+      <label for="podSel">🎧 Podcast (descárgalo con wifi y escúchalo en el avión)</label>
+      <select id="podSel">
+        <option value="">Elige un podcast…</option>
+        <option value="kuppers">Víctor Küppers</option>
+        <option value="marian">Marian Rojas Estapé</option>
+        <option value="aprendemos">BBVA Aprendemos juntos</option>
+        <option value="dietacojea">Mi Dieta Cojea — nutrición con Aitor Sánchez</option>
+      </select>
+      <div id="epLista"></div>
+    </div>
+
     <div class="card" id="cardResumen" style="display:none">
       <h2>Resumen</h2>
       <div id="resumen"></div>
@@ -259,9 +292,14 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
       <div class="stat"><div class="v" id="stEta">—</div><div class="l">aterrizaje en</div></div>
     </div>
 
-    <div style="display:flex; gap:10px; justify-content:center; margin:6px 16px 12px;">
+    <div style="display:flex; gap:10px; justify-content:center; margin:6px 16px 10px;">
       <button class="ghostbtn" id="btnGps">📡 Ajustar con GPS</button>
       <button class="ghostbtn" id="btnFin">Terminar vuelo</button>
+    </div>
+
+    <div style="display:flex; gap:10px; justify-content:center; margin:0 16px 12px;">
+      <button class="ghostbtn" id="btnNoticias">📰 Noticias del día</button>
+      <button class="ghostbtn" id="btnPodcast">🎧 Podcast</button>
     </div>
 
     <a id="saneas" href="https://saneas.es">
@@ -271,7 +309,25 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
     </a>
   </section>
 
-  <footer>Por dónde voy · funciona sin conexión · v2 · 12 destinos</footer>
+  <footer>Por dónde voy · funciona sin conexión · v3 · 12 destinos</footer>
+</div>
+
+<!-- ====== PANEL: NOTICIAS ====== -->
+<div class="panel" id="pnlNoticias">
+  <div class="cab">
+    <h3>📰 Noticias del día</h3>
+    <button class="ghostbtn" data-cerrar="pnlNoticias">✕ Cerrar</button>
+  </div>
+  <div class="cuerpo" id="cuerpoNoticias"></div>
+</div>
+
+<!-- ====== PANEL: PODCAST ====== -->
+<div class="panel" id="pnlPodcast">
+  <div class="cab">
+    <h3>🎧 Tus podcasts</h3>
+    <button class="ghostbtn" data-cerrar="pnlPodcast">✕ Cerrar</button>
+  </div>
+  <div class="cuerpo" id="cuerpoPodcast"></div>
 </div>
 <div id="toast"></div>
 
@@ -584,6 +640,119 @@ function ajustarGPS(){
   }, () => toast("Sin señal GPS. Prueba pegado a la ventanilla"), {enableHighAccuracy:true, timeout:25000, maximumAge:60000});
 }
 
+/* ================= NOTICIAS Y PODCAST (para el modo avión) ================= */
+const API = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+  ? "https://pordondevoy-saneas.vercel.app" : "";
+const KEY_NOT = "pdv-noticias", KEY_EPS = "pdv-episodios";
+
+async function cargarNoticias(){
+  const est = $("estNoticias");
+  const guardadas = localStorage.getItem(KEY_NOT);
+  try {
+    const r = await fetch(API + "/api/noticias", {signal: AbortSignal.timeout(12000)});
+    if (!r.ok) throw 0;
+    const d = await r.json();
+    localStorage.setItem(KEY_NOT, JSON.stringify(d));
+    est.innerHTML = "<b>listas para el vuelo</b> · " + d.noticias.length + " guardadas";
+  } catch(e){
+    est.textContent = guardadas
+      ? "sin conexión — leerás las últimas guardadas"
+      : "sin conexión y sin noticias guardadas aún";
+  }
+}
+function pintarNoticias(){
+  const d = JSON.parse(localStorage.getItem(KEY_NOT) || "null");
+  const c = $("cuerpoNoticias");
+  if (!d){
+    c.innerHTML = '<p class="estado">No hay noticias guardadas. Abre la app con conexión antes de volar y se descargan solas.</p>';
+    return;
+  }
+  const esc = s => (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const cuando = new Date(d.actualizado).toLocaleString("es-ES", {day:"numeric", month:"long", hour:"2-digit", minute:"2-digit"});
+  c.innerHTML = `<p class="estado">Actualizadas el ${cuando}</p>` +
+    d.noticias.map(n =>
+      `<div class="noti"><div class="fu">${esc(n.fuente)}</div><div class="ti">${esc(n.titulo)}</div><div class="re">${esc(n.resumen)}</div></div>`
+    ).join("");
+}
+
+function episodiosGuardados(){ return JSON.parse(localStorage.getItem(KEY_EPS) || "[]"); }
+async function cargarEpisodios(id){
+  const l = $("epLista");
+  if (!id){ l.innerHTML = ""; return; }
+  l.innerHTML = '<p class="estado">Cargando episodios…</p>';
+  try {
+    const r = await fetch(API + "/api/podcast?id=" + id, {signal: AbortSignal.timeout(15000)});
+    const d = await r.json();
+    if (!d.episodios || !d.episodios.length) throw 0;
+    const bajados = new Set(episodiosGuardados().map(e => e.audio));
+    l.innerHTML = d.episodios.slice(0, 5).map(e => `
+      <div class="ep">
+        <div class="et">${e.titulo}</div>
+        <div class="em">${e.duracion ? "⏱ " + e.duracion : ""}</div>
+        <button class="ghostbtn ${bajados.has(e.audio) ? "listo" : ""}"
+          data-audio="${encodeURIComponent(e.audio)}"
+          data-titulo="${encodeURIComponent(e.titulo)}"
+          data-pod="${encodeURIComponent(d.nombre)}">
+          ${bajados.has(e.audio) ? "✓ Descargado" : "⬇ Descargar para el vuelo"}
+        </button>
+      </div>`).join("");
+    l.querySelectorAll("button[data-audio]").forEach(b =>
+      b.addEventListener("click", () => descargarEpisodio(b)));
+  } catch(e){
+    l.innerHTML = '<p class="estado">No se pudieron cargar los episodios. ¿Tienes conexión?</p>';
+  }
+}
+async function descargarEpisodio(btn){
+  const audio = decodeURIComponent(btn.dataset.audio);
+  const titulo = decodeURIComponent(btn.dataset.titulo);
+  const pod = decodeURIComponent(btn.dataset.pod);
+  btn.disabled = true; btn.textContent = "Descargando… (no cierres la app)";
+  try {
+    const c = await caches.open("pdv-audio");
+    const req = new Request(audio, {mode: "no-cors"});
+    const resp = await fetch(req);
+    await c.put(req, resp);
+    const eps = episodiosGuardados().filter(e => e.audio !== audio);
+    eps.unshift({audio, titulo, pod, ts: Date.now()});
+    localStorage.setItem(KEY_EPS, JSON.stringify(eps.slice(0, 10)));
+    btn.textContent = "✓ Descargado"; btn.classList.add("listo"); btn.disabled = false;
+    toast("Episodio guardado para el vuelo 🎧");
+  } catch(e){
+    btn.disabled = false; btn.textContent = "⬇ Descargar para el vuelo";
+    toast("No se pudo descargar. Prueba con otro episodio");
+  }
+}
+function pintarPodcastPanel(){
+  const eps = episodiosGuardados();
+  const c = $("cuerpoPodcast");
+  if (!eps.length){
+    c.innerHTML = '<p class="estado">No tienes episodios descargados. En la pantalla inicial, con wifi, elige un podcast y toca "Descargar para el vuelo".</p>';
+    return;
+  }
+  c.innerHTML = '<audio id="player" controls preload="none"></audio>' +
+    eps.map((e, i) => `
+      <div class="ep">
+        <div class="et">${e.titulo}</div>
+        <div class="em">${e.pod}</div>
+        <div style="display:flex; gap:8px;">
+          <button class="ghostbtn" style="flex:1" data-play="${i}">▶ Escuchar</button>
+          <button class="ghostbtn" data-borrar="${i}">🗑</button>
+        </div>
+      </div>`).join("");
+  c.querySelectorAll("[data-play]").forEach(b => b.addEventListener("click", () => {
+    const e = episodiosGuardados()[+b.dataset.play];
+    const p = document.getElementById("player");
+    p.src = e.audio; p.play();
+  }));
+  c.querySelectorAll("[data-borrar]").forEach(b => b.addEventListener("click", async () => {
+    const eps2 = episodiosGuardados();
+    const e = eps2.splice(+b.dataset.borrar, 1)[0];
+    localStorage.setItem(KEY_EPS, JSON.stringify(eps2));
+    try { const cc = await caches.open("pdv-audio"); await cc.delete(e.audio); } catch(_){}
+    pintarPodcastPanel();
+  }));
+}
+
 /* ================= WAKE LOCK ================= */
 let wakeLock = null;
 async function pedirWakeLock(){
@@ -622,6 +791,15 @@ function cambiarSentido(dir){
 }
 $("dirIda").addEventListener("click", () => cambiarSentido("ida"));
 $("dirVuelta").addEventListener("click", () => cambiarSentido("vuelta"));
+$("podSel").addEventListener("change", () => cargarEpisodios($("podSel").value));
+$("btnNoticias").addEventListener("click", () => { pintarNoticias(); $("pnlNoticias").classList.add("abierto"); });
+$("btnPodcast").addEventListener("click", () => { pintarPodcastPanel(); $("pnlPodcast").classList.add("abierto"); });
+document.querySelectorAll("[data-cerrar]").forEach(b => b.addEventListener("click", () => {
+  $(b.dataset.cerrar).classList.remove("abierto");
+  const p = document.getElementById("player");
+  if (p && b.dataset.cerrar === "pnlPodcast") p.pause();
+}));
+cargarNoticias();
 ["hsalida","hllegada","tzCheck","aerolinea","nvuelo"].forEach(id =>
   $(id).addEventListener("input", refrescarResumen));
 $("hsalida").addEventListener("input", () => { sugerirLlegada(); refrescarResumen(); });
