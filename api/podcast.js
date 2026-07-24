@@ -1,10 +1,10 @@
-// /api/podcast — lista los últimos episodios de podcasts de nutrición (RSS públicos).
+// /api/podcast — lista los últimos episodios de podcasts (RSS públicos).
 // La app permite descargar el audio a la caché del móvil para escucharlo en modo avión.
 
 const PODCASTS = {
+  kuppers: { nombre: "Víctor Küppers", feed: "https://anchor.fm/s/32211394/podcast/rss" },
+  aprendemos: { nombre: "BBVA Aprendemos juntos", feed: "https://rss.libsyn.com/shows/109232/destinations/631374.xml", filtro: /k(ü|u)ppers|marian\s+rojas/i },
   dietacojea: { nombre: "Mi Dieta Cojea — Aitor Sánchez", feed: "https://feeds.ivoox.com/feed_fg_f1135597_filtro_1.xml" },
-  desdecero: { nombre: "Nutrición desde Cero", feed: "https://feeds.ivoox.com/feed_fg_f11372300_filtro_1.xml" },
-  consciente: { nombre: "El Podcast de Nutrición Consciente", feed: "https://www.spreaker.com/show/5197590/episodes/feed" },
 };
 
 function limpiar(s) {
@@ -31,22 +31,29 @@ export default async function handler(req, res) {
 
   try {
     const xml = await fetch(pod.feed, { headers: { "user-agent": "Mozilla/5.0 (PorDondeVoy)" } }).then(r => r.text());
-    const episodios = [];
-    for (const bloque of xml.split(/<item[\s>]/).slice(1, 11)) {
+    const todos = [];
+    for (const bloque of xml.split(/<item[\s>]/).slice(1, 150)) {
       const t = bloque.match(/<title>([\s\S]*?)<\/title>/);
       const e = bloque.match(/<enclosure[^>]*url="([^"]+)"/);
       const f = bloque.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
       const d = bloque.match(/<itunes:duration>([\s\S]*?)<\/itunes:duration>/);
       if (!t || !e) continue;
-      episodios.push({
+      todos.push({
         titulo: limpiar(t[1]),
         audio: e[1].replace(/&amp;/g, "&"),
         fecha: f ? limpiar(f[1]) : "",
         duracion: d ? limpiar(d[1]) : "",
       });
     }
+    // Si el podcast tiene filtro (p.ej. Küppers / Marian Rojas), sus episodios van primero
+    let episodios = todos;
+    if (pod.filtro) {
+      const destacados = todos.filter(e => pod.filtro.test(e.titulo));
+      const resto = todos.filter(e => !pod.filtro.test(e.titulo));
+      episodios = destacados.concat(resto);
+    }
     res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=86400");
-    res.status(200).json({ id, nombre: pod.nombre, episodios });
+    res.status(200).json({ id, nombre: pod.nombre, episodios: episodios.slice(0, 10) });
   } catch (err) {
     res.status(502).json({ error: "no se pudo leer el feed" });
   }
