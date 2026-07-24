@@ -34,7 +34,7 @@ export default async function handler(req, res) {
   try {
     const xml = await fetch(pod.feed, { headers: { "user-agent": "Mozilla/5.0 (PorDondeVoy)" } }).then(r => r.text());
     const todos = [];
-    for (const bloque of xml.split(/<item[\s>]/).slice(1, 150)) {
+    for (const bloque of xml.split(/<item[\s>]/).slice(1)) {
       const t = bloque.match(/<title>([\s\S]*?)<\/title>/);
       const e = bloque.match(/<enclosure[^>]*url="([^"]+)"/);
       const f = bloque.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
