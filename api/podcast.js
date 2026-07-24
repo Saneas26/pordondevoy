@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       const titulo = limpiar(t[1]);
       todos.push({
         titulo,
-        texto: titulo + " " + (de ? limpiar(de[1]).slice(0, 400) : ""),
+        texto: titulo + " " + (de ? limpiar(de[1]).slice(0, 2000) : ""),
         audio: e[1].replace(/&amp;/g, "&"),
         fecha: f ? limpiar(f[1]) : "",
         duracion: d ? limpiar(d[1]) : "",
