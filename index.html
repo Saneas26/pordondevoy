@@ -1017,6 +1017,43 @@ function pintarGrupo(){
     ).join("") + "</div>";
 }
 
+/* ================= TELEMETRÍA ANÓNIMA (recuento del grupo) =================
+   Un aviso al día por dispositivo: qué app, plataforma y si va instalada.
+   El país lo pone el servidor a partir de la conexión. Sin datos personales:
+   solo un identificador aleatorio que vive en este móvil. */
+const KEY_DISP = "pdv-dispositivo", KEY_PING = "pdv-ping";
+function idDispositivo(){
+  let v = localStorage.getItem(KEY_DISP);
+  if (!v){
+    v = (crypto.randomUUID && crypto.randomUUID()) ||
+      "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+        const r = Math.random()*16|0; return (c === "x" ? r : (r&3|8)).toString(16);
+      });
+    localStorage.setItem(KEY_DISP, v);
+  }
+  return v;
+}
+async function enviarPing(){
+  // una vez al día, o de nuevo si ese día pasa de navegador a instalada
+  const marca = new Date().toISOString().slice(0,10) + (appInstalada() ? "·i" : "·n");
+  if (localStorage.getItem(KEY_PING) === marca) return;
+  try {
+    const r = await fetch(API + "/api/ping", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        app: "pordondevoy",
+        dispositivo: idDispositivo(),
+        plataforma: /iphone|ipad|ipod/i.test(navigator.userAgent) ? "iPhone"
+          : /android/i.test(navigator.userAgent) ? "Android" : "Otro",
+        instalada: appInstalada()
+      }),
+      signal: AbortSignal.timeout(8000)
+    });
+    if (r.ok) localStorage.setItem(KEY_PING, marca);
+  } catch(e){}
+}
+
 /* ================= WAKE LOCK ================= */
 let wakeLock = null;
 async function pedirWakeLock(){
@@ -1028,6 +1065,7 @@ document.addEventListener("visibilitychange", () => {
   // al volver a primer plano, refresca las noticias si tienen más de 30 min
   const d = JSON.parse(localStorage.getItem(KEY_NOT) || "null");
   if (!d || Date.now() - new Date(d.actualizado).getTime() > 30 * 60000) cargarNoticias();
+  enviarPing();   // cuenta como activo del día si la app sigue abierta al día siguiente
 });
 
 /* ================= ARRANQUE ================= */
@@ -1076,6 +1114,7 @@ document.querySelectorAll("[data-cerrar]").forEach(b => b.addEventListener("clic
   if (p && b.dataset.cerrar === "pnlPodcast") p.pause();
 }));
 cargarNoticias();
+enviarPing();
 ["hsalida","hllegada","tzCheck","aerolinea","nvuelo"].forEach(id =>
   $(id).addEventListener("input", refrescarResumen));
 $("hsalida").addEventListener("input", () => { sugerirLlegada(); refrescarResumen(); });
