@@ -140,6 +140,69 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 .noti.abierta .cu{display:block;}
 .noti .cu p{font-size:14px; color:var(--text); line-height:1.65; margin-bottom:12px;}
 audio{width:100%; margin-top:10px;}
+/* ---- instalar la app (botón + tutorial Android / iPhone) ---- */
+#btnInstalar{
+  display:block; width:calc(100% - 32px); margin:0 16px 4px; padding:13px;
+  background:none; border:1.5px solid var(--accent); color:var(--accent);
+  border-radius:14px; font-size:15px; font-weight:700; cursor:pointer;
+}
+#btnInstalar:active{transform:scale(.98);}
+#btnNativo{display:none; width:100%; margin:0 0 14px; padding:14px;
+  background:var(--ok); color:#04331f; border:none; border-radius:14px;
+  font-size:16px; font-weight:800; cursor:pointer;}
+.inst-tabs{display:flex; gap:10px; margin:12px 0 14px;}
+.inst-dots{display:flex; align-items:center; margin:0 2px 14px;}
+.inst-dots .d{width:28px; height:28px; border-radius:50%; border:2px solid var(--line);
+  display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;
+  color:var(--muted); background:var(--panel); flex:none;}
+.inst-dots .d.hecho{background:var(--ok); border-color:var(--ok); color:#04331f;}
+.inst-dots .d.activo{background:var(--accent); border-color:var(--accent); color:var(--accent-dark);}
+.inst-dots .l{flex:1; height:3px; background:var(--line); margin:0 -1px;}
+.inst-dots .l.hecho{background:var(--ok);}
+.inst-card{background:var(--panel); border-radius:16px; padding:16px;}
+.inst-card .ic{font-size:30px; line-height:1;}
+.inst-card h4{font-size:17px; margin:10px 0 3px;}
+.inst-card .sub{font-size:12.5px; color:var(--muted);}
+.inst-card .tx{font-size:14.5px; line-height:1.65; margin-top:12px;}
+.inst-card .pill{display:inline-block; background:var(--panel-2); border:1px solid var(--line);
+  color:var(--accent); border-radius:6px; padding:1px 8px; font-weight:700; font-size:13.5px;}
+.inst-card .okrow{display:flex; gap:8px; margin-top:12px; background:var(--panel-2); border-radius:10px;
+  padding:10px 12px; font-size:13px; line-height:1.55;}
+.inst-card .tip{display:flex; gap:8px; margin-top:10px; border-left:3px solid var(--accent);
+  background:rgba(247,183,49,.08); border-radius:0 10px 10px 0; padding:10px 12px;
+  font-size:12.5px; color:var(--muted); line-height:1.55;}
+.inst-card .tip b{color:var(--accent);}
+.inst-nav{display:flex; justify-content:space-between; align-items:center; margin-top:14px;}
+.inst-nav .cnt{font-size:12px; color:var(--muted);}
+.inst-nav .ghostbtn:disabled{opacity:.3; cursor:default;}
+.inst-fin{text-align:center; padding:26px 14px;}
+.inst-fin .big{font-size:46px;}
+.inst-fin h4{font-size:19px; margin:10px 0 8px;}
+.inst-fin p{font-size:14px; color:var(--muted); line-height:1.6;}
+.ios-op{display:flex; align-items:center; gap:12px; width:100%; text-align:left; margin-top:10px;
+  background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px;
+  color:var(--text); cursor:pointer; font-size:15px;}
+.ios-op .oi{width:42px; height:42px; border-radius:10px; background:var(--panel-2); flex:none;
+  display:flex; align-items:center; justify-content:center; font-size:20px;}
+.ios-op b{display:block; font-size:15px;}
+.ios-op small{display:block; font-size:12.5px; color:var(--muted); margin-top:2px; line-height:1.4;}
+.ios-volver{background:none; border:none; color:var(--muted); font-size:12.5px; cursor:pointer;
+  margin-top:12px; padding:0;}
+/* ---- pie del Grupo Saneas (mismas fichas que el pie de saneas.es) ---- */
+#grupoPie{margin:20px 16px 6px;}
+#grupoPie .gTit{
+  font-family:"Quicksand",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:13.5px; font-weight:700; color:var(--muted); text-align:center; letter-spacing:.3px;
+}
+#grupoPie .gTit b{color:#4aa8bd;}
+#grupoPie .gGrid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px 8px; margin-top:14px;}
+.gItem{display:flex; flex-direction:column; align-items:center; gap:8px; text-decoration:none;}
+.gItem img,.gItem .gIco{width:60px; height:60px; border-radius:15px; object-fit:cover; flex:none;
+  box-shadow:0 4px 12px rgba(0,0,0,.3); background:#fff;}
+.gItem .gIco{display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#f5862e,#d96b1a);}
+.gItem .gIco svg{width:28px; height:28px;}
+.gItem b{font-size:12.5px; font-weight:700; color:var(--text); text-align:center; line-height:1.25;}
 /* ---- splash de arranque ---- */
 #splash{
   position:fixed; inset:0; z-index:50; background:var(--bg);
@@ -264,6 +327,8 @@ audio{width:100%; margin-top:10px;}
     <div class="spacer"></div>
     <p class="aviso" style="margin:0 18px;">Abre la app en casa con conexión al menos una vez para que quede guardada. En el avión: activa el modo avión y, justo cuando el avión acelere en la pista, pulsa el botón.</p>
     <button class="bigbtn" id="btnDespegue">🛫 ¡Estamos despegando!</button>
+    <button id="btnInstalar">📲 Instalar la app · crear acceso directo</button>
+    <div id="grupoPie"></div>
   </section>
 
   <!-- ====== PANTALLA 2: VUELO ====== -->
@@ -332,6 +397,29 @@ audio{width:100%; margin-top:10px;}
     <button class="ghostbtn" data-cerrar="pnlPodcast">✕ Cerrar</button>
   </div>
   <div class="cuerpo" id="cuerpoPodcast"></div>
+</div>
+
+<!-- ====== PANEL: INSTALAR LA APP ====== -->
+<div class="panel" id="pnlInstalar">
+  <div class="cab">
+    <h3>📲 Instalar la app</h3>
+    <button class="ghostbtn" data-cerrar="pnlInstalar">✕ Cerrar</button>
+  </div>
+  <div class="cuerpo">
+    <button id="btnNativo">⚡ Instalar ahora en un toque</button>
+    <p class="estado">Con el icono en tu pantalla de inicio entras con un toque, como una app normal, y funciona en modo avión. ¿Qué móvil tienes?</p>
+    <div class="inst-tabs">
+      <button type="button" class="dirbtn activo" id="tabAndroid">🤖 Android</button>
+      <button type="button" class="dirbtn" id="tabIphone"> iPhone / iPad</button>
+    </div>
+    <div class="inst-dots" id="instDots"></div>
+    <div id="instCard"></div>
+    <div class="inst-nav" id="instNav">
+      <button class="ghostbtn" id="instPrev">← Atrás</button>
+      <span class="cnt" id="instCnt"></span>
+      <button class="ghostbtn" id="instNext">Siguiente →</button>
+    </div>
+  </div>
 </div>
 <div id="toast"></div>
 
@@ -765,6 +853,170 @@ function pintarPodcastPanel(){
   }));
 }
 
+/* ================= INSTALAR LA APP (tutorial Android / iPhone) =================
+   Misma guía que saneas.es/instala-app.html, adaptada al estilo de la app. */
+const PASOS_ANDROID = [
+  {ic:"🌐", t:"Abre la app en Chrome", sub:"El navegador de colores de Android",
+   tx:'Abre <span class="pill">pordondevoy-saneas.vercel.app</span> con <span class="pill">Chrome</span>, el navegador con el icono de colores. Si ya estás leyendo esto en Chrome, ¡perfecto!',
+   ok:"Verás la app como una página web. Es normal, así es como funciona. ¡Sigue al siguiente paso!",
+   tip:"Si no tienes Chrome, descárgalo gratis en la Play Store. Es el icono circular rojo, amarillo, verde y azul."},
+  {ic:"⋮", t:"Toca los tres puntitos", sub:"Arriba a la derecha de Chrome",
+   tx:'Mira la esquina <span class="pill">superior derecha</span> de la pantalla. Verás tres puntitos verticales ⋮ Tócalos con el dedo.',
+   ok:"Se abrirá un menú con varias opciones. En el siguiente paso te decimos exactamente cuál tocar.",
+   tip:"Los puntitos están justo al lado de la barra donde aparece la dirección web."},
+  {ic:"🏠", t:"Toca «Añadir a pantalla de inicio»", sub:"Esta es la opción clave",
+   tx:'Dentro del menú, busca y toca la opción <span class="pill">Añadir a pantalla de inicio</span>.',
+   ok:"Puede que tengas que deslizar el menú hacia abajo para verla. Está cerca de las opciones de «Compartir».",
+   tip:"En algunos móviles pone «Instalar aplicación» en lugar de «Añadir a pantalla de inicio». Las dos funcionan igual."},
+  {ic:"✏️", t:"Ponle nombre y confirma", sub:"El último paso antes de tenerla lista",
+   tx:'Aparecerá una ventana pequeña con el nombre. Puedes dejarlo como está o escribir <span class="pill">Por dónde voy</span>. Luego toca <span class="pill">Añadir</span>.',
+   ok:"No hace falta cambiar nada. El nombre es solo para que reconozcas el icono en tu pantalla.",
+   tip:"Si te equivocas con el nombre, mantén el icono pulsado después y elige «Renombrar»."},
+  {ic:"✅", t:"¡Ya está en tu pantalla!", sub:"Busca el icono del avión",
+   tx:'Sal de Chrome pulsando el botón de inicio. En tu pantalla principal verás el icono de <span class="pill">Por dónde voy</span> como si fuera una app descargada.',
+   ok:"Desde ahora, toca ese icono cada vez que vueles. Funciona incluso en modo avión.",
+   tip:"Si no ves el icono, desliza las pantallas hacia los lados. A veces se coloca al final de todas."}
+];
+const PASOS_IOS_NUEVO = [
+  {ic:"🧭", t:"Abre la app en Safari", sub:"El navegador azul del iPhone",
+   tx:'Abre <span class="pill">pordondevoy-saneas.vercel.app</span> con <span class="pill">Safari</span>, el icono azul con una brújula que viene en todos los iPhone.',
+   ok:"Es muy importante usar Safari y no otro navegador. Solo con Safari funciona el truco que vamos a hacer.",
+   tip:"Si el enlace se abre en otro navegador, cópialo, abre Safari y pégalo en la barra de la dirección."},
+  {ic:"⋯", t:"Toca los tres puntitos", sub:"A la derecha de la barra de navegación, abajo",
+   tx:'En iOS 26, Safari tiene la barra de navegación <span class="pill">abajo</span>. A la derecha de esa barra verás tres puntitos <span class="pill">···</span>. Tócalos.',
+   ok:"Se abrirá un menú pequeño con tres opciones: «Nueva ventana», «Compartir» y «Añadir a pantalla de inicio».",
+   tip:"La barra con la dirección web está abajo del todo, no arriba. Los puntitos están en su extremo derecho."},
+  {ic:"🏠", t:"Toca «Añadir a pantalla de inicio»", sub:"Aparece directamente en el menú",
+   tx:'En el menú que se abrió verás directamente la opción <span class="pill">Añadir a pantalla de inicio</span>. Tócala.',
+   ok:"En iOS 26 es mucho más rápido que antes. No hay que buscar entre muchas opciones, aparece enseguida.",
+   tip:"Si en su lugar ves «Compartir», tócalo y busca la opción en el panel que se abre."},
+  {ic:"✏️", t:"Ponle nombre y toca «Añadir»", sub:"Ya casi lo tienes",
+   tx:'Saldrá una pantalla con el nombre de la app. Puedes cambiarlo a <span class="pill">Por dónde voy</span> si quieres. Después toca el botón azul <span class="pill">Añadir</span> arriba a la derecha.',
+   ok:"Eso es todo. Con ese toque ya queda instalada en tu pantalla de inicio.",
+   tip:"El botón «Añadir» está arriba a la derecha de esa pantalla pequeña. Es azul y bastante visible."},
+  {ic:"✅", t:"¡Ya tienes la app en tu iPhone!", sub:"Búscala en la pantalla de inicio",
+   tx:'Sal de Safari deslizando desde abajo. Verás el icono de <span class="pill">Por dónde voy</span> en tu pantalla, como una app de verdad.',
+   ok:"Se abrirá a pantalla completa, sin la barra de Safari, y funciona en modo avión.",
+   tip:"Si no la encuentras, desliza hacia abajo desde el centro de la pantalla y busca «Por dónde voy»."}
+];
+const PASOS_IOS_VIEJO = [
+  PASOS_IOS_NUEVO[0],
+  {ic:"📤", t:"Toca el botón de compartir", sub:"La cajita con la flecha, en la barra de abajo",
+   tx:'En la barra de abajo de Safari verás un icono con <span class="pill">una cajita y una flecha hacia arriba</span>. Tócalo.',
+   ok:"Se abrirá un panel grande con muchas opciones de colores. Es el menú de «compartir» del iPhone.",
+   tip:"En iPad este botón está arriba a la derecha, no abajo. Tiene el mismo aspecto."},
+  {ic:"🏠", t:"Busca «En pantalla de inicio»", sub:"Desliza el panel hacia abajo",
+   tx:'En el panel que se abrió, desliza hacia <span class="pill">abajo</span> hasta encontrar <span class="pill">En pantalla de inicio</span>. Tiene un icono de cuadrado con un +.',
+   ok:"Tócalo cuando lo veas. Si no aparece a la primera, sigue bajando: suele estar en la segunda o tercera fila.",
+   tip:"El panel tiene muchas opciones. Ve despacio deslizando hasta encontrarla."},
+  PASOS_IOS_NUEVO[3],
+  PASOS_IOS_NUEVO[4]
+];
+
+let instPlat = /iphone|ipad|ipod/i.test(navigator.userAgent) ? "iphone" : "android";
+let instIos = null, instPaso = 0, promptInstalar = null;
+
+const appInstalada = () =>
+  (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  promptInstalar = e;
+  $("btnNativo").style.display = "block";
+});
+
+function pasosInst(){
+  if (instPlat === "android") return PASOS_ANDROID;
+  return instIos === "nuevo" ? PASOS_IOS_NUEVO : instIos === "viejo" ? PASOS_IOS_VIEJO : null;
+}
+function pintarInstalar(){
+  $("tabAndroid").classList.toggle("activo", instPlat === "android");
+  $("tabIphone").classList.toggle("activo", instPlat === "iphone");
+  const pasos = pasosInst(), dots = $("instDots"), card = $("instCard"), nav = $("instNav");
+
+  // iPhone sin versión elegida → selector de iOS
+  if (!pasos){
+    dots.innerHTML = ""; nav.style.display = "none";
+    card.innerHTML =
+      '<div class="inst-card"><h4 style="margin-top:0">¿Qué versión de iOS tienes?</h4>' +
+      '<p class="sub" style="margin-top:4px">Si no lo sabes: Ajustes → General → Información → Versión de software.</p>' +
+      '<button class="ios-op" data-ios="nuevo"><span class="oi">✦</span><span><b>iOS 26 o superior</b><small>Safari tiene tres puntitos ··· en la barra de abajo</small></span></button>' +
+      '<button class="ios-op" data-ios="viejo"><span class="oi">◷</span><span><b>iOS 25 o anterior</b><small>Safari tiene el botón de compartir (cajita con flecha) abajo</small></span></button></div>';
+    card.querySelectorAll("[data-ios]").forEach(b => b.addEventListener("click", () => {
+      instIos = b.dataset.ios; instPaso = 0; pintarInstalar();
+    }));
+    return;
+  }
+
+  nav.style.display = "flex";
+  dots.innerHTML = pasos.map((_, i) =>
+    (i ? `<span class="l ${i <= instPaso ? "hecho" : ""}"></span>` : "") +
+    `<span class="d ${i < instPaso ? "hecho" : i === instPaso ? "activo" : ""}">${i < instPaso ? "✓" : i + 1}</span>`
+  ).join("");
+
+  if (instPaso >= pasos.length){
+    card.innerHTML =
+      '<div class="inst-card inst-fin"><div class="big">🎉</div><h4>¡Ya tienes la app instalada!</h4>' +
+      '<p>Entra desde el icono de tu pantalla, como cualquier otra app. Sin buscar enlaces y sin conexión.</p>' +
+      (instPlat === "iphone" ? '<button class="ios-volver" id="iosVolver">← Elegir otra versión de iOS</button>' : '') +
+      '</div>';
+    const v = document.getElementById("iosVolver");
+    if (v) v.addEventListener("click", () => { instIos = null; instPaso = 0; pintarInstalar(); });
+  } else {
+    const p = pasos[instPaso];
+    card.innerHTML =
+      `<div class="inst-card"><div class="ic">${p.ic}</div><h4>${p.t}</h4><div class="sub">${p.sub}</div>` +
+      `<div class="tx">${p.tx}</div>` +
+      `<div class="okrow">✔️<span>${p.ok}</span></div>` +
+      `<div class="tip">💡<span><b>Consejo:</b> ${p.tip}</span></div>` +
+      (instPlat === "iphone" && instPaso === 0 ? '<button class="ios-volver" id="iosVolver">← Cambiar versión de iOS</button>' : '') +
+      `</div>`;
+    const v = document.getElementById("iosVolver");
+    if (v) v.addEventListener("click", () => { instIos = null; instPaso = 0; pintarInstalar(); });
+  }
+  $("instPrev").disabled = instPaso === 0;
+  $("instNext").disabled = instPaso >= pasos.length;
+  $("instNext").textContent = instPaso === pasos.length - 1 ? "Finalizar ✓" : "Siguiente →";
+  $("instCnt").textContent = instPaso < pasos.length ? `Paso ${instPaso + 1} de ${pasos.length}` : "✓ Completado";
+}
+function abrirInstalar(){
+  instPaso = 0;
+  pintarInstalar();
+  $("pnlInstalar").classList.add("abierto");
+}
+async function instalarNativo(){
+  if (!promptInstalar) return;
+  promptInstalar.prompt();
+  const r = await promptInstalar.userChoice;
+  if (r && r.outcome === "accepted"){
+    toast("¡App instalada! Búscala en tu pantalla de inicio 📲");
+    promptInstalar = null;
+    $("btnNativo").style.display = "none";
+    $("pnlInstalar").classList.remove("abierto");
+    $("btnInstalar").style.display = "none";
+  }
+}
+
+/* ================= GRUPO SANEAS (pie con las apps del grupo) =================
+   Mismas fichas que el pie de saneas.es y de app.saneas.es; los logos viven en img/. */
+const GRUPO_APPS = [
+  {n:"Asesorías", url:"https://saneas.es/asesorias"},
+  {n:"APP Saneas", url:"https://app.saneas.es", img:"img/app-saneas.png"},
+  {n:"Activala", url:"https://activala.es", img:"img/app-activala.png"},
+  {n:"laOra", url:"https://laora.es", img:"img/app-laora.png"},
+  {n:"Acumula", url:"https://acumula.es", img:"img/app-acumula.png"}
+];
+function pintarGrupo(){
+  const svgPersonas = '<span class="gIco"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>';
+  $("grupoPie").innerHTML =
+    '<div class="gTit">Grupo <b>Saneas</b></div><div class="gGrid">' +
+    GRUPO_APPS.map(a =>
+      `<a class="gItem" href="${a.url}" target="_blank" rel="noopener">` +
+      (a.img ? `<img src="${a.img}" alt="" loading="lazy">` : svgPersonas) +
+      `<b>${a.n}</b></a>`
+    ).join("") + "</div>";
+}
+
 /* ================= WAKE LOCK ================= */
 let wakeLock = null;
 async function pedirWakeLock(){
@@ -807,6 +1059,14 @@ function cambiarSentido(dir){
 }
 $("dirIda").addEventListener("click", () => cambiarSentido("ida"));
 $("dirVuelta").addEventListener("click", () => cambiarSentido("vuelta"));
+pintarGrupo();
+if (appInstalada()) $("btnInstalar").style.display = "none";
+$("btnInstalar").addEventListener("click", abrirInstalar);
+$("btnNativo").addEventListener("click", instalarNativo);
+$("tabAndroid").addEventListener("click", () => { instPlat = "android"; instIos = null; instPaso = 0; pintarInstalar(); });
+$("tabIphone").addEventListener("click", () => { instPlat = "iphone"; instIos = null; instPaso = 0; pintarInstalar(); });
+$("instPrev").addEventListener("click", () => { instPaso = Math.max(0, instPaso - 1); pintarInstalar(); });
+$("instNext").addEventListener("click", () => { const p = pasosInst(); if (p){ instPaso = Math.min(p.length, instPaso + 1); pintarInstalar(); } });
 $("podSel").addEventListener("change", () => cargarEpisodios($("podSel").value));
 $("btnNoticias").addEventListener("click", () => { pintarNoticias(); $("pnlNoticias").classList.add("abierto"); });
 $("btnPodcast").addEventListener("click", () => { pintarPodcastPanel(); $("pnlPodcast").classList.add("abierto"); });
