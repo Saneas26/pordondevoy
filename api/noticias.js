@@ -26,7 +26,7 @@ function limpiar(s) {
 
 function parseRss(xml, fuente) {
   const items = [];
-  for (const bloque of xml.split(/<item[\s>]/).slice(1, 8)) {
+  for (const bloque of xml.split(/<item[\s>]/).slice(1, 15)) {
     const t = bloque.match(/<title>([\s\S]*?)<\/title>/);
     const d = bloque.match(/<description>([\s\S]*?)<\/description>/);
     const l = bloque.match(/<link>([\s\S]*?)<\/link>/);
@@ -71,13 +71,13 @@ export default async function handler(req, res) {
     .filter(p => p.status === "fulfilled" && p.value.length)
     .map(p => p.value);
 
-  // Reparto alterno entre fuentes hasta llegar a 10
+  // Reparto alterno entre fuentes hasta llegar a 20
   const noticias = [];
   const vistos = new Set();
-  for (let i = 0; noticias.length < 10 && i < 8; i++) {
+  for (let i = 0; noticias.length < 20 && i < 14; i++) {
     for (const lista of listas) {
       const n = lista[i];
-      if (!n || noticias.length >= 10) continue;
+      if (!n || noticias.length >= 20) continue;
       const clave = n.titulo.toLowerCase().slice(0, 60);
       if (vistos.has(clave)) continue;
       vistos.add(clave);
