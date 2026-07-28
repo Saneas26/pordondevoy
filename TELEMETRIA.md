@@ -5,56 +5,46 @@ Recuento anónimo, para todas las apps del grupo, de:
 - **Cuánta gente tiene cada app instalada** (acceso directo creado) y cuánta entra por navegador.
 - **Cuántos dispositivos están activos cada día** (abren la app ese día).
 - **De qué país** es cada dispositivo.
-- Cuántos iPhone y cuántos Android.
+- Cuántos iPhone y cuántos Android, y cuántos son nuevos esta semana.
 
 No se guarda ningún dato personal: solo un identificador aleatorio que vive en
 cada móvil, la plataforma y el país (que deduce Vercel de la conexión, sin
 guardar la IP).
 
-Todas las apps mandan su aviso al mismo sitio:
-`https://pordondevoy-saneas.vercel.app/api/ping`
+**Las cifras solo se ven desde el panel de Óscar** (`app.saneas.es/panel.html`
+→ botón **Grupo**). Ninguna app del grupo puede consultarlas: solo pueden
+apuntarse.
 
 ---
 
-## Puesta en marcha (una sola vez)
+## Puesta en marcha: un solo paso
 
-### 1. Crear las tablas en Supabase
+Abre el **SQL Editor** de Supabase (el proyecto del grupo) y ejecuta
+`supabase/telemetria.sql` **del repositorio `saneas-app`** — vive allí porque
+usa el guardia `es_admin()`, igual que el resto de funciones del panel.
 
-En el proyecto de Supabase del grupo (el mismo de app.saneas.es), abre
-**SQL Editor** y ejecuta el contenido de [`supabase/telemetria.sql`](supabase/telemetria.sql).
+Y ya está. **No hace falta configurar nada en Vercel**: el aviso entra por la
+función `telemetria_ping()`, que solo permite apuntarse (ni leer ni consultar),
+así que basta con la clave pública que las apps ya llevan.
 
-Crea las dos tablas (con RLS: solo escribe el servidor, la clave pública no
-puede ni leer) y la función `telemetria_resumen()`. El script está probado
-contra PostgreSQL 16, la misma versión que usa Supabase.
+### Cómo queda protegido
 
-### 2. Variables de entorno en Vercel
+| | Puede apuntarse | Puede ver las cifras |
+|---|---|---|
+| Las apps (clave pública) | ✅ | ❌ |
+| Un cliente con sesión iniciada | ✅ | ❌ |
+| Tu panel en modo admin | ✅ | ✅ |
 
-En el proyecto **pordondevoy** de Vercel → *Settings → Environment Variables*,
-añade estas tres y redespliega:
+Las dos tablas tienen RLS sin políticas, así que nadie llega a ellas por la
+API: solo se entra por las dos funciones, y la del resumen está protegida con
+`es_admin()`.
 
-| Variable | Valor |
-|---|---|
-| `SUPABASE_URL` | `https://uisrxztowgdpkxeuznfh.supabase.co` |
-| `SUPABASE_SERVICE_ROLE_KEY` | La clave **service_role** (Supabase → Settings → API keys). ⚠️ Nunca la pongas en el código de una app. |
-| `STATS_KEY` | Una clave larga que inventes tú, para consultar el resumen. |
+### Ver los datos
 
-### 3. Ver los datos
-
-Abre el panel y escribe tu `STATS_KEY` (queda guardada en ese móvil, no hay
-que teclearla cada vez):
-
-```
-https://pordondevoy-saneas.vercel.app/estadisticas.html
-```
-
-Muestra, para el grupo entero y app por app: dispositivos, **cuántos la tienen
-instalada** frente a los que entran por navegador, **activos hoy**, un gráfico
-de **activos por día** de los últimos 30 días y el **reparto por país**.
-
-Si prefieres los datos en crudo (para el panel de Saneas o una hoja de
-cálculo), el mismo resumen en JSON está en
-`https://pordondevoy-saneas.vercel.app/api/stats?clave=TU_STATS_KEY`.
-Y las tablas se pueden mirar siempre en Supabase → Table Editor.
+`app.saneas.es/panel.html` → entra con tu contraseña, activa el **modo admin**
+y pulsa **Grupo**. Verás el total del grupo y, app por app, los dispositivos,
+cuántos la tienen instalada, los activos de hoy, un gráfico de activos por día
+de los últimos 30 días y el reparto por país.
 
 ---
 
@@ -94,6 +84,9 @@ solo `APP_SLUG` (valores válidos: `saneas`, `activala`, `laora`, `acumula`):
   }).then(function(r){ if (r.ok) localStorage.setItem("gs-ping", marca); }).catch(function(){});
 })();
 ```
+
+Todas las apps pasan por `/api/ping` (aunque no estén alojadas en Vercel)
+porque es quien añade el país a partir de la conexión.
 
 ---
 
