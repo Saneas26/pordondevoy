@@ -101,20 +101,25 @@ select,input[type=time],input[type=text]{
   background:var(--panel-2); border:1px solid var(--line); color:var(--text);
   padding:10px 18px; border-radius:99px; font-size:14px; opacity:0; transition:opacity .3s; pointer-events:none; white-space:nowrap;}
 #toast.show{opacity:1;}
-#saneas{
-  display:block; margin:4px 16px 14px; padding:13px 16px 12px;
+/* carrusel del grupo: tarjetas apiladas en la misma celda, fundido cada 3,5 s */
+#carrusel{display:grid; margin:4px 16px 14px;}
+#carrusel .csl{
+  grid-area:1/1; display:block; padding:13px 16px 12px;
   background:rgba(255,255,255,.92); border-radius:16px; text-align:center; text-decoration:none;
   font-family:"Quicksand",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; font-weight:700;
   box-shadow:0 6px 16px rgba(0,0,0,.22);
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  opacity:0; transition:opacity .8s ease; pointer-events:none;
 }
-#saneas .marca{display:block; font-size:21px; color:#3890a4; letter-spacing:.3px; line-height:1;}
-#saneas .sep{display:block; width:30px; height:3px; border-radius:2px; background:#3890a4; opacity:.35; margin:7px auto 6px;}
-#saneas .lema{
+#carrusel .csl.activo{opacity:1; pointer-events:auto;}
+.csl .marca{display:block; font-size:21px; color:var(--cmar); letter-spacing:.3px; line-height:1;}
+.csl .sep{display:block; width:30px; height:3px; border-radius:2px; background:var(--cmar); opacity:.35; margin:7px auto 6px;}
+.csl .lema{
   font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; font-weight:700;
   font-size:12.5px; color:#1d3140; line-height:1.3; letter-spacing:0;
 }
-#saneas .lema em{font-style:normal; color:#3890a4;}
+.csl .lema em{font-style:normal; color:var(--cacc,var(--cmar));}
+@media (prefers-reduced-motion: reduce){ #carrusel .csl{transition:none;} }
 footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
 .aviso{font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px;}
 /* ---- entretenimiento: noticias y podcast ---- */
@@ -315,6 +320,9 @@ audio{width:100%; margin-top:10px;}
         <option value="marian">Marian Rojas Estapé</option>
         <option value="aprendemos">BBVA Aprendemos juntos</option>
         <option value="dietacojea">Mi Dieta Cojea — nutrición con Aitor Sánchez</option>
+        <option value="tengoplan">Tengo un plan — nutrición y empresa</option>
+        <option value="urisabat">Uri Sabat — nutrición, empresa y tecnología</option>
+        <option value="wildproject">The Wild Project — nutrición, empresa y tecnología</option>
       </select>
       <div id="epLista"></div>
     </div>
@@ -371,11 +379,7 @@ audio{width:100%; margin-top:10px;}
       <button class="ghostbtn" id="btnPodcast">🎧 Podcast</button>
     </div>
 
-    <a id="saneas" href="https://saneas.es">
-      <span class="marca">Saneas.es</span>
-      <span class="sep"></span>
-      <div class="lema">No es una dieta.<br>Es alguien que te lleva <em>hasta el final</em>.</div>
-    </a>
+    <div id="carrusel"></div>
   </section>
 
   <footer>Por dónde voy · funciona sin conexión · v3 · 12 destinos</footer>
@@ -1017,6 +1021,73 @@ function pintarGrupo(){
     ).join("") + "</div>";
 }
 
+/* ================= CARRUSEL DEL GRUPO (pantalla de vuelo) =================
+   Tarjetas de las apps y webs del Grupo Saneas; rotan solas cada 3,5 s con
+   un fundido suave. Cada una lleva el color de su marca. */
+const CARRUSEL = [
+  {url:"https://saneas.es", marca:"Saneas.es", color:"#3890a4",
+   lema:"No es una dieta.<br>Es alguien que te lleva <em>hasta el final</em>."},
+  {url:"https://saneas.es/asesorias", marca:"Asesorías", color:"#f5862e",
+   lema:"No necesitas ser <em>nutricionista</em>"},
+  {url:"https://activala.es", marca:"Activala", color:"#4a9a12",
+   lema:"Tu casa, de Pasivo <em>→ Activo</em>"},
+  {url:"https://acumula.es", marca:"Acumula", color:"#b8892b",
+   lema:"Todas tus cuentas en <em>un solo lugar</em>"},
+  {url:"https://laora.es", marca:"laOra", color:"#17343c", acento:"#b8892b",
+   lema:"Relojería al <em>precio honesto</em>"}
+];
+let carruselIdx = 0;
+function montarCarrusel(){
+  $("carrusel").innerHTML = CARRUSEL.map((c, i) =>
+    `<a class="csl${i === 0 ? " activo" : ""}" style="--cmar:${c.color}${c.acento ? ";--cacc:" + c.acento : ""}"` +
+    ` href="${c.url}" target="_blank" rel="noopener">` +
+    `<span class="marca">${c.marca}</span><span class="sep"></span><div class="lema">${c.lema}</div></a>`
+  ).join("");
+  setInterval(() => {
+    const s = $("carrusel").children;
+    s[carruselIdx].classList.remove("activo");
+    carruselIdx = (carruselIdx + 1) % s.length;
+    s[carruselIdx].classList.add("activo");
+  }, 3500);
+}
+
+/* ================= TELEMETRÍA ANÓNIMA (recuento del grupo) =================
+   Un aviso al día por dispositivo: qué app, plataforma y si va instalada.
+   El país lo pone el servidor a partir de la conexión. Sin datos personales:
+   solo un identificador aleatorio que vive en este móvil. */
+const KEY_DISP = "pdv-dispositivo", KEY_PING = "pdv-ping";
+function idDispositivo(){
+  let v = localStorage.getItem(KEY_DISP);
+  if (!v){
+    v = (crypto.randomUUID && crypto.randomUUID()) ||
+      "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+        const r = Math.random()*16|0; return (c === "x" ? r : (r&3|8)).toString(16);
+      });
+    localStorage.setItem(KEY_DISP, v);
+  }
+  return v;
+}
+async function enviarPing(){
+  // una vez al día, o de nuevo si ese día pasa de navegador a instalada
+  const marca = new Date().toISOString().slice(0,10) + (appInstalada() ? "·i" : "·n");
+  if (localStorage.getItem(KEY_PING) === marca) return;
+  try {
+    const r = await fetch(API + "/api/ping", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        app: "pordondevoy",
+        dispositivo: idDispositivo(),
+        plataforma: /iphone|ipad|ipod/i.test(navigator.userAgent) ? "iPhone"
+          : /android/i.test(navigator.userAgent) ? "Android" : "Otro",
+        instalada: appInstalada()
+      }),
+      signal: AbortSignal.timeout(8000)
+    });
+    if (r.ok) localStorage.setItem(KEY_PING, marca);
+  } catch(e){}
+}
+
 /* ================= WAKE LOCK ================= */
 let wakeLock = null;
 async function pedirWakeLock(){
@@ -1028,6 +1099,7 @@ document.addEventListener("visibilitychange", () => {
   // al volver a primer plano, refresca las noticias si tienen más de 30 min
   const d = JSON.parse(localStorage.getItem(KEY_NOT) || "null");
   if (!d || Date.now() - new Date(d.actualizado).getTime() > 30 * 60000) cargarNoticias();
+  enviarPing();   // cuenta como activo del día si la app sigue abierta al día siguiente
 });
 
 /* ================= ARRANQUE ================= */
@@ -1060,6 +1132,7 @@ function cambiarSentido(dir){
 $("dirIda").addEventListener("click", () => cambiarSentido("ida"));
 $("dirVuelta").addEventListener("click", () => cambiarSentido("vuelta"));
 pintarGrupo();
+montarCarrusel();
 if (appInstalada()) $("btnInstalar").style.display = "none";
 $("btnInstalar").addEventListener("click", abrirInstalar);
 $("btnNativo").addEventListener("click", instalarNativo);
@@ -1076,6 +1149,7 @@ document.querySelectorAll("[data-cerrar]").forEach(b => b.addEventListener("clic
   if (p && b.dataset.cerrar === "pnlPodcast") p.pause();
 }));
 cargarNoticias();
+enviarPing();
 ["hsalida","hllegada","tzCheck","aerolinea","nvuelo"].forEach(id =>
   $(id).addEventListener("input", refrescarResumen));
 $("hsalida").addEventListener("input", () => { sugerirLlegada(); refrescarResumen(); });
