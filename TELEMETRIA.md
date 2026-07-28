@@ -48,45 +48,38 @@ de los últimos 30 días y el reparto por país.
 
 ---
 
-## Conectar las demás apps del grupo
+## Qué está conectado
 
-Por Dónde Voy ya lo lleva incorporado. Para **saneas (app.saneas.es), activala,
-laora y acumula**, pega este fragmento en el arranque de cada una cambiando
-solo `APP_SLUG` (valores válidos: `saneas`, `activala`, `laora`, `acumula`):
+Las seis propiedades del grupo ya avisan. Cada una manda su aviso a
+`/api/ping` (aunque no esté alojada en Vercel), porque es quien añade el país
+a partir de la conexión.
 
-```js
-/* Telemetría anónima del Grupo Saneas — un aviso al día por dispositivo */
-(function(){
-  var APP_SLUG = "saneas";                                  // ← cambiar por la app
-  var URL_PING = "https://pordondevoy-saneas.vercel.app/api/ping";
-  var instalada = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches)
-    || navigator.standalone === true;
-  var id = localStorage.getItem("gs-dispositivo");
-  if (!id){
-    id = (crypto.randomUUID && crypto.randomUUID()) ||
-      "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c){
-        var r = Math.random()*16|0; return (c === "x" ? r : (r&3|8)).toString(16);
-      });
-    localStorage.setItem("gs-dispositivo", id);
-  }
-  var marca = new Date().toISOString().slice(0,10) + (instalada ? "·i" : "·n");
-  if (localStorage.getItem("gs-ping") === marca) return;
-  fetch(URL_PING, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      app: APP_SLUG,
-      dispositivo: id,
-      plataforma: /iphone|ipad|ipod/i.test(navigator.userAgent) ? "iPhone"
-        : /android/i.test(navigator.userAgent) ? "Android" : "Otro",
-      instalada: instalada
-    })
-  }).then(function(r){ if (r.ok) localStorage.setItem("gs-ping", marca); }).catch(function(){});
-})();
-```
+| Propiedad | Identificador | Dónde vive el script |
+|---|---|---|
+| Por dónde voy | `pordondevoy` | dentro de `index.html` |
+| APP Saneas · app.saneas.es | `saneas` | `saneas-app` → `js/24-telemetria.js` |
+| Web Saneas · saneas.es | `saneas_web` | `saneas` → `assets/telemetria.js` |
+| Activala · activala.es | `activala` | `activala` → `js/telemetria.js` |
+| laOra · laora.es | `laora` | `laora` → `assets/js/telemetria.js` |
+| Acumula · acumula.es | `acumula` | `acumula` → `acumula/web/static/telemetria.js` |
 
-Todas las apps pasan por `/api/ping` (aunque no estén alojadas en Vercel)
-porque es quien añade el país a partir de la conexión.
+### Añadir una propiedad nueva en el futuro
+
+1. Copia el `telemetria.js` de cualquiera de las webs y cambia el `var APP`.
+2. Cárgalo en las páginas: `<script src="/ruta/telemetria.js" defer></script>`.
+3. Añade el identificador nuevo a **dos sitios**: la lista de
+   `telemetria_ping()` en `supabase/telemetria.sql` (y vuelve a ejecutarlo) y
+   la lista `APPS` de `api/ping.js` en este repositorio.
+4. Si quieres que salga con su nombre y logo en el panel, añádelo también a
+   `GT_APPS` en `panel.html`.
+
+### Nota sobre privacidad
+
+El identificador es aleatorio y vive en el navegador de cada persona: no hay
+nombre, ni correo, ni IP, y no se comparte con nadie de fuera. Aun así, en
+`activala.es` y `laora.es` la política decía «esta web no usa cookies de
+seguimiento ni analítica de terceros»; se ha ampliado esa frase para explicar
+que sí se lleva un recuento propio y anónimo de visitas.
 
 ---
 
