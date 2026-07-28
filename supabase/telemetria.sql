@@ -66,5 +66,7 @@ as $$
   );
 $$;
 
--- Que solo el servidor pueda pedir el resumen
+-- Que solo el servidor pueda pedir el resumen: se lo quitamos a todos
+-- (el revoke a public alcanza también a service_role) y se lo damos solo a él.
 revoke execute on function telemetria_resumen() from public, anon, authenticated;
+grant execute on function telemetria_resumen() to service_role;
