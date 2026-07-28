@@ -20,7 +20,9 @@ self.addEventListener("activate", e => {
 
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
-  if (new URL(e.request.url).pathname.startsWith("/api/")) return;   // API siempre por red; la app guarda copia local
+  const ruta = new URL(e.request.url).pathname;
+  if (ruta.startsWith("/api/")) return;              // API siempre por red; la app guarda copia local
+  if (ruta.startsWith("/estadisticas")) return;      // panel de telemetría: siempre datos frescos
   e.respondWith(
     caches.match(e.request, {ignoreSearch: true}).then(hit => {
       const red = fetch(e.request).then(res => {

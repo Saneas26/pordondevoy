@@ -23,6 +23,10 @@ Todas las apps mandan su aviso al mismo sitio:
 En el proyecto de Supabase del grupo (el mismo de app.saneas.es), abre
 **SQL Editor** y ejecuta el contenido de [`supabase/telemetria.sql`](supabase/telemetria.sql).
 
+Crea las dos tablas (con RLS: solo escribe el servidor, la clave pública no
+puede ni leer) y la función `telemetria_resumen()`. El script está probado
+contra PostgreSQL 16, la misma versión que usa Supabase.
+
 ### 2. Variables de entorno en Vercel
 
 En el proyecto **pordondevoy** de Vercel → *Settings → Environment Variables*,
@@ -34,17 +38,23 @@ añade estas tres y redespliega:
 | `SUPABASE_SERVICE_ROLE_KEY` | La clave **service_role** (Supabase → Settings → API keys). ⚠️ Nunca la pongas en el código de una app. |
 | `STATS_KEY` | Una clave larga que inventes tú, para consultar el resumen. |
 
-### 3. Consultar el recuento
+### 3. Ver los datos
 
-Abre en el navegador (o desde el panel):
+Abre el panel y escribe tu `STATS_KEY` (queda guardada en ese móvil, no hay
+que teclearla cada vez):
 
 ```
-https://pordondevoy-saneas.vercel.app/api/stats?clave=TU_STATS_KEY
+https://pordondevoy-saneas.vercel.app/estadisticas.html
 ```
 
-Devuelve por cada app: dispositivos totales, instaladas vs navegador,
-iPhone/Android, activos de hoy, activos por día (últimos 30 días) y países.
-También puedes ver las tablas directamente en Supabase → Table Editor.
+Muestra, para el grupo entero y app por app: dispositivos, **cuántos la tienen
+instalada** frente a los que entran por navegador, **activos hoy**, un gráfico
+de **activos por día** de los últimos 30 días y el **reparto por país**.
+
+Si prefieres los datos en crudo (para el panel de Saneas o una hoja de
+cálculo), el mismo resumen en JSON está en
+`https://pordondevoy-saneas.vercel.app/api/stats?clave=TU_STATS_KEY`.
+Y las tablas se pueden mirar siempre en Supabase → Table Editor.
 
 ---
 

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Telemetría · Grupo Saneas</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{
+  color-scheme:light;
+  --plano:#f7fbfc; --tarjeta:#ffffff;
+  --tinta:#17343c; --tinta-2:#52514e; --apagado:#898781;
+  --linea:#e1e0d9; --base:#c3c2b7; --borde:rgba(11,11,11,.10);
+  --teal:#3890a4; --naranja:#f5862e;
+  --serie-1:#2a78d6;   /* categórica 1 · magnitud */
+  --serie-2:#eb6834;   /* categórica 2 */
+  --neutro:#dfe3e6;    /* resto de una proporción */
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  background:var(--plano); color:var(--tinta);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  padding:20px 16px 48px; line-height:1.5;
+}
+.wrap{max-width:760px; margin:0 auto;}
+header.top{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:4px;}
+header.top h1{font-size:21px; font-weight:700; letter-spacing:-.2px;}
+header.top h1 b{color:var(--teal);}
+.sello{font-size:12.5px; color:var(--apagado);}
+.tarjeta{
+  background:var(--tarjeta); border:1px solid var(--borde); border-radius:14px;
+  padding:18px; margin-top:14px;
+}
+/* ---- puerta de acceso ---- */
+#puerta{max-width:380px; margin:60px auto;}
+#puerta h2{font-size:17px; margin-bottom:6px;}
+#puerta p{font-size:13.5px; color:var(--tinta-2); margin-bottom:14px;}
+input[type=password]{
+  width:100%; padding:12px; border:1px solid var(--base); border-radius:10px;
+  font-size:16px; font-family:inherit; color:var(--tinta);
+}
+button{
+  font-family:inherit; font-size:15px; font-weight:600; cursor:pointer;
+  background:var(--teal); color:#fff; border:none; border-radius:10px; padding:12px 20px;
+}
+button.ghost{background:none; color:var(--tinta-2); border:1px solid var(--base); font-size:13px; padding:8px 14px;}
+#puerta button{width:100%; margin-top:10px;}
+.error{font-size:13.5px; color:#b3261e; margin-top:10px;}
+/* ---- cifras destacadas ---- */
+.cifras{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px;}
+.cifra{background:var(--tarjeta); border:1px solid var(--borde); border-radius:14px; padding:14px;}
+.cifra .v{font-size:30px; font-weight:700; line-height:1.1; letter-spacing:-1px;}
+.cifra .l{font-size:12px; color:var(--tinta-2); margin-top:3px;}
+/* ---- ficha de cada app ---- */
+.app-cab{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+.app-cab img{width:34px; height:34px; border-radius:9px; flex:none;}
+.app-cab h2{font-size:17px; font-weight:700;}
+.app-cab .sub{font-size:12.5px; color:var(--apagado);}
+.mini{display:grid; grid-template-columns:repeat(4,1fr); gap:8px 4px; margin-bottom:16px;}
+.mini div{font-size:12px; color:var(--tinta-2);}
+.mini b{display:block; font-size:19px; font-weight:700; color:var(--tinta); line-height:1.2;}
+h3.tit{font-size:12px; font-weight:700; color:var(--tinta-2); text-transform:uppercase;
+  letter-spacing:.8px; margin:18px 0 10px;}
+h3.tit:first-of-type{margin-top:0;}
+/* ---- barra de proporción ---- */
+.prop{display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--neutro);}
+.prop i{display:block; background:var(--serie-1);}
+.prop-ley{display:flex; gap:16px; margin-top:8px; font-size:12.5px; color:var(--tinta-2); flex-wrap:wrap;}
+.prop-ley span{display:flex; align-items:center; gap:6px;}
+.pt{width:9px; height:9px; border-radius:2px; flex:none;}
+/* ---- gráficos ---- */
+.g-wrap{position:relative;}
+svg.g{display:block; width:100%; height:auto; overflow:visible;}
+.g-eje{font-size:9.5px; fill:var(--apagado);}
+#tip{
+  position:fixed; z-index:9; pointer-events:none; opacity:0; transition:opacity .12s;
+  background:var(--tinta); color:#fff; font-size:12px; padding:6px 10px; border-radius:8px;
+  white-space:nowrap; transform:translate(-50%,-130%);
+}
+#tip.on{opacity:1;}
+/* ---- países: una sola rejilla, para que todas las barras salgan de la misma línea ---- */
+.paises{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:9px 10px;}
+.paises .n{font-size:13.5px; white-space:nowrap;}
+.paises .pista{height:9px; border-radius:4px; background:var(--neutro);}
+.paises .pista i{display:block; height:100%; border-radius:4px; background:var(--serie-1); min-width:3px;}
+.paises .c{font-size:13px; font-weight:700; text-align:right; font-variant-numeric:tabular-nums;}
+/* ---- tabla ---- */
+details{margin-top:12px;}
+summary{font-size:12.5px; color:var(--teal); cursor:pointer; font-weight:600;}
+table{width:100%; border-collapse:collapse; margin-top:8px; font-size:12.5px;}
+th,td{text-align:left; padding:5px 8px; border-bottom:1px solid var(--linea); font-variant-numeric:tabular-nums;}
+th{color:var(--tinta-2); font-weight:600;}
+.vacio{font-size:13.5px; color:var(--tinta-2);}
+.pie{margin-top:22px; font-size:12px; color:var(--apagado); text-align:center; line-height:1.6;}
+@media (max-width:420px){
+  .cifras{grid-template-columns:1fr 1fr;}
+  .mini{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ====== PUERTA ====== -->
+  <div id="puerta" class="tarjeta">
+    <h2>Telemetría del <b style="color:var(--teal)">Grupo Saneas</b></h2>
+    <p>Introduce la clave de consulta (la variable <code>STATS_KEY</code> de Vercel).</p>
+    <input type="password" id="clave" placeholder="Clave de consulta" autocomplete="current-password">
+    <button id="entrar">Ver los datos</button>
+    <div class="error" id="errPuerta" hidden></div>
+  </div>
+
+  <!-- ====== PANEL ====== -->
+  <div id="panel" hidden>
+    <header class="top">
+      <h1>Telemetría · Grupo <b>Saneas</b></h1>
+      <span class="sello" id="sello"></span>
+    </header>
+    <div class="cifras" id="totales"></div>
+    <div id="apps"></div>
+    <div class="pie">
+      Recuento anónimo: un aviso al día por dispositivo, sin datos personales.<br>
+      Como las apps funcionan sin conexión, solo se cuentan las aperturas hechas con datos o wifi.
+      <div style="margin-top:12px"><button class="ghost" id="salir">Cambiar de clave</button></div>
+    </div>
+  </div>
+</div>
+<div id="tip"></div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const KEY = "gs-stats-clave";
+
+const APPS = {
+  pordondevoy: {n:"Por dónde voy",  s:"pordondevoy-saneas.vercel.app", img:"icon-192.png"},
+  saneas:      {n:"APP Saneas",     s:"app.saneas.es",   img:"img/app-saneas.png"},
+  activala:    {n:"Activala",       s:"activala.es",     img:"img/app-activala.png"},
+  laora:       {n:"laOra",          s:"laora.es",        img:"img/app-laora.png"},
+  acumula:     {n:"Acumula",        s:"acumula.es",      img:"img/app-acumula.png"},
+};
+
+const nf = new Intl.NumberFormat("es-ES");
+let nombrePais;
+try { const dn = new Intl.DisplayNames(["es"], {type:"region"}); nombrePais = c => dn.of(c) || c; }
+catch(e){ nombrePais = c => c; }
+const bandera = c => /^[A-Z]{2}$/.test(c)
+  ? String.fromCodePoint(...[...c].map(x => 0x1F1E6 + x.charCodeAt(0) - 65)) : "🏳️";
+
+/* ---------- barra con la punta redondeada, apoyada en la base ---------- */
+function barraPath(x, y, w, h){
+  const r = Math.min(4, w/2, h);
+  if (h <= 0) return "";
+  return `M${x},${y+h} L${x},${y+r} Q${x},${y} ${x+r},${y} L${x+w-r},${y} Q${x+w},${y} ${x+w},${y+r} L${x+w},${y+h} Z`;
+}
+
+/* ---------- gráfico de activos por día (serie única) ---------- */
+function grafActivos(porDia){
+  const dias = [], hoy = new Date();
+  for (let i = 29; i >= 0; i--){
+    const d = new Date(hoy); d.setDate(hoy.getDate() - i);
+    const iso = d.toISOString().slice(0,10);
+    dias.push({iso, n: porDia[iso] || 0});
+  }
+  const max = Math.max(1, ...dias.map(d => d.n));
+  const W = 700, H = 130, base = H - 18, techo = 6;
+  const paso = W / dias.length, ancho = Math.max(3, paso - 2);   // 2 px de aire entre barras
+
+  let s = `<svg class="g" viewBox="0 0 ${W} ${H}" role="img" aria-label="Dispositivos activos por día en los últimos 30 días">`;
+  // rejilla discreta: 0 y máximo
+  for (const [v, y] of [[0, base], [max, techo]])
+    s += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${v ? "var(--linea)" : "var(--base)"}" stroke-width="1"/>` +
+         `<text class="g-eje" x="0" y="${y - 4}" >${v ? nf.format(v) : ""}</text>`;
+  dias.forEach((d, i) => {
+    const h = d.n ? Math.max(2, (d.n / max) * (base - techo)) : 0;
+    const x = i * paso + (paso - ancho) / 2;
+    if (h) s += `<path d="${barraPath(x, base - h, ancho, h)}" fill="var(--serie-1)"/>`;
+    s += `<rect x="${i*paso}" y="0" width="${paso}" height="${base}" fill="transparent"` +
+         ` data-d="${d.iso}" data-n="${d.n}"></rect>`;
+  });
+  // etiquetas: primer día, mitad y hoy
+  [[0,"start"],[Math.floor(dias.length/2),"middle"],[dias.length-1,"end"]].forEach(([i, an]) => {
+    const f = new Date(dias[i].iso + "T00:00:00");
+    s += `<text class="g-eje" x="${i*paso + paso/2}" y="${H - 4}" text-anchor="${an}">` +
+         `${f.toLocaleDateString("es-ES",{day:"numeric",month:"short"})}</text>`;
+  });
+  s += `</svg>`;
+
+  const tabla = `<details><summary>Ver los datos en tabla</summary><table>` +
+    `<tr><th>Día</th><th>Activos</th></tr>` +
+    dias.filter(d => d.n).reverse().map(d =>
+      `<tr><td>${new Date(d.iso+"T00:00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"long"})}</td>` +
+      `<td>${nf.format(d.n)}</td></tr>`).join("") +
+    `</table></details>`;
+  return `<div class="g-wrap">${s}</div>${tabla}`;
+}
+
+/* ---------- países (magnitud ordenada, con etiqueta directa) ---------- */
+function grafPaises(paises){
+  const lista = Object.entries(paises).sort((a,b) => b[1]-a[1]).slice(0, 8);
+  if (!lista.length) return '<p class="vacio">Todavía sin datos de país.</p>';
+  const max = Math.max(...lista.map(p => p[1]));
+  return '<div class="paises">' + lista.map(([c, n]) =>
+    `<span class="n">${bandera(c)} ${c === "??" ? "Sin dato" : nombrePais(c)}</span>` +
+    `<span class="pista"><i style="width:${Math.max(2, (n/max)*100)}%"></i></span>` +
+    `<span class="c">${nf.format(n)}</span>`
+  ).join("") + "</div>";
+}
+
+/* ---------- ficha de una app ---------- */
+function fichaApp(id, d){
+  const meta = APPS[id] || {n:id, s:""};
+  const total = d.dispositivos || 0;
+  const pctInst = total ? Math.round((d.instaladas / total) * 100) : 0;
+  return `<div class="tarjeta">
+    <div class="app-cab">
+      ${meta.img ? `<img src="${meta.img}" alt="" onerror="this.remove()">` : ""}
+      <div><h2>${meta.n}</h2><div class="sub">${meta.s}</div></div>
+    </div>
+    <div class="mini">
+      <div><b>${nf.format(total)}</b>dispositivos</div>
+      <div><b>${nf.format(d.instaladas || 0)}</b>instaladas</div>
+      <div><b>${nf.format(d.activos_hoy || 0)}</b>activos hoy</div>
+      <div><b>${nf.format(d.navegador || 0)}</b>navegador</div>
+    </div>
+
+    <h3 class="tit">Instalada o por navegador</h3>
+    <div class="prop"><i style="width:${pctInst}%"></i></div>
+    <div class="prop-ley">
+      <span><i class="pt" style="background:var(--serie-1)"></i> Instalada · ${nf.format(d.instaladas||0)} (${pctInst} %)</span>
+      <span><i class="pt" style="background:var(--neutro)"></i> Navegador · ${nf.format(d.navegador||0)}</span>
+    </div>
+
+    <h3 class="tit">iPhone y Android</h3>
+    <div class="prop" style="background:var(--serie-2)">
+      <i style="width:${total ? Math.round((d.iphone/total)*100) : 0}%"></i>
+    </div>
+    <div class="prop-ley">
+      <span><i class="pt" style="background:var(--serie-1)"></i> iPhone · ${nf.format(d.iphone||0)}</span>
+      <span><i class="pt" style="background:var(--serie-2)"></i> Android · ${nf.format(d.android||0)}</span>
+    </div>
+
+    <h3 class="tit">Activos por día · últimos 30 días</h3>
+    ${grafActivos(d.activos_por_dia || {})}
+
+    <h3 class="tit">Por país</h3>
+    ${grafPaises(d.paises || {})}
+  </div>`;
+}
+
+/* ---------- carga ---------- */
+async function cargar(clave){
+  const r = await fetch("/api/stats?clave=" + encodeURIComponent(clave));
+  if (r.status === 401) throw new Error("La clave no es válida.");
+  if (r.status === 500) throw new Error("La telemetría todavía no está configurada en Vercel (faltan las variables de entorno).");
+  if (!r.ok) throw new Error("No se pudieron leer los datos (" + r.status + ").");
+  return r.json();
+}
+function pintar(d){
+  const apps = d.apps || {};
+  const ids = Object.keys(apps);
+  const suma = c => ids.reduce((t, id) => t + (apps[id][c] || 0), 0);
+
+  $("sello").textContent = "actualizado " +
+    new Date(d.actualizado).toLocaleString("es-ES", {day:"numeric", month:"long", hour:"2-digit", minute:"2-digit"});
+
+  $("totales").innerHTML = [
+    [suma("dispositivos"), "dispositivos en total"],
+    [suma("instaladas"), "con la app instalada"],
+    [suma("activos_hoy"), "activos hoy"],
+  ].map(([v, l]) => `<div class="cifra"><div class="v">${nf.format(v)}</div><div class="l">${l}</div></div>`).join("");
+
+  $("apps").innerHTML = ids.length
+    ? ids.sort((a,b) => (apps[b].dispositivos||0) - (apps[a].dispositivos||0))
+         .map(id => fichaApp(id, apps[id])).join("")
+    : '<div class="tarjeta"><p class="vacio">Todavía no ha llegado ningún aviso. En cuanto alguien abra una app del grupo con conexión, aparecerá aquí.</p></div>';
+
+  $("puerta").hidden = true;
+  $("panel").hidden = false;
+}
+async function entrar(clave){
+  const err = $("errPuerta");
+  err.hidden = true;
+  try {
+    const d = await cargar(clave);
+    localStorage.setItem(KEY, clave);
+    pintar(d);
+  } catch(e){
+    err.textContent = e.message;
+    err.hidden = false;
+    $("puerta").hidden = false;
+    $("panel").hidden = true;
+  }
+}
+$("entrar").addEventListener("click", () => entrar($("clave").value.trim()));
+$("clave").addEventListener("keydown", e => { if (e.key === "Enter") entrar($("clave").value.trim()); });
+$("salir").addEventListener("click", () => {
+  localStorage.removeItem(KEY);
+  $("clave").value = "";
+  $("panel").hidden = true;
+  $("puerta").hidden = false;
+});
+
+/* tooltip del gráfico de activos */
+const tip = $("tip");
+document.addEventListener("mouseover", e => {
+  const t = e.target.closest("rect[data-d]");
+  if (!t) return;
+  const f = new Date(t.dataset.d + "T00:00:00");
+  tip.textContent = f.toLocaleDateString("es-ES", {weekday:"long", day:"numeric", month:"long"}) +
+    " · " + nf.format(+t.dataset.n) + (t.dataset.n === "1" ? " activo" : " activos");
+  const r = t.getBoundingClientRect();
+  tip.style.left = (r.left + r.width/2) + "px";
+  tip.style.top = r.top + "px";
+  tip.classList.add("on");
+});
+document.addEventListener("mouseout", e => { if (e.target.closest("rect[data-d]")) tip.classList.remove("on"); });
+
+const guardada = localStorage.getItem(KEY);
+if (guardada){ $("clave").value = guardada; entrar(guardada); }
+</script>
+</body>
+</html>
