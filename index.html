@@ -867,7 +867,10 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
 </script>
 <script src="js/24-grupo-saneas.js"></script>
 <script>
-GrupoSaneas.init({ actual: "pordondevoy", logos: "img/" });
+GrupoSaneas.init({ actual: "pordondevoy", logos: "img/", extras: [
+  { id: "asesorias", nombre: "Asesora Saneas", url: "https://saneas.es/asesorias",
+    texto: "Si te gusta el mundo de la nutrición, ahora tú también puedes. Más fácil que nunca." }
+] });
 document.getElementById("grupoPie").innerHTML = GrupoSaneas.gridHTML();
 </script>
 </body>
