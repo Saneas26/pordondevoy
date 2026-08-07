@@ -10,7 +10,7 @@
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://uisrxztowgdpkxeuznfh.supabase.co";
 const PUBLICA = process.env.SUPABASE_ANON_KEY || "sb_publishable_8ybOGHnn9rsMDf57mx-Igw_AVvWK30D";
 
-const APPS = ["pordondevoy", "saneas", "saneas_web", "activala", "laora", "acumula"];
+const APPS = ["pordondevoy", "saneas", "saneas_web", "saneas_instalar", "activala", "laora", "acumula"];
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export default async function handler(req, res) {
