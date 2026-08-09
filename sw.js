@@ -1,4 +1,4 @@
-const CACHE = "pdv-v18";
+const CACHE = "pdv-v19";
 const ASSETS = ["./", "index.html", "rutas.js", "manifest.json", "icon-192.png", "icon-512.png", "quicksand-bold.woff2", "montserrat-bold.woff2",
   "js/24-grupo-saneas.js", "img/app-saneas-web.png", "img/app-saneas-s.png", "img/app-pordondevoy.png", "img/app-activala.png", "img/app-laora.png", "img/app-acumula.png"];
 
