@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Planes de viaje | Por dónde voy</title>
+<meta name="description" content="Rutas familiares interactivas para tus próximos viajes, pensadas para consultar sin conexión.">
+<meta name="theme-color" content="#041e3f">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="../icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Planes · Por dónde voy">
+<style>
+@font-face{
+  font-family:"Quicksand";
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url("../quicksand-bold.woff2") format("woff2");
+}
+:root{
+  --bg:#041e3f; --panel:#0a3060; --panel-2:#0d3a73; --line:#1c4d8f;
+  --text:#eaf3fd; --muted:#8fb8e6; --accent:#f7b731; --accent-dark:#4a3403;
+}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  display:flex; justify-content:center;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+#app{width:100%; max-width:480px; min-height:100dvh; display:flex; flex-direction:column;}
+header{display:flex; align-items:center; gap:12px; padding:18px 20px 10px;}
+header .brand{display:flex; align-items:center; gap:12px; flex:1;}
+header img{width:44px; height:44px; border-radius:11px;}
+header h1{font-size:20px; font-weight:700;}
+header p{font-size:13px; color:var(--muted);}
+.gs-boton{background:none; border:0; padding:2px 6px; margin:0 0 0 auto; cursor:pointer;
+  text-align:left; line-height:1.15; min-height:0; border-radius:8px;
+  font-family:"Quicksand",-apple-system,"Segoe UI",sans-serif;}
+.gs-boton:hover{background:rgba(255,255,255,.14);}
+.gs-b-marca{display:block; font-size:14px; font-weight:700; color:#fff;}
+.gs-b-accion{display:block; font-size:11px; font-weight:700; color:rgba(255,255,255,.78); letter-spacing:.04em;}
+.volver{margin:4px 16px 0; font-size:13px; color:var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:6px;}
+.card{background:var(--panel); border-radius:16px; padding:16px; margin:8px 16px;}
+.card h2{font-size:14px; color:var(--muted); font-weight:600; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px;}
+.plan-grid{display:grid; gap:12px; margin:10px 16px 4px;}
+.plan-card{display:block; background:var(--panel); border-radius:16px; overflow:hidden; text-decoration:none; color:var(--text); border:1px solid var(--line);}
+.plan-card .foto{height:140px; background:linear-gradient(145deg,#29272f,#17171c) center/cover no-repeat; position:relative;}
+.plan-card .foto span{position:absolute; left:14px; bottom:12px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#dfff3f;}
+.plan-card .info{padding:14px 16px 16px;}
+.plan-card h3{font-size:19px; font-weight:700; margin-bottom:4px;}
+.plan-card p{font-size:13px; color:var(--muted); line-height:1.5;}
+.plan-card .meta{display:flex; gap:10px; margin-top:10px; font-size:11px; color:var(--muted); flex-wrap:wrap;}
+.plan-card .meta span{background:var(--panel-2); border-radius:99px; padding:4px 10px;}
+.pronto{background:var(--panel-2); border-radius:16px; padding:16px; margin:8px 16px; text-align:center; color:var(--muted); font-size:13px; border:1px dashed var(--line);}
+#grupoPie{margin:20px 16px 14px;}
+#grupoPie .gs-item b{color:#fff;}
+footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="brand">
+      <img src="../icon-192.png" alt="">
+      <div>
+        <h1>Planes de viaje</h1>
+        <p>Rutas familiares, listas sin conexión</p>
+      </div>
+    </div>
+    <button type="button" class="gs-boton" onclick="GrupoSaneas.abrirMenu()" aria-label="Ver las apps del Grupo Saneas">
+      <span class="gs-b-marca">Grupo <b>Saneas</b> &#9656;</span>
+      <span class="gs-b-accion">despliega</span>
+    </button>
+  </header>
+
+  <a class="volver" href="../">← Mi vuelo</a>
+
+  <div class="plan-grid">
+    <a class="plan-card" href="lanzarote/">
+      <div class="foto"><span>Nuevo</span></div>
+      <div class="info">
+        <h3>Lanzarote</h3>
+        <p>Volcanes, arte de Manrique, costa y tiempo para trabajar, con la familia.</p>
+        <div class="meta"><span>4 días</span><span>En coche y barco</span><span>Base en Arrecife</span></div>
+      </div>
+    </a>
+  </div>
+
+  <div class="pronto">Roma, Lisboa, Mallorca y más planes, próximamente.</div>
+
+  <div id="grupoPie"></div>
+  <footer>Por dónde voy · planes de viaje sin conexión</footer>
+</div>
+
+<script src="../js/24-grupo-saneas.js"></script>
+<script>
+GrupoSaneas.init({ actual: "pordondevoy", logos: "../img/", extras: [
+  { id: "asesorias", nombre: "Asesora Saneas", logo: "app-asesorias.png", url: "https://saneas.es/asesorias",
+    texto: "Si te gusta el mundo de la nutrición, ahora tú también puedes. Más fácil que nunca." }
+] });
+document.getElementById("grupoPie").innerHTML = GrupoSaneas.gridHTML();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("../sw.js");
+</script>
+</body>
+</html>
