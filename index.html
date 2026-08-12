@@ -72,8 +72,26 @@ select,input[type=time],input[type=text]{
 }
 .bigbtn:active{transform:scale(.98);}
 .bigbtn:disabled{opacity:.4;}
-.bigbtn.secundario{background:var(--panel-2); color:var(--text); border:1px solid var(--line); text-decoration:none; text-align:center; box-sizing:border-box;}
-.landing-sub{text-align:center; color:var(--muted); font-size:13px; margin:-8px 16px 20px; line-height:1.5;}
+.ios-grid{width:100%; max-width:320px; margin:0 auto; padding:0 16px; display:flex; flex-direction:column; align-items:center; gap:16px;}
+.widget{
+  width:100%; aspect-ratio:1; border-radius:30px; box-sizing:border-box;
+  background:rgba(255,255,255,.94);
+  -webkit-backdrop-filter:blur(24px) saturate(160%); backdrop-filter:blur(24px) saturate(160%);
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:0 16px 34px rgba(0,0,0,.32);
+  padding:22px; display:flex; flex-direction:column; justify-content:space-between;
+  text-align:left; text-decoration:none; cursor:pointer; -webkit-tap-highlight-color:transparent;
+}
+.widget:active{transform:scale(.97);}
+.widget-icon{font-size:42px; line-height:1;}
+.widget-text{display:flex; flex-direction:column; gap:4px;}
+.widget-text b{font-size:21px; font-weight:800; color:#12203a;}
+.widget-text span{font-size:13px; color:#4d5b70; line-height:1.4;}
+.app-row{display:grid; grid-template-columns:repeat(4,1fr); gap:18px 10px; width:100%; margin-top:4px;}
+.app-icon{display:flex; flex-direction:column; align-items:center; gap:6px; background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent;}
+.app-icon img{width:100%; aspect-ratio:1; border-radius:22%; box-shadow:0 6px 14px rgba(0,0,0,.3); background:#fff; display:block;}
+.app-icon span{font-size:10.5px; font-weight:600; color:#fff; text-align:center; line-height:1.25;}
+#scr-landing.active ~ #grupoPie{display:none;}
 .ghostbtn{
   background:none; border:1px solid var(--line); color:var(--muted); border-radius:10px;
   padding:8px 14px; font-size:13px; cursor:pointer;
@@ -217,11 +235,19 @@ audio{width:100%; margin-top:10px;}
 
     <div class="spacer"></div>
 
-    <button type="button" class="bigbtn" id="btnIrVuelo">🛫 Mi vuelo</button>
-    <p class="landing-sub">Sigue tu vuelo en modo avión, sin datos ni wifi</p>
+    <div class="ios-grid">
+      <button type="button" class="widget" id="btnIrVuelo">
+        <span class="widget-icon">🛫</span>
+        <span class="widget-text"><b>Mi vuelo</b><span>Sigue tu vuelo en modo avión, sin datos ni wifi</span></span>
+      </button>
 
-    <a href="planes/" class="bigbtn secundario">🗺️ Planes de viaje</a>
-    <p class="landing-sub">Lanzarote, Gran Canaria y más rutas guardadas para consultar sin conexión</p>
+      <a href="planes/" class="widget">
+        <span class="widget-icon">🗺️</span>
+        <span class="widget-text"><b>Planes de viaje</b><span>Lanzarote, Gran Canaria y más rutas guardadas</span></span>
+      </a>
+
+      <div class="app-row" id="appRow"></div>
+    </div>
 
     <div class="spacer"></div>
   </section>
@@ -907,6 +933,16 @@ GrupoSaneas.init({ actual: "pordondevoy", logos: "img/", extras: [
     texto: "Si te gusta el mundo de la nutrición, ahora tú también puedes. Más fácil que nunca." }
 ] });
 document.getElementById("grupoPie").innerHTML = GrupoSaneas.gridHTML();
+
+// Portada: iconos 1x1 de las demás apps del grupo, tomados del propio componente
+var appRow = document.getElementById("appRow");
+GrupoSaneas.marcas().filter(function(m){ return m.id !== "pordondevoy"; }).forEach(function(m){
+  var b = document.createElement("button");
+  b.type = "button"; b.className = "app-icon";
+  b.innerHTML = '<img src="img/' + m.logo + '" alt=""><span>' + m.nombre + '</span>';
+  b.addEventListener("click", function(){ GrupoSaneas.ficha(m.id); });
+  appRow.appendChild(b);
+});
 </script>
 </body>
 </html>
