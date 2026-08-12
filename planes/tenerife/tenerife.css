@@ -1,0 +1,155 @@
+:root{--ink:#111817;--paper:#f2efe5;--cloud:#dce5df;--green:#1e5948;--sea:#1c6680;--sun:#f4b63e;--lava:#da5538;--line:rgba(17,24,23,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.progress{position:fixed;z-index:100;top:0;left:0;right:0;height:4px;background:#ffffff22}
+.progress i{display:block;height:100%;background:var(--sun)}
+.section{padding:105px max(22px,7vw)}
+.hero{min-height:100svh;background:var(--ink);color:var(--paper);padding:0 max(22px,6vw);position:relative;overflow:hidden}
+.hero nav{height:82px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff25;position:relative;z-index:3}
+.hero nav>div{display:flex;gap:28px;font-size:.63rem;letter-spacing:.12em;text-transform:uppercase}
+.logo{display:flex;align-items:center;gap:11px}
+.logo>b{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--sun);color:var(--ink)}
+.logo>span{font-size:.56rem;line-height:1.25;letter-spacing:.12em;font-weight:800}
+.hero-grid{min-height:calc(100svh - 120px);display:grid;grid-template-columns:1.05fr .95fr;gap:7vw;align-items:center}
+.kicker{display:flex;align-items:center;gap:10px;font-size:.61rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800}
+.kicker i{width:28px;height:2px;background:var(--sun)}
+.kicker.dark i{background:var(--ink)}
+.hero h1{font-size:clamp(4.5rem,8.5vw,9.2rem);line-height:.78;letter-spacing:-.08em;margin:.28em 0}
+.hero h1 em,.statement em,.section h2 em,.climate h2 em,.food-culture h2 em,.hierarchy h2 em{font-family:Georgia,serif;font-weight:400;color:var(--sun)}
+.lead{max-width:580px;color:#ffffffa8;line-height:1.6;font-size:1.1rem}
+.cta{display:flex;justify-content:space-between;width:220px;background:var(--sun);color:var(--ink);padding:17px 19px;font-weight:800;margin-top:30px}
+.altitude-card{height:570px;border:1px solid #ffffff38;background:#ffffff0b;position:relative;overflow:hidden;box-shadow:0 35px 100px #0008}
+.altitude-card .sun{position:absolute;width:140px;height:140px;border-radius:50%;background:var(--sun);right:9%;top:10%}
+.mountain{position:absolute;left:-6%;right:-6%;bottom:20%;height:63%;clip-path:polygon(0 100%,10% 84%,24% 80%,39% 61%,51% 72%,65% 9%,73% 49%,88% 73%,100% 80%,100% 100%)}
+.mountain.back{background:var(--green);opacity:.7;transform:translateY(25px)}
+.mountain.front{background:#304a42;clip-path:polygon(0 100%,14% 76%,31% 67%,46% 72%,65% 9%,79% 68%,100% 75%,100% 100%)}
+.ocean{position:absolute;left:0;right:0;bottom:0;height:22%;background:var(--sea)}
+.cloud{position:absolute;width:210px;height:48px;background:var(--cloud);border-radius:50%;opacity:.7;z-index:2}
+.cloud:after,.cloud:before{content:"";position:absolute;border-radius:50%;background:inherit}
+.cloud:before{width:65px;height:65px;left:40px;top:-25px}
+.cloud:after{width:90px;height:75px;right:30px;top:-31px}
+.c1{top:41%;left:-5%}
+.c2{top:48%;right:-8%;transform:scale(.8)}
+.altitude-card>span{position:absolute;z-index:4;left:24px;font-size:.5rem;letter-spacing:.12em}
+.altitude-card>span:nth-of-type(1){bottom:5%}
+.altitude-card>span:nth-of-type(2){bottom:27%}
+.altitude-card>span:nth-of-type(3){bottom:51%}
+.altitude-card>span:nth-of-type(4){top:6%}
+.altitude-card>p{position:absolute;z-index:5;right:25px;bottom:25px;font:1.4rem Georgia;text-align:right}
+.ticker{position:absolute;bottom:0;left:0;right:0;background:var(--sun);color:var(--ink);overflow:hidden}
+.ticker>div{padding:13px;white-space:nowrap;word-spacing:25px;font-size:.62rem;letter-spacing:.15em;font-weight:800}
+.statement{padding:90px max(22px,7vw);display:grid;grid-template-columns:.25fr 1.4fr .55fr;align-items:center;gap:35px}
+.statement span{font-size:.58rem;font-weight:800;letter-spacing:.13em}
+.statement h2{font-size:clamp(2.8rem,5vw,5.5rem);line-height:.94;letter-spacing:-.06em;margin:0}
+.statement p{color:#6a6a62;line-height:1.6}
+.origin{background:var(--ink);color:var(--paper);display:grid;grid-template-columns:.7fr 1.3fr;gap:7vw;align-items:end}
+.origin h2,.car h2,.section-head h2,.flight h2,.route-head h2,.check h2{font-size:clamp(3rem,5.5vw,6rem);line-height:.88;letter-spacing:-.065em;margin:25px 0}
+.origin-list{border-top:3px solid var(--sun)}
+.origin-list a{display:grid;grid-template-columns:45px 1fr;column-gap:14px;padding:21px 8px;border-bottom:1px solid #ffffff2b}
+.origin-list a>b{grid-row:1/4;color:var(--sun);font:1.5rem Georgia}
+.origin-list small{font-size:.48rem;color:#ffffff70;letter-spacing:.13em}
+.origin-list h3{font:1.65rem Georgia;margin:4px 0}
+.origin-list p{font-size:.68rem;color:#ffffff86;margin:0}
+.flight{display:grid;grid-template-columns:.15fr .85fr 1.2fr;gap:4vw;align-items:start}
+.number{font:5rem Georgia;color:var(--lava)}
+.airport-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+.airport-grid article{padding:28px;min-height:260px}
+.airport-grid article+article{border-left:1px solid var(--line)}
+.airport-grid span,.stay-grid article>span,.prep-grid article>span,.car article>span{font-size:.52rem;letter-spacing:.13em;font-weight:800;color:var(--lava)}
+.airport-grid h3,.stay-grid h3,.prep-grid h3{font:2.3rem Georgia;margin:40px 0 12px}
+.airport-grid p,.stay-grid p,.prep-grid p{font-size:.78rem;line-height:1.6;color:#69685f}
+.verdict{grid-column:3;border-left:3px solid var(--lava);padding-left:16px;font-weight:800}
+.stay{background:#e2e6df}
+.stay-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:50px}
+.stay-grid article{padding:35px;min-height:430px;border:1px solid var(--line);display:flex;flex-direction:column}
+.stay-grid article+article{border-left:0}
+.stay-grid .south{background:var(--sea);color:white}
+.stay-grid .south p{color:#ffffffa8}
+.stay-grid ul,.car ul{list-style:none;padding:0;margin-top:auto}
+.stay-grid li,.car li{padding:9px 0;border-bottom:1px solid currentColor;font-size:.72rem}
+.split{background:var(--sun);padding:34px;display:grid;grid-template-columns:.25fr 1fr 1fr;gap:30px;align-items:center}
+.split>b{font-size:.58rem;letter-spacing:.13em}
+.split h3{font:2.2rem Georgia;margin:0}
+.split p{font-size:.8rem;line-height:1.5}
+.climate{background:var(--green);color:white;padding:100px max(22px,7vw)}
+.climate h2{font-size:clamp(3rem,5.5vw,6rem);line-height:.9;margin:25px 0 50px}
+.climate-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #ffffff40}
+.climate-grid article{padding:27px;border-right:1px solid #ffffff40}
+.climate-grid article:last-child{border:0}
+.climate-grid b{font-size:.55rem;letter-spacing:.14em}
+.climate-grid span{display:block;font-size:3rem;color:var(--sun);margin:40px 0 20px}
+.climate-grid p{font-size:.76rem;color:#ffffffb0}
+.climate>small{display:block;margin-top:25px;color:#ffffff9c}
+.car{background:var(--ink);color:white;display:grid;grid-template-columns:1fr .7fr;gap:8vw}
+.car>div>p:last-child{color:#ffffff98;max-width:570px;line-height:1.6}
+.car article{background:var(--sun);color:var(--ink);padding:35px}
+.car article h3{font-size:4.5rem;margin:22px 0;letter-spacing:-.07em}
+.car article a{display:block;padding:16px;background:var(--ink);color:white;font-weight:800;margin-top:25px}
+.prep-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.prep-grid article{padding:30px;min-height:330px;border:1px solid var(--line);border-right:0;display:flex;flex-direction:column}
+.prep-grid article:last-child{border-right:1px solid var(--line)}
+.prep-grid a{margin-top:auto;font-weight:800;color:var(--sea)}
+.food-culture{padding:100px max(22px,7vw);background:var(--sea);color:white;display:grid;grid-template-columns:.8fr 1.2fr;gap:8vw}
+.food-culture h2{font-size:clamp(3rem,5.5vw,6rem);line-height:.9}
+.food-culture>div:last-child>p{font-size:1rem;line-height:1.7;color:#ffffffaf}
+.dishes{display:flex;flex-wrap:wrap;gap:6px;margin:30px 0}
+.dishes span{padding:9px;background:var(--sun);color:var(--ink);font-size:.55rem;font-weight:800}
+.food-culture>div:last-child>b{font-size:.75rem;color:var(--sun)}
+.route-head{display:flex;justify-content:space-between;align-items:end}
+.route-head>p{max-width:430px;color:#69685f;line-height:1.6}
+.tabs{display:grid;grid-template-columns:repeat(7,1fr);border:1px solid var(--line);margin-top:55px}
+.tabs button{background:transparent;border:0;border-right:1px solid var(--line);padding:17px 12px;display:flex;justify-content:space-between;cursor:pointer}
+.tabs button:last-child{border:0}
+.tabs button[aria-selected=true]{background:var(--ink);color:white}
+.tabs span{font-size:.58rem}
+.tabs b{color:var(--lava)}
+.pace{display:flex;justify-content:flex-end;margin:16px 0}
+.pace button{padding:11px 17px;background:transparent;border:1px solid var(--ink);font-size:.6rem;letter-spacing:.1em;cursor:pointer}
+.pace button+button{border-left:0}
+.pace button[aria-pressed=true]{background:var(--sun);font-weight:800}
+.day{display:grid;grid-template-columns:.7fr 1.3fr;animation:rise .35s ease}
+.day-intro{background:var(--green);color:white;padding:42px;min-height:550px;position:relative}
+.day-intro>span{font:5rem Georgia;color:var(--sun)}
+.day-intro small{display:block;font-size:.62rem;letter-spacing:.1em}
+.day-intro h3{font:clamp(2.7rem,4vw,4.8rem) Georgia;line-height:.94;margin:45px 0 18px}
+.day-intro p{margin-top:80px;padding-top:17px;border-top:1px solid #ffffff43;font-size:.76rem}
+.day-intro>b{position:absolute;bottom:35px;font-size:.65rem;color:var(--sun)}
+.timeline{background:#e3e1d8;padding:20px 45px}
+.stop{display:grid;grid-template-columns:28px 100px 1fr 32px;gap:14px;padding:27px 0;border-bottom:1px solid var(--line)}
+.stop>span{font-size:.55rem;color:#88847b}
+.stop time{font-size:.7rem;font-weight:800}
+.stop h4{margin:0 0 7px}
+.stop p{margin:0;font-size:.78rem;line-height:1.5;color:#69685f}
+.stop>a{width:31px;height:31px;border:1px solid;display:grid;place-items:center}
+.hierarchy{background:var(--ink);color:white;display:grid;grid-template-columns:.75fr 1.25fr;gap:8vw}
+.hierarchy h2{font-size:clamp(3rem,5.5vw,6rem);line-height:.9}
+.hierarchy ol{list-style:none;margin:0;padding:0}
+.hierarchy li{display:grid;grid-template-columns:42px 1fr auto;gap:14px;padding:21px 0;border-bottom:1px solid #ffffff2b}
+.hierarchy li>b{color:var(--lava)}
+.hierarchy li i{font-style:normal;color:var(--sun);font-size:.58rem;letter-spacing:.1em}
+.check-head{display:flex;justify-content:space-between;align-items:center}
+.ring{--p:0deg;width:125px;height:125px;border-radius:50%;background:conic-gradient(var(--sun) var(--p),var(--cloud) 0);display:grid;place-items:center;position:relative}
+.ring:before{content:"";position:absolute;width:95px;height:95px;border-radius:50%;background:var(--paper)}
+.ring span{z-index:1;font-weight:800;text-align:center}
+.ring small{display:block;font-size:.5rem}
+.checklist{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.checklist label{min-height:95px;padding:17px;display:grid;grid-template-columns:32px 28px 1fr;gap:12px;align-items:center;border-bottom:1px solid var(--line);cursor:pointer}
+.checklist label:nth-child(odd){border-right:1px solid var(--line)}
+.checklist input{position:absolute;opacity:0}
+.checklist label>span{width:29px;height:29px;border:1px solid;display:grid;place-items:center}
+.checklist label>b{font-size:.55rem}
+.checklist .done{color:#888}
+.checklist .done>span{background:var(--sun);color:var(--ink);border-color:var(--sun)}
+.not-included{margin:0 max(22px,7vw) 100px;padding:28px;background:var(--lava);display:grid;grid-template-columns:200px 1fr;align-items:center}
+.not-included b{font-size:.65rem;letter-spacing:.13em}
+.not-included p{font:1.25rem Georgia;margin:0}
+footer{min-height:170px;background:var(--cloud);padding:40px max(22px,7vw);display:flex;justify-content:space-between;align-items:center}
+footer p{font:1.2rem Georgia}
+.dock{display:none}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+@media(max-width:900px){.hero-grid,.origin,.flight,.car,.food-culture,.hierarchy{grid-template-columns:1fr}.hero-grid{padding:60px 0 100px}.altitude-card{height:500px}.statement{grid-template-columns:1fr}.statement>span{display:none}.flight .number{display:none}.flight .verdict{grid-column:auto}.stay-grid{grid-template-columns:1fr}.stay-grid article+article{border-left:1px solid var(--line);border-top:0}.split{grid-template-columns:1fr}.climate-grid{grid-template-columns:1fr 1fr}.prep-grid{grid-template-columns:1fr}.prep-grid article{border-right:1px solid var(--line);border-bottom:0}.route-head{display:block}.tabs{overflow-x:auto;grid-template-columns:repeat(7,minmax(100px,1fr))}.day{grid-template-columns:1fr}.day-intro{min-height:430px}.checklist{grid-template-columns:1fr}.checklist label:nth-child(odd){border-right:0}}
+@media(max-width:520px){.section{padding:72px 18px}.hero{padding:0 18px}.hero nav>div a:first-child{display:none}.hero h1{font-size:4rem}.altitude-card{height:420px}.statement,.climate,.food-culture{padding:70px 18px}.airport-grid,.climate-grid{grid-template-columns:1fr}.airport-grid article+article,.climate-grid article{border-left:0;border-top:1px solid var(--line)}.origin-list a{grid-template-columns:34px 1fr}.car article h3{font-size:3.8rem}.route{padding-left:12px;padding-right:12px}.pace{justify-content:stretch}.pace button{flex:1}.day-intro{padding:28px}.timeline{padding:10px 17px}.stop{grid-template-columns:72px 1fr 30px;gap:7px}.stop>span{display:none}.stop time{grid-column:1}.stop>div{grid-column:2}.stop>a{grid-column:3;grid-row:1}.not-included{margin:0 18px 75px;grid-template-columns:1fr;gap:12px}footer{padding:35px 18px 105px;flex-direction:column;align-items:flex-start}.dock{position:fixed;z-index:90;display:grid;grid-template-columns:repeat(3,1fr);left:15px;right:15px;bottom:calc(13px + env(safe-area-inset-bottom));background:#111817ef;color:white;border:1px solid #ffffff35}.dock a{padding:9px;display:grid;text-align:center;color:var(--sun)}.dock span{font-size:.5rem;letter-spacing:.08em;color:white;margin-top:3px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
