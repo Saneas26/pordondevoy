@@ -39,7 +39,7 @@
   --line:rgba(212,228,250,.14); --ring:#273647;
   --text:#d4e4fa; --muted:#99adc5; --accent:#00e5ff; --accent-ink:#03222c;
   --num-bg:#001a33; --num-text:#7fa0c9;
-  --ok:#35c98e;
+  --ok:#35c98e; --warn:#f4c542;
   --display:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
 }
@@ -115,7 +115,7 @@ select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{ou
 .bigbtn:disabled{opacity:.4;}
 .app-row{display:grid; grid-template-columns:repeat(4,1fr); gap:20px 10px; width:100%; padding:24px; margin-top:8px;}
 .app-icon{display:flex; flex-direction:column; align-items:center; gap:8px; background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent;}
-.app-icon img{width:100%; aspect-ratio:1; border-radius:22%; box-shadow:0 6px 14px rgba(1,10,20,.4); background:#fff; display:block;}
+.app-icon img{width:56px; aspect-ratio:1; border-radius:22%; box-shadow:0 6px 14px rgba(1,10,20,.4); background:#fff; display:block;}
 .app-icon span{font-size:11px; font-weight:600; color:var(--text); text-align:center; line-height:1.25;}
 .ghostbtn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
@@ -198,7 +198,7 @@ footer{padding:20px; text-align:center; font-size:12px; color:var(--muted); font
 .subcard-head h3{font:600 18px/1.3 var(--display); flex:1;}
 .subcard .badge-offline{font:600 11px/1 var(--mono); text-transform:uppercase; letter-spacing:.05em; color:var(--muted); background:var(--surface-3); padding:4px 9px; border-radius:6px;}
 .estado{display:flex; align-items:center; gap:8px; font-size:14px; color:var(--muted); margin-top:10px; line-height:1.5;}
-.estado b{color:var(--ok);}
+.estado b{color:var(--warn);}
 .subcard label{margin:10px 0 8px;}
 .ep{background:var(--surface-2); border:1px solid var(--line); border-radius:14px; padding:14px; margin-top:12px;}
 .ep .et{font-size:15px; font-weight:600; line-height:1.4;}
@@ -807,7 +807,7 @@ async function cargarNoticias(){
     if (!r.ok) throw 0;
     const d = await r.json();
     localStorage.setItem(KEY_NOT, JSON.stringify(d));
-    est.innerHTML = "<b>listas para el vuelo</b> · " + d.noticias.length + " guardadas";
+    est.innerHTML = d.noticias.length + " de hoy · <b>Ya cargadas</b>";
   } catch(e){
     est.textContent = guardadas
       ? "sin conexión — leerás las últimas guardadas"
