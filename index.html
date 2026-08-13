@@ -51,6 +51,7 @@ body{
   display:flex; justify-content:center;
   padding:env(safe-area-inset-top) env(safe-area-inset-right) calc(env(safe-area-inset-bottom) + 84px) env(safe-area-inset-left);
 }
+body.tiene-miniplayer{padding-bottom:calc(env(safe-area-inset-bottom) + 84px + 60px);}
 ::selection{background:var(--accent); color:var(--accent-ink);}
 #app{width:100%; max-width:600px; min-height:100dvh; display:flex; flex-direction:column;}
 .screen{display:none; flex-direction:column; flex:1;}
@@ -124,7 +125,19 @@ select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{ou
 }
 .ghostbtn .icon{width:16px; height:16px;}
 #scr-home.active ~ #grupoPie{display:none;}
-.tabbar{position:fixed; z-index:45; left:0; right:0; bottom:0; display:flex; justify-content:space-around; align-items:flex-end;
+.bottombar{position:fixed; z-index:45; left:0; right:0; bottom:0; display:flex; flex-direction:column;}
+.miniplayer{display:none; align-items:center; gap:12px; padding:9px 16px; background:rgba(13,28,45,.97);
+  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); border-top:1px solid var(--line); cursor:pointer;}
+.miniplayer.activo{display:flex;}
+.miniplayer .mp-art{width:38px; height:38px; border-radius:8px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; color:var(--accent); flex-shrink:0;}
+.miniplayer .mp-art .icon{width:17px; height:17px;}
+.miniplayer .mp-info{flex:1; min-width:0;}
+.miniplayer .mp-info .t{display:block; font-size:13.5px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.miniplayer .mp-info .s{display:block; font-size:11.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px;}
+.miniplayer button{background:none; border:0; color:var(--text); flex-shrink:0; display:flex; align-items:center; justify-content:center; padding:6px; cursor:pointer;}
+.miniplayer button .icon{width:22px; height:22px;}
+.miniplayer button:active{transform:scale(.9);}
+.tabbar{display:flex; justify-content:space-around; align-items:flex-end;
   padding:10px 12px calc(10px + env(safe-area-inset-bottom)); background:rgba(13,28,45,.92); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
   border-top:1px solid var(--line); box-shadow:0 -8px 20px rgba(1,10,20,.3);}
 .tabbar a,.tabbar button{display:flex; flex-direction:column; align-items:center; gap:4px; background:none; border:0; color:var(--muted);
@@ -132,7 +145,11 @@ select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{ou
 .tabbar .icon{width:22px; height:22px; stroke-width:1.8;}
 .tabbar .principal{background:var(--accent); color:var(--accent-ink); border-radius:99px; padding:10px 18px; position:relative; top:-10px; box-shadow:0 8px 18px rgba(1,10,20,.5);}
 .tabbar .principal .icon{width:22px; height:22px;}
-@media (min-width:720px){ .tabbar{display:none;} body{padding-bottom:env(safe-area-inset-bottom);} }
+@media (min-width:720px){
+  .tabbar{display:none;}
+  body{padding-bottom:env(safe-area-inset-bottom);}
+  body.tiene-miniplayer{padding-bottom:calc(env(safe-area-inset-bottom) + 60px);}
+}
 @media (min-width:640px){
   .cards2{grid-template-columns:1fr 1fr;}
   .formgrid2{grid-template-columns:1fr 1fr; display:grid; gap:24px;}
@@ -490,13 +507,20 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <footer>Por dónde voy · funciona sin conexión · v3 · 12 destinos</footer>
 </div>
 
-<!-- ====== BARRA DE PESTAÑAS (persistente en móvil) ====== -->
-<nav class="tabbar" aria-label="Navegación principal">
-  <button type="button" id="tabEstado"><svg class="icon"><use href="#i-flag"></use></svg>Estado</button>
-  <a href="planes/"><svg class="icon"><use href="#i-map"></use></svg>Planes</a>
-  <button type="button" class="principal" id="tabVolar"><svg class="icon fill"><use href="#i-plane"></use></svg>Volar</button>
-  <button type="button" id="tabMedia"><svg class="icon"><use href="#i-headphones"></use></svg>Media</button>
-</nav>
+<!-- ====== BARRA INFERIOR: mini-reproductor + pestañas (persistente) ====== -->
+<div class="bottombar">
+  <div class="miniplayer" id="miniPlayer">
+    <span class="mp-art"><svg class="icon fill"><use href="#i-headphones"></use></svg></span>
+    <span class="mp-info"><span class="t" id="mpTitulo"></span><span class="s" id="mpSub"></span></span>
+    <button type="button" id="mpToggle" aria-label="Reproducir o pausar"><svg class="icon fill"><use href="#i-play"></use></svg></button>
+  </div>
+  <nav class="tabbar" aria-label="Navegación principal">
+    <button type="button" id="tabEstado"><svg class="icon"><use href="#i-flag"></use></svg>Estado</button>
+    <a href="planes/"><svg class="icon"><use href="#i-map"></use></svg>Planes</a>
+    <button type="button" class="principal" id="tabVolar"><svg class="icon fill"><use href="#i-plane"></use></svg>Volar</button>
+    <button type="button" id="tabMedia"><svg class="icon"><use href="#i-headphones"></use></svg>Media</button>
+  </nav>
+</div>
 
 <!-- ====== PANEL: NOTICIAS ====== -->
 <div class="panel" id="pnlNoticias">
@@ -954,9 +978,20 @@ function actualizarHero(){
 }
 function actualizarBotonPlay(){
   const a = $("player");
-  $("playerToggle").innerHTML = (a.src && !a.paused)
+  const sonando = a.src && !a.paused;
+  $("playerToggle").innerHTML = sonando
     ? '<svg class="icon fill"><use href="#i-pause"></use></svg>'
     : '<svg class="icon fill"><use href="#i-play"></use></svg>';
+  $("mpToggle").innerHTML = sonando
+    ? '<svg class="icon fill"><use href="#i-pause"></use></svg>'
+    : '<svg class="icon fill"><use href="#i-play"></use></svg>';
+}
+function actualizarMiniPlayer(){
+  const mp = $("miniPlayer");
+  const e = colaEps[idxActual];
+  mp.classList.toggle("activo", !!e);
+  document.body.classList.toggle("tiene-miniplayer", !!e);
+  if (e){ $("mpTitulo").textContent = e.titulo; $("mpSub").textContent = e.pod; }
 }
 function reproducirIdx(i){
   const e = colaEps[i];
@@ -966,6 +1001,7 @@ function reproducirIdx(i){
   a.src = e.audio;
   a.play().catch(() => {});
   actualizarHero();
+  actualizarMiniPlayer();
   pintarPlaylist();
 }
 function pintarPlaylist(){
@@ -994,6 +1030,7 @@ function pintarPlaylist(){
     localStorage.setItem(KEY_EPS, JSON.stringify(colaEps));
     try { const cc = await caches.open("pdv-audio"); await cc.delete(e.audio); } catch(_){}
     actualizarHero();
+    actualizarMiniPlayer();
     pintarPlaylist();
   }));
 }
@@ -1003,6 +1040,7 @@ function pintarPodcastPanel(){
   idxActual = a.src ? colaEps.findIndex(e => a.src.indexOf(e.audio) !== -1) : -1;
   actualizarHero();
   actualizarBotonPlay();
+  actualizarMiniPlayer();
   pintarPlaylist();
 }
 
@@ -1053,9 +1091,18 @@ $("btnNoticias").addEventListener("click", () => { pintarNoticias(); $("pnlNotic
 $("btnPodcast").addEventListener("click", () => { pintarPodcastPanel(); $("pnlPodcast").classList.add("abierto"); });
 document.querySelectorAll("[data-cerrar]").forEach(b => b.addEventListener("click", () => {
   $(b.dataset.cerrar).classList.remove("abierto");
-  const p = document.getElementById("player");
-  if (p && b.dataset.cerrar === "pnlPodcast") p.pause();
 }));
+$("miniPlayer").addEventListener("click", (ev) => {
+  if (ev.target.closest("#mpToggle")) return;
+  pintarPodcastPanel();
+  $("pnlPodcast").classList.add("abierto");
+});
+$("mpToggle").addEventListener("click", (ev) => {
+  ev.stopPropagation();
+  const a = $("player");
+  if (!a.src) return;
+  if (a.paused) a.play(); else a.pause();
+});
 (function(){
   const a = $("player");
   a.addEventListener("play", actualizarBotonPlay);
