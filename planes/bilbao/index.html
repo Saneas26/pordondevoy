@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bilbao en 4 días | Por donde voy</title>
+<meta name="description" content="Guía interactiva de Bilbao y Bizkaia: ría, pintxos, San Mamés, Gaztelugatxe, Bermeo y Getxo en tres ritmos.">
+<meta name="theme-color" content="#111714">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bilbao · Por dónde voy">
+<link rel="canonical" href="https://pordondevoy-saneas.vercel.app/planes/bilbao/">
+<meta property="og:title" content="Bilbao en 4 días | Por donde voy">
+<meta property="og:description" content="Sigue la ría. Terminarás encontrando el mar.">
+<meta property="og:image" content="https://pordondevoy-saneas.vercel.app/planes/bilbao/bilbao-card.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="bilbao.css">
+</head>
+<body>
+<main class="bilbao-plan">
+  <header class="hero" id="inicio">
+    <nav class="nav">
+      <a href="#inicio" class="brand">POR DONDE VOY <span>· PLANES</span></a>
+      <div>
+        <a href="../">← Todos los planes</a>
+        <a href="../../">Mi vuelo</a>
+        <a href="#prepara">Prepara</a>
+        <a href="#ruta">4 días</a>
+        <a href="#comer">Comer</a>
+      </div>
+    </nav>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">BILBAO · BIZKAIA · 4 DÍAS</p>
+        <h1>Sigue<br>la ría.<em>Terminarás encontrando el mar.</em></h1>
+        <p class="intro">Dos días para entender Bilbao. Uno para conquistar Gaztelugatxe. Otro para descubrir dónde termina la ciudad.</p>
+        <a class="primary" href="#ritmo">Elige tu ritmo <span>↓</span></a>
+      </div>
+      <div class="hero-art" aria-label="Paisaje editorial de Bilbao y la costa vasca">
+        <span class="sun"></span><span class="river"></span><span class="bridge"></span>
+        <span class="tower t1"></span><span class="tower t2"></span><span class="tower t3"></span>
+        <p>43°15′N<br>2°55′W</p>
+      </div>
+    </div>
+    <div class="hero-strip"><span>ACERO</span><span>AGUA</span><span>VERDE</span><span>MAR</span></div>
+  </header>
+
+  <section class="manifesto">
+    <p class="section-no">00 · LA IDEA</p>
+    <h2>Bilbao no se visita.<br><i>Se sigue.</i></h2>
+    <div class="manifesto-copy">
+      <p>La ría conecta el estadio, el Guggenheim y el Casco Viejo. Después abandona la ciudad y te empuja hacia pueblos marineros, acantilados y una roca a la que hay que subir andando.</p>
+      <blockquote>Incluimos lo conocido para que no te pierdas lo imprescindible. Salimos de la ciudad para que el viaje no se parezca al de todo el mundo.</blockquote>
+    </div>
+  </section>
+
+  <section class="prep" id="prepara">
+    <p class="section-no light">ANTES DE RESERVAR</p>
+    <h2>Cuatro decisiones.<br><i>Cero errores.</i></h2>
+    <div class="prep-grid">
+      <article><b>01</b><h3>Duerme donde puedas volver andando</h3><p><strong>Abando o Indautxu</strong> es la elección cómoda. <strong>Casco Viejo</strong>, la de mayor ambiente. Deusto permite ahorrar, pero para cuatro días la ubicación vale más.</p><a class="map-link" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Abando%20Bilbao">Ver zona recomendada ↗</a></article>
+      <article><b>02</b><h3>No alquiles coche para Bilbao</h3><p>Dentro de la ciudad estorba. Metro, tranvía y tus pies resuelven el viaje. Si quieres libertad para Gaztelugatxe, alquílalo solo durante esa jornada.</p><a class="map-link" href="https://www.bizkaia.eus/es/gaztelugatxe" target="_blank" rel="noreferrer">Acceso oficial ↗</a></article>
+      <article><b>03</b><h3>Gaztelugatxe se reserva antes</h3><p>El ticket es gratuito, pero obligatorio los días de acceso controlado. Descárgalo en el móvil. No es una foto junto al aparcamiento: bajas, subes y después deshaces el camino.</p><a class="map-link" href="https://www.bizkaia.eus/es/gaztelugatxe" target="_blank" rel="noreferrer">Reservar entrada ↗</a></article>
+      <article><b>04</b><h3>Prepárate para cuatro estaciones</h3><p>Calzado con agarre, chubasquero, una capa fina y agua. En verano añade bañador: Bakio merece el baño cuando el Cantábrico da permiso.</p><span class="weather">☂ NO CONFÍES EN EL CIELO DE LAS 9:00</span></article>
+    </div>
+  </section>
+
+  <section class="pace" id="ritmo">
+    <p class="section-no">EL VIAJE CAMBIA CONTIGO</p>
+    <h2>¿Cuánto quieres<br><i>caminar?</i></h2>
+    <div class="pace-tabs" id="paceTabs" role="tablist"></div>
+    <p class="pace-summary" id="paceSummary"></p>
+  </section>
+
+  <section class="route" id="ruta">
+    <div class="route-head">
+      <p class="section-no light" id="routeLabel"></p>
+      <h2>Cuatro días.<br><i>Cuatro Bilbaos.</i></h2>
+    </div>
+    <div class="day-tabs" id="dayTabs"></div>
+    <div class="day-detail" id="dayDetail"></div>
+  </section>
+
+  <section class="gaztelugatxe">
+    <div class="g-copy">
+      <p class="section-no light">EL DÍA QUE JUSTIFICA SALIR</p>
+      <h2>La fotografía<br>es conocida.<br><i>El camino, no.</i></h2>
+      <p>Gaztelugatxe exige piernas. Bermeo exige tiempo. Bakio solo exige que salga un buen día. Las tres cosas juntas construyen una jornada que ninguna visita a Bilbao debería perderse.</p>
+      <div class="g-actions">
+        <a href="https://www.bizkaia.eus/es/gaztelugatxe" target="_blank" rel="noreferrer">Reservar acceso</a>
+        <a class="map-link" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=San%20Juan%20de%20Gaztelugatxe">Cómo llegar ↗</a>
+      </div>
+    </div>
+    <div class="coast-card">
+      <span>241</span><strong>ESCALONES</strong>
+      <p>Y recuerda: al terminar todavía queda volver a subir hasta el punto de partida.</p>
+      <div class="coast-line"></div>
+    </div>
+  </section>
+
+  <section class="food" id="comer">
+    <p class="section-no">COMER NO ES UNA PARADA</p>
+    <h2>Aquí se viaja<br><i>de barra en barra.</i></h2>
+    <p class="food-lead">No te recomendamos veinte restaurantes intercambiables. Te decimos qué experiencia buscar y dónde empezar.</p>
+    <div class="food-grid">
+      <article><span>01 · CASCO VIEJO</span><h3>Ruta de pintxos</h3><p>Un pintxo y una bebida por barra. Plaza Nueva es la entrada; las Siete Calles, donde continúa la conversación.</p><small>Pide especialidades calientes, no solo lo que está expuesto.</small><a class="map-link" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Ruta%20de%20pintxos%20Bilbao">Abrir en Maps ↗</a></article>
+      <article><span>02 · DESAYUNO LOCAL</span><h3>Bar Fermín</h3><p>Una barra tradicional en Iturribide. La tortilla es la razón para llegar con hambre.</p><small>Iturribide, 6 · Tel. 944 15 01 64</small><a class="map-link" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Bar%20Fermin%20Bilbao">Abrir en Maps ↗</a></article>
+      <article><span>03 · COMER SENTADO</span><h3>Ágape</h3><p>Cocina casera cuidada y menú del día en Bilbao La Vieja. Una pausa real entre tantos pintxos.</p><small>Hernani, 13 · Reserva antes de ir</small><a class="map-link" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Agape%20Bilbao">Abrir en Maps ↗</a></article>
+      <article><span>04 · PLAZA NUEVA</span><h3>Sorginzulo</h3><p>Producto local, generaciones mezcladas y una tortilla con personalidad propia bajo los soportales.</p><small>Funciona bien como una parada, no como la ruta completa.</small><a class="map-link" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Sorginzulo%20Bilbao">Abrir en Maps ↗</a></article>
+    </div>
+  </section>
+
+  <section class="choices">
+    <p class="section-no light">SEGÚN QUIÉN VIAJE</p>
+    <h2>El mismo Bilbao.<br><i>Distinta noche.</i></h2>
+    <div class="choice-grid">
+      <article><span>⚽</span><h3>Para quien vive el fútbol</h3><p>Tour de San Mamés o, si coincide, ambiente de partido alrededor de La Catedral.</p><a href="https://sanmames.athletic-club.eus/museo/tour/" target="_blank" rel="noreferrer">Reservar tour ↗</a></article>
+      <article><span>◐</span><h3>Para una tarde tranquila</h3><p>Artxanda con la última luz y regreso al Casco Viejo para cenar.</p><a class="map-link" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Funicular%20de%20Artxanda%20Bilbao">Ver ubicación ↗</a></article>
+      <article><span>♬</span><h3>Para salir sin discoteca</h3><p>Empieza en Ledesma, continúa por Indautxu y deja que la noche decida la última parada.</p><a class="map-link" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Calle%20Ledesma%20Bilbao">Ver zona ↗</a></article>
+    </div>
+  </section>
+
+  <section class="checklist">
+    <div>
+      <p class="section-no">ANTES DE CERRAR LA MALETA</p>
+      <h2>Tu viaje está<br><i><span id="progressPct">0</span>% preparado.</i></h2>
+      <div class="progress"><span id="progressBar"></span></div>
+    </div>
+    <ul id="checklistWrap"></ul>
+  </section>
+
+  <footer>
+    <p>POR DONDE VOY · BILBAO</p>
+    <h2>Sigue la ría.<br><i>Nos vemos en el mar.</i></h2>
+    <a href="#inicio">Volver arriba ↑</a>
+    <small>Horarios, accesos y servicios pueden cambiar. Comprueba siempre las páginas oficiales antes del viaje.</small>
+  </footer>
+  <nav class="mobile-dock" aria-label="Accesos rápidos">
+    <a href="../">Planes</a>
+    <a href="#prepara">Prepara</a>
+    <a href="#ritmo">Ritmo</a>
+    <a href="#ruta">Ruta</a>
+    <a href="#comer">Comer</a>
+  </nav>
+</main>
+<script src="bilbao.js"></script>
+<script src="../../js/25-recarga.js"></script>
+</body>
+</html>

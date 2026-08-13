@@ -1,0 +1,145 @@
+:root{--ink:#111714;--paper:#f0eee7;--lime:#c8ff39;--rust:#ef5b2a;--blue:#156477;--muted:#687069;--line:rgba(17,23,20,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.bilbao-plan{overflow:hidden}
+.bilbao-plan a{color:inherit;text-decoration:none}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;border-bottom:1px solid rgba(255,255,255,.25);position:relative;z-index:5}
+.nav .brand{font-weight:900;letter-spacing:.08em}
+.nav .brand span{color:var(--lime)}
+.nav div{display:flex;gap:28px;font-size:.76rem;text-transform:uppercase;letter-spacing:.12em}
+.hero{min-height:100vh;background:var(--ink);color:var(--paper);position:relative}
+.hero-grid{display:grid;grid-template-columns:52% 48%;min-height:calc(100vh - 126px)}
+.hero-copy{padding:9vh 3vw 7vh 5vw;position:relative;z-index:2}
+.eyebrow,.section-no{font-size:.72rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--rust)}
+.hero h1{font-size:clamp(4.5rem,9vw,9.4rem);line-height:.78;letter-spacing:-.075em;margin:.15em 0 .25em;text-transform:uppercase;font-weight:950}
+.hero h1 em{display:block;font-family:Georgia,serif;font-size:.26em;line-height:1.05;letter-spacing:-.02em;text-transform:none;color:var(--lime);margin-top:.75em;font-weight:400}
+.intro{max-width:570px;color:#c8d0ca;font-size:1.05rem;line-height:1.6}
+.primary{display:inline-flex;gap:50px;align-items:center;margin-top:25px;background:var(--lime);color:var(--ink)!important;padding:17px 22px;font-weight:900;text-transform:uppercase;font-size:.75rem;letter-spacing:.1em}
+.hero-art{position:relative;overflow:hidden;background:linear-gradient(145deg,#0e3d45 0%,#166478 45%,#081b1d 100%);isolation:isolate}
+.hero-art:before{content:"";position:absolute;inset:34% -15% -15% -25%;background:linear-gradient(155deg,transparent 0 20%,#1b2c26 21% 38%,#315e43 39% 45%,#17221f 46%);clip-path:polygon(0 48%,24% 20%,47% 42%,67% 0,100% 42%,100% 100%,0 100%);z-index:2}
+.sun{position:absolute;width:min(29vw,420px);aspect-ratio:1;border-radius:50%;background:var(--rust);right:-3vw;top:7vh;box-shadow:0 0 90px rgba(239,91,42,.28)}
+.river{position:absolute;inset:54% -20% -15% 15%;background:#b8e7e6;clip-path:polygon(40% 0,55% 0,41% 35%,65% 52%,100% 83%,100% 100%,56% 72%,20% 51%,0 37%,19% 28%);z-index:4;opacity:.8}
+.bridge{position:absolute;width:74%;height:8px;background:var(--lime);left:5%;top:48%;transform:rotate(-7deg);z-index:5;box-shadow:0 0 24px rgba(200,255,57,.6)}
+.bridge:after,.bridge:before{content:"";position:absolute;width:5px;height:120px;background:var(--lime);top:-54px}
+.bridge:before{left:25%}
+.bridge:after{right:20%}
+.tower{position:absolute;bottom:30%;width:8%;background:#131b18;z-index:3}
+.t1{left:10%;height:24%}
+.t2{left:21%;height:34%}
+.t3{left:33%;height:18%}
+.hero-art p{position:absolute;right:5%;bottom:4%;z-index:8;font-size:.65rem;letter-spacing:.15em}
+.hero-strip{height:50px;border-top:1px solid rgba(255,255,255,.2);display:grid;grid-template-columns:repeat(4,1fr);align-items:center;text-align:center;font-size:.68rem;letter-spacing:.2em;color:#8c9790}
+.manifesto,.pace,.food,.checklist{padding:110px 7vw}
+.manifesto{display:grid;grid-template-columns:1fr 1.2fr;gap:7vw}
+.manifesto h2,.prep h2,.pace h2,.route h2,.gaztelugatxe h2,.food h2,.choices h2,.checklist h2,footer h2{font-size:clamp(3.2rem,6.8vw,7.5rem);line-height:.84;letter-spacing:-.065em;text-transform:uppercase;margin:.2em 0;font-weight:950}
+.manifesto h2 i,.prep h2 i,.pace h2 i,.route h2 i,.gaztelugatxe h2 i,.food h2 i,.choices h2 i,.checklist h2 i,footer h2 i{font-family:Georgia,serif;text-transform:none;font-weight:400;color:var(--rust)}
+.manifesto-copy{padding-top:35px;font-size:1.12rem;line-height:1.7}
+.manifesto blockquote{border-left:5px solid var(--lime);padding:18px 25px;margin:40px 0;background:#e3e4da;font-family:Georgia,serif;font-size:1.3rem}
+.prep{background:var(--blue);color:var(--paper);padding:110px 7vw}
+.light{color:var(--lime)}
+.prep-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:60px;border-top:1px solid rgba(255,255,255,.28)}
+.prep-grid article{padding:35px 28px 20px 0;border-right:1px solid rgba(255,255,255,.2);min-height:350px;margin-right:28px}
+.prep-grid b{color:var(--lime);font-size:2rem}
+.prep-grid h3,.food-grid h3,.choice-grid h3{font-size:1.55rem;line-height:1.05;margin:28px 0 15px}
+.prep-grid p{color:#c8d8d9;line-height:1.55}
+.map-link,.g-actions a,.choice-grid a{display:inline-block;margin-top:18px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:900;border-bottom:1px solid currentColor;padding-bottom:4px}
+.weather{display:block;color:var(--lime);font-size:.68rem;font-weight:900;letter-spacing:.08em;margin-top:25px}
+.pace{text-align:center}
+.pace h2{margin-bottom:60px}
+.pace-tabs{display:grid;grid-template-columns:repeat(3,1fr);max-width:1150px;margin:auto}
+.pace-tabs button{min-height:170px;border:1px solid var(--line);background:transparent;padding:28px;text-align:left;font-size:1.2rem;font-weight:900;cursor:pointer;transition:.25s}
+.pace-tabs button span{display:block;color:var(--rust);font-size:.7rem;margin-bottom:35px}
+.pace-tabs button small{display:block;font-size:.65rem;color:var(--muted);margin-top:12px;text-transform:uppercase;letter-spacing:.07em}
+.pace-tabs button.active{background:var(--ink);color:var(--paper);transform:translateY(-8px);box-shadow:0 18px 45px rgba(0,0,0,.15)}
+.pace-tabs button.active small{color:var(--lime)}
+.pace-summary{margin:35px 0 0}
+.route{background:var(--ink);color:var(--paper);padding:110px 7vw}
+.route-head{display:flex;justify-content:space-between;align-items:start}
+.route-head h2{text-align:right}
+.route h2 i{color:var(--lime)}
+.day-tabs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:65px}
+.day-tabs button{padding:20px;background:transparent;color:#89938c;border:0;border-bottom:1px solid #455049;font-weight:900;cursor:pointer}
+.day-tabs button.active{color:var(--lime);border-color:var(--lime)}
+.day-detail{display:grid;grid-template-columns:1fr 1.1fr;gap:8vw;padding:60px 0 20px}
+.day-detail>div>p{color:var(--rust);font-size:.7rem;font-weight:900;letter-spacing:.12em}
+.day-detail h3{font-size:clamp(2.5rem,5vw,5rem);line-height:.9;text-transform:uppercase;letter-spacing:-.05em;margin:.3em 0}
+.distance{color:var(--lime);font-size:.7rem;font-weight:900}
+.day-detail blockquote{font-family:Georgia,serif;font-size:1.3rem;line-height:1.5;margin:45px 0;color:#aab3ad}
+.day-detail ol{list-style:none;padding:0;margin:0}
+.day-detail li{display:grid;grid-template-columns:45px 1fr auto;align-items:center;border-bottom:1px solid #384039;padding:19px 0}
+.day-detail li span{color:var(--rust);font-size:.7rem}
+.day-detail li .map-link{margin:0;color:#8d9891}
+.gaztelugatxe{background:var(--rust);color:var(--paper);padding:110px 7vw;display:grid;grid-template-columns:1.4fr .6fr;gap:8vw}
+.gaztelugatxe h2 i{color:var(--ink)}
+.g-copy>p:not(.section-no){max-width:650px;font-size:1.15rem;line-height:1.65}
+.g-actions{display:flex;gap:25px}
+.g-actions a{border:1px solid var(--paper);padding:15px 18px}
+.coast-card{border-left:1px solid rgba(255,255,255,.4);padding-left:50px;display:flex;flex-direction:column;justify-content:center}
+.coast-card span{font-size:8rem;font-weight:950;letter-spacing:-.08em}
+.coast-card strong{letter-spacing:.18em}
+.coast-card p{font-family:Georgia,serif;line-height:1.5}
+.coast-line{height:80px;margin-top:20px;background:repeating-linear-gradient(160deg,transparent 0 12px,var(--ink) 13px 15px);opacity:.55}
+.food h2{max-width:1000px}
+.food-lead{max-width:600px;line-height:1.6}
+.food-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:60px}
+.food-grid article{border-top:5px solid var(--ink);padding:25px 25px 30px 0;margin-right:25px;display:flex;flex-direction:column;min-height:330px}
+.food-grid article>span{font-size:.65rem;color:var(--rust);font-weight:900;letter-spacing:.1em}
+.food-grid article p{line-height:1.5}
+.food-grid article small{color:var(--muted);line-height:1.4}
+.food-grid .map-link{margin-top:auto}
+.choices{padding:110px 7vw;background:var(--blue);color:var(--paper)}
+.choices h2 i{color:var(--lime)}
+.choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:55px}
+.choice-grid article{border:1px solid rgba(255,255,255,.3);padding:35px;min-height:290px}
+.choice-grid article>span{font-size:2.2rem;color:var(--lime)}
+.choice-grid p{color:#c9d8d9;line-height:1.55}
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:8vw}
+.progress{height:7px;background:#d4d4cb;max-width:550px}
+.progress span{display:block;height:100%;background:var(--rust);transition:.3s}
+.checklist ul{list-style:none;padding:0}
+.checklist li{border-bottom:1px solid var(--line)}
+.checklist label{display:flex;align-items:center;gap:16px;padding:19px 0;cursor:pointer}
+.checklist input{appearance:none;width:22px;height:22px;border:2px solid var(--ink);display:grid;place-content:center}
+.checklist input:checked{background:var(--lime)}
+.checklist input:checked:after{content:"✓";font-weight:900}
+.checklist input:checked+span{text-decoration:line-through;color:var(--muted)}
+footer{background:var(--ink);color:var(--paper);padding:100px 7vw 50px}
+footer>p{color:var(--lime);letter-spacing:.15em;font-weight:900;font-size:.7rem}
+footer h2 i{color:var(--rust)}
+footer>a{display:inline-block;border:1px solid #69726c;padding:14px 18px;margin:25px 0}
+footer small{display:block;color:#77817b;max-width:650px}
+.mobile-dock{display:none}
+@media(max-width:900px){
+  .nav div{display:none}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-copy{padding-top:8vh}
+  .hero-art{min-height:43vh}
+  .hero h1{font-size:17vw}
+  .manifesto,.day-detail,.gaztelugatxe,.checklist{grid-template-columns:1fr}
+  .prep-grid,.food-grid{grid-template-columns:1fr 1fr}
+  .pace-tabs{grid-template-columns:1fr}
+  .pace-tabs button{min-height:auto}
+  .route-head{display:block}
+  .route-head h2{text-align:left}
+  .coast-card{border-left:0;border-top:1px solid rgba(255,255,255,.4);padding:35px 0 0}
+  .choice-grid{grid-template-columns:1fr}
+  .mobile-dock{position:fixed;z-index:20;bottom:calc(10px + env(safe-area-inset-bottom));left:4vw;right:4vw;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(17,23,20,.94);color:white;padding:7px;border:1px solid #536058;backdrop-filter:blur(14px)}
+  .mobile-dock a{text-align:center;padding:10px 2px;font-size:.56rem;text-transform:uppercase;letter-spacing:.06em}
+  footer{padding-bottom:100px}
+}
+@media(max-width:560px){
+  .manifesto,.pace,.food,.checklist,.prep,.route,.gaztelugatxe,.choices{padding:75px 6vw}
+  .manifesto h2,.prep h2,.pace h2,.route h2,.gaztelugatxe h2,.food h2,.choices h2,.checklist h2,footer h2{font-size:15vw}
+  .prep-grid,.food-grid{grid-template-columns:1fr}
+  .prep-grid article,.food-grid article{min-height:auto;border-right:0;margin:0;padding:28px 0}
+  .day-tabs button{padding:15px 2px;font-size:.65rem}
+  .day-detail{gap:20px}
+  .day-detail li{grid-template-columns:35px 1fr auto}
+  .gaztelugatxe{gap:25px}
+  .coast-card span{font-size:6rem}
+  .hero-strip{font-size:.55rem}
+  .nav{padding:0 6vw}
+  .nav .brand{font-size:.72rem}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
