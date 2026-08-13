@@ -113,11 +113,12 @@ Kept for the destination-catalog cards in `/planes/` only — the app-shell entr
 
 ### Status
 - **Ok** (`#35c98e`): "listas para el vuelo" / downloaded states.
+- **Warn** (`#f4c542`): amber status text (e.g. noticias "Ya cargadas") — a secondary, non-interactive attention color, distinct from the accent.
 
 ### Named Rules
-**The One Accent Rule.** Cyan means "live, active, or primary." It never appears as decoration — if something is cyan, it's the thing currently happening or the thing to act on next.
+**The One Accent Rule.** Cyan means "live, active, or primary." It never appears as decoration — if something is cyan, it's the thing currently happening or the thing to act on next. **Exception, explicitly requested by Óscar:** the four in-flight action buttons (Ajustar GPS / Terminar vuelo / Noticias del día / Podcast, `.accionbtn`) use a dedicated amber-gold treatment (`#ffe27a`→`#f4c542`→`#d99f1c` gradient, `#3a2600` ink) so they stop reading as low-priority ghost buttons mid-flight. This is a second, deliberately loud accent scoped only to that one 2×2 action grid — don't extend gold to any other control.
 
-**The No-Glow Rule.** Shadows are neutral (`rgba(1,10,20,X)`), never accent-tinted. An early pass gave the takeoff button and the tab bar's raised "Volar" pill a cyan-tinted shadow; it read as a generic AI-glow effect and was replaced with the same neutral shadow every other elevated surface uses. Depth comes from offset + blur, never from colored light.
+**The No-Glow Rule.** Shadows are neutral (`rgba(1,10,20,X)`), never accent-tinted. An early pass gave the takeoff button and the tab bar's raised "Volar" pill a cyan-tinted shadow; it read as a generic AI-glow effect and was replaced with the same neutral shadow every other elevated surface uses. Depth comes from offset + blur, never from colored light. **Exception:** `.accionbtn`'s warm inset bevel (`rgba(120,75,0,.4)`) is not a glow — it's an embossed/marbled relief on a bright gold surface, where a neutral navy shadow would look dirty rather than raised. Scoped to that component only.
 
 ## Typography
 
@@ -175,10 +176,16 @@ Every setup card opens with a header row: a 32px circular badge (`num-bg` backgr
 Inside the Entretenimiento section, Noticias and Podcast each get their own `surface-bright` bordered box (`rounded.md`, 18px padding) with an icon + title header row — cyan for Noticias, light-cyan (`#bdf4ff`) for Podcast, plus an "OFFLINE" mono badge.
 
 ### Bottom Tab Bar (signature component)
-Fixed, mobile-only (`display:none` at ≥720px), 4 items: Estado, Planes, **Volar** (raised, filled cyan pill, the primary action), Media. Backdrop-blurred navy background, neutral upward shadow, 11px mono uppercase labels. "Estado" and "Volar" are in-app JS actions (scroll to top / scroll to the destino card); "Planes" is a real link to `/planes/`; "Media" opens the podcast panel. There is no fifth "Config" tab from the source comp — nothing in this app exists behind it yet, so it was dropped rather than shipped as dead chrome.
+Fixed, mobile-only (`display:none` at ≥720px), 4 items: Estado, Planes, **Volar** (raised, filled cyan pill, the primary action), Media. Backdrop-blurred navy background, neutral upward shadow, 11px mono uppercase labels. Sits inside `.bottombar` above an optional mini-player strip (see Media Player below). "Estado" always closes any open panel first; if a flight is active it also scrolls to the top of the flight screen, and if not, it toasts that there's no flight yet instead of doing nothing silently. "Volar" scrolls to the destino card when idle (no-op mid-flight, since you're already there). "Planes" is a real link to `/planes/`; "Media" opens the podcast panel. There is no fifth "Config" tab from the source comp — nothing in this app exists behind it yet, so it was dropped rather than shipped as dead chrome.
 
 ### Stats (flight HUD)
 Full-width rows (label left, mono value right), not a 3-column grid — the grid wrapped long values ("846 km/h", "10.850 m") awkwardly at the larger type size this pass introduced. One row per stat: velocidad, altitud, aterrizaje en.
+
+### Flight Action Grid (`.accionbtn`, signature exception)
+Four equal-size buttons in a 2×2 grid below the stats (Ajustar GPS, Terminar vuelo, Noticias del día, Podcast) — icon stacked above a 13.5px bold label. Óscar flagged the original inline ghost-button pairs as easy to miss mid-flight, so this grid trades the app's restrained ghost-button language for a loud, glossy amber-gold treatment (see Colors → Status and the One Accent Rule exception) with an embossed/marbled relief: layered radial-gradient highlights over a `#ffe27a→#f4c542→#d99f1c` linear gradient, plus a warm inset bevel (not the neutral shadow rule — see The No-Glow Rule exception) and `#3a2600` ink for contrast (6.1:1 minimum against the darkest gradient stop). This is the one place in the app shell that intentionally breaks both the One Accent Rule and The No-Glow Rule — don't reuse `.accionbtn` styling elsewhere without the same conscious trade-off.
+
+### Media Player (mini + full)
+Full player (`#pnlPodcast`): a "now playing" hero card (168px art tile, title/podcast name, custom scrubber with elapsed/total time, skip-back-15s / circular play-pause / skip-forward-15s), a compact `.ep-row` playlist below (small icon tile + title/podcast + delete), auto-advances to the next downloaded episode on end. The `<audio>` element lives as static markup outside the panel's repainted innerHTML so playback state survives repaints. Mini player (`.miniplayer`, inside `.bottombar` above the tab bar): shows only while an episode is loaded, compact icon + title/podcast + play-pause; tapping it (outside the toggle button) reopens the full panel. Playback is never paused by closing the panel or switching between `#scr-home` and `#scr-flight` — only an explicit pause/stop stops it. Navigating away to a real separate page (`/planes/` or a destination guide) still stops it, since those are different HTML documents; this is a known limitation of the static multi-page architecture, not a bug.
 
 ### Inputs / Fields
 `surface-bright` background, hairline border, `rounded.sm`, 16px text (prevents iOS zoom-on-focus), 13px padding. Focus state: 2px cyan outline, 2px offset, applied globally via `:focus-visible`.

@@ -125,6 +125,24 @@ select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{ou
 }
 .ghostbtn .icon{width:16px; height:16px;}
 .panel .cab .ghostbtn{border-color:var(--accent); color:var(--accent);}
+.acciones-vuelo{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:10px 16px 16px;}
+.accionbtn{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px;
+  padding:18px 10px; border-radius:16px; border:none; cursor:pointer;
+  background:
+    radial-gradient(120% 140% at 18% 12%, rgba(255,255,255,.6), transparent 45%),
+    radial-gradient(90% 110% at 82% 88%, rgba(122,78,0,.4), transparent 55%),
+    radial-gradient(65% 85% at 55% 35%, rgba(255,255,255,.22), transparent 60%),
+    linear-gradient(155deg, #ffe27a, #f4c542 45%, #d99f1c);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.65),
+    inset 0 -3px 6px rgba(120,75,0,.4),
+    0 8px 16px -6px rgba(1,10,20,.5);
+  color:#3a2600;
+}
+.accionbtn .icon{width:23px; height:23px; stroke-width:1.8; color:#3a2600;}
+.accionbtn span{font:700 13.5px/1.25 var(--display); text-align:center;}
+.accionbtn:active{transform:scale(.97); box-shadow:inset 0 2px 0 rgba(255,255,255,.55), inset 0 -2px 4px rgba(120,75,0,.4), 0 4px 8px -4px rgba(1,10,20,.4);}
 #scr-home.active ~ #grupoPie{display:none;}
 .bottombar{position:fixed; z-index:45; left:0; right:0; bottom:0; display:flex; flex-direction:column;}
 .miniplayer{display:none; align-items:center; gap:12px; padding:9px 16px; background:rgba(13,28,45,.97);
@@ -327,6 +345,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-skip-back" viewBox="0 0 24 24"><path d="M20 5v14L10 12l10-7z" fill="currentColor" stroke="none"/><rect x="5" y="5" width="3" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-skip-forward" viewBox="0 0 24 24"><path d="M4 5v14l10-7L4 5z" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2.5" fill="currentColor" stroke="none"/></symbol>
 </svg>
 <div id="splash" role="dialog" aria-label="Por dónde voy">
   <svg viewBox="0 0 260 150" aria-hidden="true">
@@ -487,14 +506,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       <div class="stat"><div class="v" id="stEta">—</div><div class="l">aterrizaje en</div></div>
     </div>
 
-    <div style="display:flex; gap:10px; justify-content:center; margin:6px 16px 10px;">
-      <button class="ghostbtn" id="btnGps"><svg class="icon"><use href="#i-satellite"></use></svg> Ajustar con GPS</button>
-      <button class="ghostbtn" id="btnFin">Terminar vuelo</button>
-    </div>
-
-    <div style="display:flex; gap:10px; justify-content:center; margin:0 16px 12px;">
-      <button class="ghostbtn" id="btnNoticias"><svg class="icon"><use href="#i-newspaper"></use></svg> Noticias del día</button>
-      <button class="ghostbtn" id="btnPodcast"><svg class="icon"><use href="#i-headphones"></use></svg> Podcast</button>
+    <div class="acciones-vuelo">
+      <button class="accionbtn" id="btnGps"><svg class="icon"><use href="#i-satellite"></use></svg><span>Ajustar GPS</span></button>
+      <button class="accionbtn" id="btnFin"><svg class="icon fill"><use href="#i-stop"></use></svg><span>Terminar vuelo</span></button>
+      <button class="accionbtn" id="btnNoticias"><svg class="icon"><use href="#i-newspaper"></use></svg><span>Noticias del día</span></button>
+      <button class="accionbtn" id="btnPodcast"><svg class="icon"><use href="#i-headphones"></use></svg><span>Podcast</span></button>
     </div>
 
     <a id="saneas" href="https://saneas.es">
