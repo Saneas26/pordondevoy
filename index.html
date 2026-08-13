@@ -35,9 +35,10 @@
   src:url("montserrat-bold.woff2") format("woff2");
 }
 :root{
-  --bg:#051424; --surface-1:#0d1c2d; --surface-2:#122131; --surface-3:#1c2b3c;
-  --line:rgba(212,228,250,.14);
-  --text:#d4e4fa; --muted:#8fa3bd; --accent:#00e5ff; --accent-ink:#03222c;
+  --bg:#051424; --surface-1:#0d1c2d; --surface-2:#122131; --surface-3:#1c2b3c; --surface-bright:#2c3a4c;
+  --line:rgba(212,228,250,.14); --ring:#273647;
+  --text:#d4e4fa; --muted:#99adc5; --accent:#00e5ff; --accent-ink:#03222c;
+  --num-bg:#001a33; --num-text:#7fa0c9;
   --ok:#35c98e;
   --display:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
@@ -48,94 +49,116 @@ body{
   background:var(--bg); color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   display:flex; justify-content:center;
-  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) calc(env(safe-area-inset-bottom) + 84px) env(safe-area-inset-left);
 }
 ::selection{background:var(--accent); color:var(--accent-ink);}
-#app{width:100%; max-width:480px; min-height:100dvh; display:flex; flex-direction:column;}
+#app{width:100%; max-width:600px; min-height:100dvh; display:flex; flex-direction:column;}
 .screen{display:none; flex-direction:column; flex:1;}
 .screen.active{display:flex;}
 .icon{width:1em; height:1em; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; vertical-align:-.15em;}
 .icon.fill{fill:currentColor; stroke:none;}
-header{display:flex; align-items:center; gap:12px; padding:18px 20px 10px;}
-header img{width:44px; height:44px; border-radius:11px;}
-header h1{font:700 20px/1.2 var(--display);}
-header p{font-size:13px; color:var(--muted);}
+header{display:flex; align-items:center; gap:12px; padding:20px 24px 8px;}
+header img{width:48px; height:48px; border-radius:12px;}
+header h1{font:700 24px/1.25 var(--display);}
+header p{font-size:14px; color:var(--muted); margin-top:2px;}
 .spacer{flex:1;}
-.card{background:var(--surface-1); border:1px solid var(--line); border-radius:20px; padding:16px; margin:8px 16px;}
-.card h2{font:600 12px/1 var(--mono); color:var(--muted); margin-bottom:12px; text-transform:uppercase; letter-spacing:.08em;}
-label{display:block; font-size:13px; color:var(--muted); margin:12px 0 6px;}
+.section-pad{padding:0 24px;}
+.hero{padding:28px 24px 8px; text-align:center;}
+.hero h2{font:700 clamp(30px,8vw,40px)/1.15 var(--display); letter-spacing:-.02em;}
+.hero h2 .lime{color:var(--accent);}
+.cards2{display:grid; grid-template-columns:1fr; gap:16px; padding:20px 24px 4px;}
+.entrycard{
+  background:var(--surface-1); border-radius:20px; padding:28px 24px;
+  box-shadow:0 10px 24px -6px rgba(1,10,20,.35); box-shadow:0 10px 24px -6px rgba(1,10,20,.35), inset 0 0 0 1px var(--ring);
+  display:flex; flex-direction:column; align-items:flex-start; gap:20px;
+  text-align:left; text-decoration:none; color:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent;
+  border:none; width:100%;
+}
+.entrycard:active{transform:scale(.985);}
+.entrycard-icon{width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+.entrycard-icon .icon{width:34px; height:34px; stroke-width:1.6;}
+.entrycard.mivuelo .entrycard-icon{background:rgba(0,229,255,.12); color:var(--accent);}
+.entrycard.planes .entrycard-icon{background:rgba(189,244,255,.1); color:#bdf4ff;}
+.entrycard h3{font:600 24px/1.25 var(--display); margin-bottom:8px;}
+.entrycard.mivuelo h3{color:var(--accent);}
+.entrycard.planes h3{color:#bdf4ff;}
+.entrycard p{font-size:16px; line-height:1.55; color:var(--muted);}
+.card{background:var(--surface-1); border-radius:20px; padding:24px; margin:16px 24px; box-shadow:0 10px 24px -6px rgba(1,10,20,.3), inset 0 0 0 1px var(--ring);}
+.card-head{display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--ring); padding-bottom:16px; margin-bottom:20px;}
+.card-num{width:32px; height:32px; border-radius:50%; background:var(--num-bg); color:var(--num-text); display:flex; align-items:center; justify-content:center; font:700 14px/1 var(--mono); flex-shrink:0;}
+.card h2{font:600 20px/1.3 var(--display);}
+label{display:block; font-size:14px; color:var(--muted); margin:16px 0 8px;}
+label:first-child{margin-top:0;}
 select,input[type=time],input[type=text]{
-  width:100%; padding:12px; border-radius:12px; border:1px solid var(--line);
-  background:var(--surface-2); color:var(--text); font-size:16px; appearance:none;
+  width:100%; padding:13px 14px; border-radius:10px; border:1px solid var(--line);
+  background:var(--surface-bright); color:var(--text); font-size:16px; appearance:none;
 }
 select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
 #destino{border-color:var(--accent); font-weight:700;}
 .dirbtn{
-  flex:1; padding:11px 6px; border-radius:12px; border:1px solid var(--line);
-  background:var(--surface-2); color:var(--muted); font-size:13px; font-weight:600; cursor:pointer;
+  flex:1; padding:12px 8px; border-radius:10px; border:1px solid var(--line);
+  background:var(--surface-bright); color:var(--muted); font-size:14px; font-weight:600; cursor:pointer;
 }
 .dirbtn.activo{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
-.row{display:flex; gap:12px;}
+.row{display:flex; gap:14px;}
 .row>div{flex:1;}
-.check{display:flex; align-items:flex-start; gap:10px; margin-top:14px; font-size:13px; color:var(--muted); cursor:pointer;}
-.check input{width:18px; height:18px; margin-top:1px; accent-color:var(--accent);}
+.check{display:flex; align-items:flex-start; gap:12px; margin-top:18px; font-size:14px; color:var(--muted); cursor:pointer;}
+.check input{width:20px; height:20px; margin-top:1px; accent-color:var(--accent);}
 .bigbtn{
-  display:flex; align-items:center; justify-content:center; gap:10px;
-  width:calc(100% - 32px); margin:14px 16px; padding:18px;
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  width:calc(100% - 48px); margin:20px 24px; padding:20px;
   background:var(--accent); color:var(--accent-ink); border:none; border-radius:18px;
-  font:800 18px/1 var(--display); cursor:pointer;
+  font:700 20px/1 var(--display); cursor:pointer; box-shadow:0 10px 24px -6px rgba(1,10,20,.5);
 }
-.bigbtn .icon{width:1.15em; height:1.15em;}
+.bigbtn .icon{width:1.2em; height:1.2em;}
 .bigbtn:active{transform:scale(.98);}
 .bigbtn:disabled{opacity:.4;}
-.ios-grid{width:100%; max-width:420px; margin:0 auto; padding:0 10px; display:flex; flex-direction:column; align-items:center; gap:14px;}
-.widget{
-  width:100%; aspect-ratio:2.2; border-radius:26px; box-sizing:border-box;
-  background:rgba(248,249,250,.96);
-  -webkit-backdrop-filter:blur(24px) saturate(160%); backdrop-filter:blur(24px) saturate(160%);
-  border:1px solid rgba(255,255,255,.6);
-  box-shadow:0 14px 30px rgba(1,10,20,.4);
-  padding:16px 22px; display:flex; flex-direction:row; align-items:center; gap:16px;
-  text-align:left; text-decoration:none; cursor:pointer; -webkit-tap-highlight-color:transparent;
-}
-.widget:active{transform:scale(.97);}
-.widget-icon{width:44px; height:44px; flex-shrink:0; border-radius:14px; background:var(--bg); color:var(--accent); display:flex; align-items:center; justify-content:center;}
-.widget-icon .icon{width:24px; height:24px; stroke-width:1.9;}
-.widget-text{display:flex; flex-direction:column; gap:3px; justify-content:center;}
-.widget-text b{font:800 19px/1.15 var(--display); color:#0a1a2b;}
-.widget-text span{font-size:12.5px; color:#4d5b70; line-height:1.35;}
-.app-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px 8px; width:100%; margin-top:2px;}
-.app-icon{display:flex; flex-direction:column; align-items:center; gap:6px; background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent;}
+.app-row{display:grid; grid-template-columns:repeat(4,1fr); gap:20px 10px; width:100%; padding:24px; margin-top:8px;}
+.app-icon{display:flex; flex-direction:column; align-items:center; gap:8px; background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent;}
 .app-icon img{width:100%; aspect-ratio:1; border-radius:22%; box-shadow:0 6px 14px rgba(1,10,20,.4); background:#fff; display:block;}
-.app-icon span{font-size:10.5px; font-weight:600; color:var(--text); text-align:center; line-height:1.25;}
-#scr-landing.active ~ #grupoPie{display:none;}
+.app-icon span{font-size:11px; font-weight:600; color:var(--text); text-align:center; line-height:1.25;}
 .ghostbtn{
-  display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
   background:none; border:1px solid var(--line); color:var(--muted); border-radius:12px;
-  padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer;
+  padding:10px 16px; font-size:14px; font-weight:600; cursor:pointer;
 }
-.ghostbtn .icon{width:15px; height:15px;}
-#resumen{font-size:15px; line-height:1.6;}
+.ghostbtn .icon{width:16px; height:16px;}
+#scr-home.active ~ #grupoPie{display:none;}
+.tabbar{position:fixed; z-index:45; left:0; right:0; bottom:0; display:flex; justify-content:space-around; align-items:flex-end;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom)); background:rgba(13,28,45,.92); -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+  border-top:1px solid var(--line); box-shadow:0 -8px 20px rgba(1,10,20,.3);}
+.tabbar a,.tabbar button{display:flex; flex-direction:column; align-items:center; gap:4px; background:none; border:0; color:var(--muted);
+  font:600 11px/1 var(--mono); text-transform:uppercase; letter-spacing:.04em; padding:8px 10px; border-radius:12px; text-decoration:none; cursor:pointer;}
+.tabbar .icon{width:22px; height:22px; stroke-width:1.8;}
+.tabbar .principal{background:var(--accent); color:var(--accent-ink); border-radius:99px; padding:10px 18px; position:relative; top:-10px; box-shadow:0 8px 18px rgba(1,10,20,.5);}
+.tabbar .principal .icon{width:22px; height:22px;}
+@media (min-width:720px){ .tabbar{display:none;} body{padding-bottom:env(safe-area-inset-bottom);} }
+@media (min-width:640px){
+  .cards2{grid-template-columns:1fr 1fr;}
+  .formgrid2{grid-template-columns:1fr 1fr; display:grid; gap:24px;}
+}
+#resumen{font-size:16px; line-height:1.7;}
 #resumen strong{color:var(--accent); font-family:var(--mono); font-weight:600;}
-#mapwrap{margin:4px 16px; background:#08202f; border-radius:20px; overflow:hidden; border:1px solid var(--line);
+#mapwrap{margin:16px 24px; background:#08202f; border-radius:20px; overflow:hidden; border:1px solid var(--line);
   display:flex; justify-content:center;}
 #map{display:block; width:100%; height:auto; max-height:56vh;}
-#situacion{margin:8px 16px 0; padding:12px 16px; background:var(--surface-1); border:1px solid var(--line); border-radius:16px;}
-#situacion .lugar{font:700 17px/1.3 var(--display); color:var(--accent);}
-#situacion .detalle{font-size:13px; color:var(--muted); margin-top:3px; line-height:1.45;}
-#barra{margin:10px 16px 0;}
+#situacion{margin:0 24px 16px; padding:20px; background:var(--surface-1); border:1px solid var(--line); border-radius:18px;}
+#situacion .lugar{font:700 22px/1.3 var(--display); color:var(--accent);}
+#situacion .detalle{font-size:14px; color:var(--muted); margin-top:6px; line-height:1.5;}
+#barra{margin:0 24px 16px;}
 #barra .track{height:6px; background:var(--surface-2); border-radius:3px; overflow:hidden;}
 #barra .fill{height:100%; width:0%; background:var(--accent); border-radius:3px; transition:width 1s linear;}
-#barra .pcts{display:flex; justify-content:space-between; font:600 11px/1 var(--mono); color:var(--muted); margin-top:6px; letter-spacing:.03em;}
-#stats{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:10px 16px;}
-.stat{background:var(--surface-1); border:1px solid var(--line); border-radius:16px; padding:12px 6px; text-align:center;}
-.stat .v{font:700 17px/1 var(--mono); color:var(--text);}
-.stat .l{font-size:11px; color:var(--muted); margin-top:5px; text-transform:uppercase; letter-spacing:.06em;}
-#faseTag{display:inline-flex; align-items:center; font:700 11px/1 var(--mono); letter-spacing:.04em; text-transform:uppercase; color:var(--accent-ink);
-  background:var(--accent); border-radius:99px; padding:5px 12px;}
-#flightHead{display:flex; align-items:center; gap:10px; padding:14px 16px 6px;}
-#flightHead .tit{font:700 16px/1.2 var(--display);}
-#flightHead .sub{font-size:12px; color:var(--muted); font-family:var(--mono);}
+#barra .pcts{display:flex; justify-content:space-between; font:600 12px/1 var(--mono); color:var(--muted); margin-top:8px; letter-spacing:.03em;}
+#stats{display:flex; flex-direction:column; gap:10px; margin:0 24px 16px;}
+.stat{background:var(--surface-1); border:1px solid var(--line); border-radius:16px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px;}
+.stat .v{font:700 22px/1 var(--mono); color:var(--text); white-space:nowrap;}
+.stat .l{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em;}
+@media (min-width:640px){ #stats{flex-direction:row;} .stat{flex:1; flex-direction:column-reverse; text-align:center;} }
+#faseTag{display:inline-flex; align-items:center; font:700 12px/1 var(--mono); letter-spacing:.04em; text-transform:uppercase; color:var(--accent-ink);
+  background:var(--accent); border-radius:99px; padding:6px 14px;}
+#flightHead{display:flex; align-items:center; gap:12px; padding:20px 24px 12px;}
+#flightHead .tit{font:700 20px/1.25 var(--display);}
+#flightHead .sub{font-size:13px; color:var(--muted); font-family:var(--mono); margin-top:2px;}
 #toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
   background:var(--surface-2); border:1px solid var(--line); color:var(--text);
   padding:10px 18px; border-radius:99px; font-size:14px; opacity:0; transition:opacity .3s; pointer-events:none; white-space:nowrap;}
@@ -162,35 +185,43 @@ header .brand{display:flex; align-items:center; gap:12px; flex:1;}
 .gs-b-marca{display:block; font-size:14px; font-weight:700; color:var(--text);}
 .gs-b-marca b{font-weight:700; color:var(--accent);}
 .gs-b-accion{display:block; font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.04em;}
-#grupoPie{margin:4px 16px 14px;}
+#grupoPie{margin:8px 24px 20px;}
 #grupoPie .gs-item b{color:var(--text);}
-footer{padding:14px; text-align:center; font-size:11px; color:var(--muted); font-family:var(--mono);}
-.aviso{font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px;}
+footer{padding:20px; text-align:center; font-size:12px; color:var(--muted); font-family:var(--mono);}
+.aviso{font-size:13px; color:var(--muted); line-height:1.6; margin-top:14px;}
 /* ---- entretenimiento: noticias y podcast ---- */
-.estado{display:flex; align-items:center; gap:6px; font-size:13px; color:var(--muted); margin-top:4px; line-height:1.5;}
+.subgrid{display:grid; grid-template-columns:1fr; gap:16px;}
+.subcard{background:var(--surface-bright); border:1px solid var(--ring); border-radius:14px; padding:18px;}
+.subcard-head{display:flex; align-items:center; gap:10px;}
+.subcard-head.noticias{color:var(--accent);}
+.subcard-head.podcast{color:#bdf4ff;}
+.subcard-head h3{font:600 18px/1.3 var(--display); flex:1;}
+.subcard .badge-offline{font:600 11px/1 var(--mono); text-transform:uppercase; letter-spacing:.05em; color:var(--muted); background:var(--surface-3); padding:4px 9px; border-radius:6px;}
+.estado{display:flex; align-items:center; gap:8px; font-size:14px; color:var(--muted); margin-top:10px; line-height:1.5;}
 .estado b{color:var(--ok);}
-.ep{background:var(--surface-2); border:1px solid var(--line); border-radius:14px; padding:10px 12px; margin-top:10px;}
-.ep .et{font-size:13.5px; font-weight:600; line-height:1.35;}
-.ep .em{font-size:11.5px; color:var(--muted); margin-top:3px; font-family:var(--mono);}
-.ep .ghostbtn{margin-top:8px; width:100%;}
+.subcard label{margin:10px 0 8px;}
+.ep{background:var(--surface-2); border:1px solid var(--line); border-radius:14px; padding:14px; margin-top:12px;}
+.ep .et{font-size:15px; font-weight:600; line-height:1.4;}
+.ep .em{font-size:12px; color:var(--muted); margin-top:4px; font-family:var(--mono);}
+.ep .ghostbtn{margin-top:10px; width:100%;}
 .ep .ghostbtn.listo{border-color:var(--ok); color:var(--ok);}
 .panel{position:fixed; inset:0; z-index:40; background:var(--bg); display:none; flex-direction:column;
   padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);}
 .panel.abierto{display:flex;}
-.panel .cab{display:flex; align-items:center; gap:12px; padding:16px;}
-.panel .cab h3{display:flex; align-items:center; gap:9px; font:700 18px/1.2 var(--display); flex:1;}
-.panel .cuerpo{flex:1; overflow-y:auto; padding:0 16px 30px; max-width:480px; width:100%; margin:0 auto;}
-.noti{background:var(--surface-1); border:1px solid var(--line); border-radius:16px; padding:13px 15px; margin-bottom:10px; cursor:pointer;}
-.noti .fu{font:700 11px/1 var(--mono); color:var(--accent); text-transform:uppercase; letter-spacing:.08em;}
-.noti .ti{font:700 15.5px/1.35 var(--display); margin:7px 0 6px;}
-.noti .re{font-size:13.5px; color:var(--muted); line-height:1.55;}
-.noti .mas{display:flex; align-items:center; gap:5px; font-size:12px; color:var(--accent); margin-top:8px; font-weight:600;}
-.noti .mas .chev{width:13px; height:13px; transition:transform .2s ease;}
+.panel .cab{display:flex; align-items:center; gap:14px; padding:20px 24px;}
+.panel .cab h3{display:flex; align-items:center; gap:10px; font:700 22px/1.25 var(--display); flex:1;}
+.panel .cuerpo{flex:1; overflow-y:auto; padding:0 24px 40px; max-width:600px; width:100%; margin:0 auto;}
+.noti{background:var(--surface-1); border:1px solid var(--line); border-radius:18px; padding:20px; margin-bottom:14px; cursor:pointer;}
+.noti .fu{font:700 12px/1 var(--mono); color:var(--accent); text-transform:uppercase; letter-spacing:.08em;}
+.noti .ti{font:600 19px/1.35 var(--display); margin:10px 0 8px;}
+.noti .re{font-size:15px; color:var(--muted); line-height:1.6;}
+.noti .mas{display:flex; align-items:center; gap:6px; font-size:13px; color:var(--accent); margin-top:10px; font-weight:600;}
+.noti .mas .chev{width:14px; height:14px; transition:transform .2s ease;}
 .noti.abierta .mas .chev{transform:rotate(180deg);}
-.noti .cu{display:none; margin-top:10px; border-top:1px solid var(--line); padding-top:10px;}
+.noti .cu{display:none; margin-top:14px; border-top:1px solid var(--line); padding-top:14px;}
 .noti.abierta .cu{display:block;}
-.noti .cu p{font-size:14px; color:var(--text); line-height:1.65; margin-bottom:12px;}
-audio{width:100%; margin-top:10px;}
+.noti .cu p{font-size:15px; color:var(--text); line-height:1.7; margin-bottom:14px;}
+audio{width:100%; margin-top:12px;}
 /* ---- splash de arranque ---- */
 #splash{
   position:fixed; inset:0; z-index:50; background:var(--bg);
@@ -260,8 +291,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </div>
 <div id="app">
 
-  <!-- ====== PANTALLA 0: PORTADA ====== -->
-  <section id="scr-landing" class="screen active">
+  <!-- ====== PANTALLA: INICIO (portada + configuración) ====== -->
+  <section id="scr-home" class="screen active">
     <header>
       <div class="brand">
         <img src="icon-192.png" alt="">
@@ -276,66 +307,53 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       </button>
     </header>
 
-    <div class="spacer"></div>
-
-    <div class="ios-grid">
-      <button type="button" class="widget" id="btnIrVuelo">
-        <span class="widget-icon"><svg class="icon fill"><use href="#i-plane"></use></svg></span>
-        <span class="widget-text"><b>Mi vuelo</b><span>Sigue tu vuelo en modo avión, sin datos ni wifi</span></span>
-      </button>
-
-      <a href="planes/" class="widget">
-        <span class="widget-icon"><svg class="icon"><use href="#i-map"></use></svg></span>
-        <span class="widget-text"><b>Planes de viaje</b><span>Lanzarote, Gran Canaria y más rutas guardadas</span></span>
-      </a>
-
-      <div class="app-row" id="appRow"></div>
+    <div class="hero">
+      <h2>Sigue tu vuelo sin conexión<br><span class="lime">de datos o wifi</span></h2>
     </div>
 
-    <div class="spacer"></div>
-  </section>
-
-  <!-- ====== PANTALLA 1: CONFIGURACIÓN ====== -->
-  <section id="scr-setup" class="screen">
-    <header>
-      <div class="brand">
-        <img src="icon-192.png" alt="">
-        <div>
-          <h1>Por dónde voy</h1>
-          <p>Elige tu destino · funciona en modo avión</p>
-        </div>
-      </div>
-      <button type="button" class="gs-boton" onclick="GrupoSaneas.abrirMenu()" aria-label="Ver las apps del Grupo Saneas">
-        <span class="gs-b-marca">Grupo <b>Saneas</b> &#9656;</span>
-        <span class="gs-b-accion">despliega</span>
+    <div class="cards2">
+      <button type="button" class="entrycard mivuelo" id="btnIrVuelo">
+        <span class="entrycard-icon"><svg class="icon fill"><use href="#i-plane"></use></svg></span>
+        <div><h3>Mi vuelo</h3><p>Sigue tu vuelo en modo avión, sin datos ni wifi. Monitoriza velocidad y altitud.</p></div>
       </button>
-    </header>
 
-    <div class="card">
-      <h2>1 · Tu destino</h2>
+      <a href="planes/" class="entrycard planes">
+        <span class="entrycard-icon"><svg class="icon"><use href="#i-map"></use></svg></span>
+        <div><h3>Planes de viaje</h3><p>Lanzarote, Gran Canaria y más rutas guardadas. Mapas e info offline.</p></div>
+      </a>
+    </div>
+
+    <div class="card" id="destino-card">
+      <div class="card-head"><span class="card-num">1</span><h2>Tu destino</h2></div>
       <label for="destino">¿Cuál es tu ruta?</label>
       <select id="destino"></select>
-      <div class="row" style="margin-top:12px;">
+      <div class="row" style="margin-top:14px;">
         <button type="button" class="dirbtn activo" id="dirIda">Madrid → destino</button>
         <button type="button" class="dirbtn" id="dirVuelta">destino → Madrid</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>2 · Tu vuelo</h2>
-      <label for="aerolinea">Aerolínea</label>
-      <select id="aerolinea">
-        <option>Iberia</option>
-        <option>Iberia Express</option>
-        <option>Air Europa</option>
-        <option>Vueling</option>
-        <option>Ryanair</option>
-        <option>easyJet</option>
-        <option>Binter Canarias</option>
-        <option>Otra</option>
-      </select>
-      <label for="nvuelo">Número de vuelo (opcional)</label>
-      <input type="text" id="nvuelo" placeholder="IB 3820" autocomplete="off">
+      <div class="card-head"><span class="card-num">2</span><h2>Tu vuelo</h2></div>
+      <div class="row">
+        <div>
+          <label for="aerolinea" style="margin-top:0">Aerolínea</label>
+          <select id="aerolinea">
+            <option>Iberia</option>
+            <option>Iberia Express</option>
+            <option>Air Europa</option>
+            <option>Vueling</option>
+            <option>Ryanair</option>
+            <option>easyJet</option>
+            <option>Binter Canarias</option>
+            <option>Otra</option>
+          </select>
+        </div>
+        <div>
+          <label for="nvuelo" style="margin-top:0">Número de vuelo (opcional)</label>
+          <input type="text" id="nvuelo" placeholder="IB 3820" autocomplete="off">
+        </div>
+      </div>
       <div class="row">
         <div>
           <label for="hsalida">Salida prevista</label>
@@ -357,27 +375,36 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     </div>
 
     <div class="card">
-      <h2>3 · Entretenimiento para el vuelo</h2>
-      <div class="estado"><svg class="icon"><use href="#i-newspaper"></use></svg> Noticias del día: <span id="estNoticias">comprobando…</span></div>
-      <label for="podSel"><svg class="icon"><use href="#i-headphones"></use></svg> Podcast (descárgalo con wifi y escúchalo en el avión)</label>
-      <select id="podSel">
-        <option value="">Elige un podcast…</option>
-        <option value="kuppers">Víctor Küppers</option>
-        <option value="marian">Marian Rojas Estapé</option>
-        <option value="aprendemos">BBVA Aprendemos juntos</option>
-        <option value="dietacojea">Mi Dieta Cojea — nutrición con Aitor Sánchez</option>
-      </select>
-      <div id="epLista"></div>
+      <div class="card-head"><span class="card-num">3</span><h2>Entretenimiento para el vuelo</h2></div>
+      <div class="subgrid">
+        <div class="subcard">
+          <div class="subcard-head noticias"><svg class="icon"><use href="#i-newspaper"></use></svg><h3>Noticias del día</h3></div>
+          <div class="estado"><span id="estNoticias">comprobando…</span></div>
+        </div>
+        <div class="subcard">
+          <div class="subcard-head podcast"><svg class="icon"><use href="#i-headphones"></use></svg><h3>Podcast</h3><span class="badge-offline">OFFLINE</span></div>
+          <label for="podSel" style="margin:10px 0 8px;">Descárgalo con wifi y escúchalo en el avión</label>
+          <select id="podSel">
+            <option value="">Elige un podcast…</option>
+            <option value="kuppers">Víctor Küppers</option>
+            <option value="marian">Marian Rojas Estapé</option>
+            <option value="aprendemos">BBVA Aprendemos juntos</option>
+            <option value="dietacojea">Mi Dieta Cojea — nutrición con Aitor Sánchez</option>
+          </select>
+          <div id="epLista"></div>
+        </div>
+      </div>
     </div>
 
     <div class="card" id="cardResumen" style="display:none">
-      <h2>Resumen</h2>
+      <div class="card-head"><h2>Resumen</h2></div>
       <div id="resumen"></div>
     </div>
 
-    <div class="spacer"></div>
-    <p class="aviso" style="margin:0 18px;">Abre la app en casa con conexión al menos una vez para que quede guardada. En el avión: activa el modo avión y, justo cuando el avión acelere en la pista, pulsa el botón.</p>
+    <p class="aviso section-pad">Abre la app en casa con conexión al menos una vez para que quede guardada. En el avión: activa el modo avión y, justo cuando el avión acelere en la pista, pulsa el botón.</p>
     <button class="bigbtn" id="btnDespegue"><svg class="icon fill"><use href="#i-plane"></use></svg> ¡Estamos despegando!</button>
+
+    <div class="app-row" id="appRow"></div>
   </section>
 
   <!-- ====== PANTALLA 2: VUELO ====== -->
@@ -430,6 +457,14 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <div id="grupoPie"></div>
   <footer>Por dónde voy · funciona sin conexión · v3 · 12 destinos</footer>
 </div>
+
+<!-- ====== BARRA DE PESTAÑAS (persistente en móvil) ====== -->
+<nav class="tabbar" aria-label="Navegación principal">
+  <button type="button" id="tabEstado"><svg class="icon"><use href="#i-flag"></use></svg>Estado</button>
+  <a href="planes/"><svg class="icon"><use href="#i-map"></use></svg>Planes</a>
+  <button type="button" class="principal" id="tabVolar"><svg class="icon fill"><use href="#i-plane"></use></svg>Volar</button>
+  <button type="button" id="tabMedia"><svg class="icon"><use href="#i-headphones"></use></svg>Media</button>
+</nav>
 
 <!-- ====== PANEL: NOTICIAS ====== -->
 <div class="panel" id="pnlNoticias">
@@ -662,8 +697,7 @@ function despegar(){
 function iniciarVuelo(){
   setRuta(vuelo.ruta, vuelo.sentido || "ida");
   dist = tablaDistancia(vuelo.airMin);
-  $("scr-landing").classList.remove("active");
-  $("scr-setup").classList.remove("active");
+  $("scr-home").classList.remove("active");
   $("scr-flight").classList.add("active");
   $("titVuelo").textContent = nombreOrigen() + " → " + nombreDestino();
   $("codOrigenLbl").textContent = codOrigen();
@@ -937,10 +971,8 @@ cargarNoticias();
 ["hsalida","hllegada","tzCheck","aerolinea","nvuelo"].forEach(id =>
   $(id).addEventListener("input", refrescarResumen));
 $("hsalida").addEventListener("input", () => { sugerirLlegada(); refrescarResumen(); });
-$("btnIrVuelo").addEventListener("click", () => {
-  $("scr-landing").classList.remove("active");
-  $("scr-setup").classList.add("active");
-});
+function irADestino(){ $("destino-card").scrollIntoView({behavior:"smooth", block:"start"}); }
+$("btnIrVuelo").addEventListener("click", irADestino);
 $("btnDespegue").addEventListener("click", despegar);
 $("btnGps").addEventListener("click", ajustarGPS);
 $("btnFin").addEventListener("click", () => {
@@ -949,9 +981,19 @@ $("btnFin").addEventListener("click", () => {
     localStorage.removeItem(KEY);
     vuelo = null;
     $("scr-flight").classList.remove("active");
-    $("scr-setup").classList.add("active");
+    $("scr-home").classList.add("active");
+    window.scrollTo({top:0, behavior:"instant"});
   }
 });
+$("tabEstado").addEventListener("click", () => {
+  if (vuelo){ return; }
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+$("tabVolar").addEventListener("click", () => {
+  if (vuelo) return;
+  irADestino();
+});
+$("tabMedia").addEventListener("click", () => { pintarPodcastPanel(); $("pnlPodcast").classList.add("abierto"); });
 
 // si había un vuelo en marcha (la app se cerró a mitad), lo retomamos
 try {
