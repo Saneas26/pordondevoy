@@ -124,6 +124,7 @@ select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{ou
   padding:10px 16px; font-size:14px; font-weight:600; cursor:pointer;
 }
 .ghostbtn .icon{width:16px; height:16px;}
+.panel .cab .ghostbtn{border-color:var(--accent); color:var(--accent);}
 #scr-home.active ~ #grupoPie{display:none;}
 .bottombar{position:fixed; z-index:45; left:0; right:0; bottom:0; display:flex; flex-direction:column;}
 .miniplayer{display:none; align-items:center; gap:12px; padding:9px 16px; background:rgba(13,28,45,.97);
@@ -526,7 +527,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <div class="panel" id="pnlNoticias">
   <div class="cab">
     <h3><svg class="icon"><use href="#i-newspaper"></use></svg> Noticias del día</h3>
-    <button class="ghostbtn" data-cerrar="pnlNoticias"><svg class="icon"><use href="#i-close"></use></svg> Cerrar</button>
+    <button class="ghostbtn" data-cerrar="pnlNoticias"><svg class="icon"><use href="#i-close"></use></svg> Volver</button>
   </div>
   <div class="cuerpo" id="cuerpoNoticias"></div>
 </div>
@@ -535,7 +536,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <div class="panel" id="pnlPodcast">
   <div class="cab">
     <h3><svg class="icon"><use href="#i-headphones"></use></svg> Tus podcasts</h3>
-    <button class="ghostbtn" data-cerrar="pnlPodcast"><svg class="icon"><use href="#i-close"></use></svg> Cerrar</button>
+    <button class="ghostbtn" data-cerrar="pnlPodcast"><svg class="icon"><use href="#i-close"></use></svg> Volver</button>
   </div>
   <div class="cuerpo" id="cuerpoPodcast">
     <div class="player-hero vacio" id="playerHero">
