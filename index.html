@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <title>Por dónde voy</title>
 <meta name="description" content="Sigue tu vuelo desde Madrid sin conexión, en modo avión.">
-<meta name="theme-color" content="#041e3f">
+<meta name="theme-color" content="#051424">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -13,6 +13,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Por dónde voy">
 <style>
+@font-face{
+  font-family:"Hanken Grotesk";
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url("hanken-grotesk-bold.woff2") format("woff2");
+}
 @font-face{
   font-family:"Quicksand";
   font-style:normal;
@@ -28,9 +35,12 @@
   src:url("montserrat-bold.woff2") format("woff2");
 }
 :root{
-  --bg:#041e3f; --panel:#0a3060; --panel-2:#0d3a73; --line:#1c4d8f;
-  --text:#eaf3fd; --muted:#8fb8e6; --accent:#f7b731; --accent-dark:#4a3403;
+  --bg:#051424; --surface-1:#0d1c2d; --surface-2:#122131; --surface-3:#1c2b3c;
+  --line:rgba(212,228,250,.14);
+  --text:#d4e4fa; --muted:#8fa3bd; --accent:#00e5ff; --accent-ink:#03222c;
   --ok:#35c98e;
+  --display:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
 html,body{height:100%;}
@@ -40,92 +50,101 @@ body{
   display:flex; justify-content:center;
   padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
+::selection{background:var(--accent); color:var(--accent-ink);}
 #app{width:100%; max-width:480px; min-height:100dvh; display:flex; flex-direction:column;}
 .screen{display:none; flex-direction:column; flex:1;}
 .screen.active{display:flex;}
+.icon{width:1em; height:1em; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; vertical-align:-.15em;}
+.icon.fill{fill:currentColor; stroke:none;}
 header{display:flex; align-items:center; gap:12px; padding:18px 20px 10px;}
 header img{width:44px; height:44px; border-radius:11px;}
-header h1{font-size:20px; font-weight:700;}
+header h1{font:700 20px/1.2 var(--display);}
 header p{font-size:13px; color:var(--muted);}
 .spacer{flex:1;}
-.card{background:var(--panel); border-radius:16px; padding:16px; margin:8px 16px;}
-.card h2{font-size:14px; color:var(--muted); font-weight:600; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px;}
+.card{background:var(--surface-1); border:1px solid var(--line); border-radius:20px; padding:16px; margin:8px 16px;}
+.card h2{font:600 12px/1 var(--mono); color:var(--muted); margin-bottom:12px; text-transform:uppercase; letter-spacing:.08em;}
 label{display:block; font-size:13px; color:var(--muted); margin:12px 0 6px;}
 select,input[type=time],input[type=text]{
-  width:100%; padding:12px; border-radius:10px; border:1px solid var(--line);
-  background:var(--panel-2); color:var(--text); font-size:16px; appearance:none;
+  width:100%; padding:12px; border-radius:12px; border:1px solid var(--line);
+  background:var(--surface-2); color:var(--text); font-size:16px; appearance:none;
 }
+select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
 #destino{border-color:var(--accent); font-weight:700;}
 .dirbtn{
-  flex:1; padding:11px 6px; border-radius:10px; border:1px solid var(--line);
-  background:var(--panel-2); color:var(--muted); font-size:13px; font-weight:600; cursor:pointer;
+  flex:1; padding:11px 6px; border-radius:12px; border:1px solid var(--line);
+  background:var(--surface-2); color:var(--muted); font-size:13px; font-weight:600; cursor:pointer;
 }
-.dirbtn.activo{background:var(--accent); border-color:var(--accent); color:var(--accent-dark);}
+.dirbtn.activo{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
 .row{display:flex; gap:12px;}
 .row>div{flex:1;}
 .check{display:flex; align-items:flex-start; gap:10px; margin-top:14px; font-size:13px; color:var(--muted); cursor:pointer;}
 .check input{width:18px; height:18px; margin-top:1px; accent-color:var(--accent);}
 .bigbtn{
-  display:block; width:calc(100% - 32px); margin:14px 16px; padding:18px;
-  background:var(--accent); color:var(--accent-dark); border:none; border-radius:16px;
-  font-size:20px; font-weight:800; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:calc(100% - 32px); margin:14px 16px; padding:18px;
+  background:var(--accent); color:var(--accent-ink); border:none; border-radius:18px;
+  font:800 18px/1 var(--display); cursor:pointer;
 }
+.bigbtn .icon{width:1.15em; height:1.15em;}
 .bigbtn:active{transform:scale(.98);}
 .bigbtn:disabled{opacity:.4;}
 .ios-grid{width:100%; max-width:420px; margin:0 auto; padding:0 10px; display:flex; flex-direction:column; align-items:center; gap:14px;}
 .widget{
   width:100%; aspect-ratio:2.2; border-radius:26px; box-sizing:border-box;
-  background:rgba(255,255,255,.94);
+  background:rgba(248,249,250,.96);
   -webkit-backdrop-filter:blur(24px) saturate(160%); backdrop-filter:blur(24px) saturate(160%);
   border:1px solid rgba(255,255,255,.6);
-  box-shadow:0 14px 30px rgba(0,0,0,.3);
+  box-shadow:0 14px 30px rgba(1,10,20,.4);
   padding:16px 22px; display:flex; flex-direction:row; align-items:center; gap:16px;
   text-align:left; text-decoration:none; cursor:pointer; -webkit-tap-highlight-color:transparent;
 }
 .widget:active{transform:scale(.97);}
-.widget-icon{font-size:36px; line-height:1; flex-shrink:0;}
+.widget-icon{width:44px; height:44px; flex-shrink:0; border-radius:14px; background:var(--bg); color:var(--accent); display:flex; align-items:center; justify-content:center;}
+.widget-icon .icon{width:24px; height:24px; stroke-width:1.9;}
 .widget-text{display:flex; flex-direction:column; gap:3px; justify-content:center;}
-.widget-text b{font-size:19px; font-weight:800; color:#12203a;}
+.widget-text b{font:800 19px/1.15 var(--display); color:#0a1a2b;}
 .widget-text span{font-size:12.5px; color:#4d5b70; line-height:1.35;}
 .app-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px 8px; width:100%; margin-top:2px;}
 .app-icon{display:flex; flex-direction:column; align-items:center; gap:6px; background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent;}
-.app-icon img{width:100%; aspect-ratio:1; border-radius:22%; box-shadow:0 6px 14px rgba(0,0,0,.3); background:#fff; display:block;}
-.app-icon span{font-size:10.5px; font-weight:600; color:#fff; text-align:center; line-height:1.25;}
+.app-icon img{width:100%; aspect-ratio:1; border-radius:22%; box-shadow:0 6px 14px rgba(1,10,20,.4); background:#fff; display:block;}
+.app-icon span{font-size:10.5px; font-weight:600; color:var(--text); text-align:center; line-height:1.25;}
 #scr-landing.active ~ #grupoPie{display:none;}
 .ghostbtn{
-  background:none; border:1px solid var(--line); color:var(--muted); border-radius:10px;
-  padding:8px 14px; font-size:13px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  background:none; border:1px solid var(--line); color:var(--muted); border-radius:12px;
+  padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer;
 }
+.ghostbtn .icon{width:15px; height:15px;}
 #resumen{font-size:15px; line-height:1.6;}
-#resumen strong{color:var(--accent);}
-#mapwrap{margin:4px 16px; background:#052a57; border-radius:16px; overflow:hidden; border:1px solid var(--line);
+#resumen strong{color:var(--accent); font-family:var(--mono); font-weight:600;}
+#mapwrap{margin:4px 16px; background:#08202f; border-radius:20px; overflow:hidden; border:1px solid var(--line);
   display:flex; justify-content:center;}
 #map{display:block; width:100%; height:auto; max-height:56vh;}
-#situacion{margin:8px 16px 0; padding:12px 16px; background:var(--panel); border-radius:14px;}
-#situacion .lugar{font-size:17px; font-weight:700; color:var(--accent);}
+#situacion{margin:8px 16px 0; padding:12px 16px; background:var(--surface-1); border:1px solid var(--line); border-radius:16px;}
+#situacion .lugar{font:700 17px/1.3 var(--display); color:var(--accent);}
 #situacion .detalle{font-size:13px; color:var(--muted); margin-top:3px; line-height:1.45;}
 #barra{margin:10px 16px 0;}
-#barra .track{height:6px; background:var(--panel-2); border-radius:3px; overflow:hidden;}
+#barra .track{height:6px; background:var(--surface-2); border-radius:3px; overflow:hidden;}
 #barra .fill{height:100%; width:0%; background:var(--accent); border-radius:3px; transition:width 1s linear;}
-#barra .pcts{display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:5px;}
+#barra .pcts{display:flex; justify-content:space-between; font:600 11px/1 var(--mono); color:var(--muted); margin-top:6px; letter-spacing:.03em;}
 #stats{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:10px 16px;}
-.stat{background:var(--panel); border-radius:14px; padding:10px 6px; text-align:center;}
-.stat .v{font-size:17px; font-weight:700;}
-.stat .l{font-size:11px; color:var(--muted); margin-top:2px;}
-#faseTag{display:inline-block; font-size:12px; font-weight:700; color:var(--accent-dark);
-  background:var(--accent); border-radius:99px; padding:3px 10px;}
+.stat{background:var(--surface-1); border:1px solid var(--line); border-radius:16px; padding:12px 6px; text-align:center;}
+.stat .v{font:700 17px/1 var(--mono); color:var(--text);}
+.stat .l{font-size:11px; color:var(--muted); margin-top:5px; text-transform:uppercase; letter-spacing:.06em;}
+#faseTag{display:inline-flex; align-items:center; font:700 11px/1 var(--mono); letter-spacing:.04em; text-transform:uppercase; color:var(--accent-ink);
+  background:var(--accent); border-radius:99px; padding:5px 12px;}
 #flightHead{display:flex; align-items:center; gap:10px; padding:14px 16px 6px;}
-#flightHead .tit{font-size:16px; font-weight:700;}
-#flightHead .sub{font-size:12px; color:var(--muted);}
+#flightHead .tit{font:700 16px/1.2 var(--display);}
+#flightHead .sub{font-size:12px; color:var(--muted); font-family:var(--mono);}
 #toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
-  background:var(--panel-2); border:1px solid var(--line); color:var(--text);
+  background:var(--surface-2); border:1px solid var(--line); color:var(--text);
   padding:10px 18px; border-radius:99px; font-size:14px; opacity:0; transition:opacity .3s; pointer-events:none; white-space:nowrap;}
 #toast.show{opacity:1;}
 #saneas{
   display:block; margin:4px 16px 14px; padding:13px 16px 12px;
-  background:rgba(255,255,255,.92); border-radius:16px; text-align:center; text-decoration:none;
+  background:rgba(248,249,250,.96); border-radius:18px; text-align:center; text-decoration:none;
   font-family:"Quicksand",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; font-weight:700;
-  box-shadow:0 6px 16px rgba(0,0,0,.22);
+  box-shadow:0 6px 16px rgba(1,10,20,.35);
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
 #saneas .marca{display:block; font-size:21px; color:#3890a4; letter-spacing:.3px; line-height:1;}
@@ -139,33 +158,35 @@ header .brand{display:flex; align-items:center; gap:12px; flex:1;}
 .gs-boton{background:none; border:0; padding:2px 6px; margin:0 0 0 auto; cursor:pointer;
   text-align:left; line-height:1.15; min-height:0; border-radius:8px;
   font-family:"Quicksand",-apple-system,"Segoe UI",sans-serif;}
-.gs-boton:hover{background:rgba(255,255,255,.14);}
-.gs-b-marca{display:block; font-size:14px; font-weight:700; color:#fff;}
-.gs-b-marca b{font-weight:700;}
-.gs-b-accion{display:block; font-size:11px; font-weight:700; color:rgba(255,255,255,.78); letter-spacing:.04em;}
+.gs-boton:hover{background:rgba(212,228,250,.1);}
+.gs-b-marca{display:block; font-size:14px; font-weight:700; color:var(--text);}
+.gs-b-marca b{font-weight:700; color:var(--accent);}
+.gs-b-accion{display:block; font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.04em;}
 #grupoPie{margin:4px 16px 14px;}
-#grupoPie .gs-item b{color:#fff;}
-footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
+#grupoPie .gs-item b{color:var(--text);}
+footer{padding:14px; text-align:center; font-size:11px; color:var(--muted); font-family:var(--mono);}
 .aviso{font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px;}
 /* ---- entretenimiento: noticias y podcast ---- */
-.estado{font-size:13px; color:var(--muted); margin-top:4px; line-height:1.5;}
+.estado{display:flex; align-items:center; gap:6px; font-size:13px; color:var(--muted); margin-top:4px; line-height:1.5;}
 .estado b{color:var(--ok);}
-.ep{background:var(--panel-2); border-radius:12px; padding:10px 12px; margin-top:10px;}
+.ep{background:var(--surface-2); border:1px solid var(--line); border-radius:14px; padding:10px 12px; margin-top:10px;}
 .ep .et{font-size:13.5px; font-weight:600; line-height:1.35;}
-.ep .em{font-size:11.5px; color:var(--muted); margin-top:3px;}
+.ep .em{font-size:11.5px; color:var(--muted); margin-top:3px; font-family:var(--mono);}
 .ep .ghostbtn{margin-top:8px; width:100%;}
 .ep .ghostbtn.listo{border-color:var(--ok); color:var(--ok);}
 .panel{position:fixed; inset:0; z-index:40; background:var(--bg); display:none; flex-direction:column;
   padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);}
 .panel.abierto{display:flex;}
 .panel .cab{display:flex; align-items:center; gap:12px; padding:16px;}
-.panel .cab h3{font-size:18px; flex:1;}
+.panel .cab h3{display:flex; align-items:center; gap:9px; font:700 18px/1.2 var(--display); flex:1;}
 .panel .cuerpo{flex:1; overflow-y:auto; padding:0 16px 30px; max-width:480px; width:100%; margin:0 auto;}
-.noti{background:var(--panel); border-radius:14px; padding:13px 15px; margin-bottom:10px; cursor:pointer;}
-.noti .fu{font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:.6px; font-weight:700;}
-.noti .ti{font-size:15.5px; font-weight:700; margin:5px 0 6px; line-height:1.35;}
+.noti{background:var(--surface-1); border:1px solid var(--line); border-radius:16px; padding:13px 15px; margin-bottom:10px; cursor:pointer;}
+.noti .fu{font:700 11px/1 var(--mono); color:var(--accent); text-transform:uppercase; letter-spacing:.08em;}
+.noti .ti{font:700 15.5px/1.35 var(--display); margin:7px 0 6px;}
 .noti .re{font-size:13.5px; color:var(--muted); line-height:1.55;}
-.noti .mas{font-size:12px; color:var(--accent); margin-top:8px; font-weight:600;}
+.noti .mas{display:flex; align-items:center; gap:5px; font-size:12px; color:var(--accent); margin-top:8px; font-weight:600;}
+.noti .mas .chev{width:13px; height:13px; transition:transform .2s ease;}
+.noti.abierta .mas .chev{transform:rotate(180deg);}
 .noti .cu{display:none; margin-top:10px; border-top:1px solid var(--line); padding-top:10px;}
 .noti.abierta .cu{display:block;}
 .noti .cu p{font-size:14px; color:var(--text); line-height:1.65; margin-bottom:12px;}
@@ -175,19 +196,19 @@ audio{width:100%; margin-top:10px;}
   position:fixed; inset:0; z-index:50; background:var(--bg);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; transition:opacity .65s ease;
-  font-family:"Quicksand",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-family:var(--display);
 }
 #splash.fuera{opacity:0; pointer-events:none;}
 #splash svg{width:270px; height:150px; margin-bottom:2px;}
 #splash .sp-cover{animation:spTrail 1.7s cubic-bezier(.45,0,.25,1) .15s forwards;}
 #splash .sp-plane{opacity:0; animation:spPlane 1.7s cubic-bezier(.45,0,.25,1) .15s forwards;}
-#splash .t1{font-size:34px; font-weight:700; color:#eaf3fd; opacity:0; animation:spUp .7s ease .6s forwards;}
+#splash .t1{font-size:34px; font-weight:700; color:var(--text); opacity:0; animation:spUp .7s ease .6s forwards;}
 #splash .t1 b{color:var(--accent);}
-#splash .t2{font-size:16px; font-weight:700; color:var(--muted); margin-top:12px; max-width:320px;
+#splash .t2{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; font-size:16px; font-weight:700; color:var(--muted); margin-top:12px; max-width:320px;
   line-height:1.55; opacity:0; animation:spUp .7s ease 1.1s forwards;}
 #splash .t2 b{color:var(--accent);}
-#splash .t3{font-size:15px; font-weight:700; letter-spacing:1.5px; margin-top:30px;
-  color:#4aa8bd; opacity:0; animation:spUp .8s ease 1.6s forwards;}
+#splash .t3{font-family:var(--mono); font-size:13px; font-weight:600; letter-spacing:.14em; margin-top:30px;
+  color:var(--muted); opacity:0; animation:spUp .8s ease 1.6s forwards;}
 @keyframes spUp{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:none;}}
 @keyframes spTrail{to{stroke-dashoffset:300;}}
 @keyframes spPlane{
@@ -204,11 +225,33 @@ audio{width:100%; margin-top:10px;}
 </style>
 </head>
 <body>
+<!--
+THESIS: Cockpit instrumentation, not a travel-brand palette swap — the app already reads like a status board (velocidad, altitud, ETA); the redesign commits to that instead of softening it into stock forms-app blue.
+OWN-WORLD: bg #051424, tonal surfaces #0d1c2d→#1c2b3c, cyan telemetry accent #00e5ff, Hanken Grotesk (self-hosted bold) for display type, system sans body, system mono stack for every data label/value/status pill, drawn line-icon set replacing emoji, white elevated cards for the two highest-priority entry points.
+STORY: Óscar and family glance at speed/altitude/ETA mid-flight and read them like calibrated instruments; at home they pick a destination from two clear entry widgets, same instrument-panel confidence either way.
+FIRST VIEWPORT: portada — deep navy field, Hanken Grotesk wordmark top-left, two white 4×2 widgets (Mi vuelo, Planes de viaje) with drawn icons in cyan-on-navy badges, Grupo Saneas app row below.
+FORM: brief-pinned direction (user-supplied "Horizon Ethos" DESIGN.md + Stitch concept, confirmed scope: app shell only, guides excluded) — no roll, no concept tournament; the user's own words set the world.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md.
+-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2.5 1.8V22l3.5-1 3.5 1v-1.2L12 19v-5.5l8 2.5z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-newspaper" viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="15" rx="1.5"/><path d="M17 8h2.5A1.5 1.5 0 0 1 21 9.5V18a2 2 0 0 1-2 2H6"/><path d="M6 9h8M6 12.5h8M6 16h5"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></symbol>
+  <symbol id="i-satellite" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 3v18"/><path d="M5 4h13l-3 4 3 4H5"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8V4z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
+</svg>
 <div id="splash" role="dialog" aria-label="Por dónde voy">
   <svg viewBox="0 0 260 150" aria-hidden="true">
-    <circle cx="20" cy="130" r="4.5" fill="#f7b731"/>
-    <path d="M20,130 C70,120 100,80 130,62 C160,44 200,40 228,30" fill="none" stroke="#eaf3fd" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="0.5 11" pathLength="300"/>
-    <path class="sp-cover" d="M20,130 C70,120 100,80 130,62 C160,44 200,40 228,30" fill="none" stroke="#041e3f" stroke-width="11" pathLength="300" stroke-dasharray="300"/>
+    <circle cx="20" cy="130" r="4.5" fill="#00e5ff"/>
+    <path d="M20,130 C70,120 100,80 130,62 C160,44 200,40 228,30" fill="none" stroke="#2c435c" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="0.5 11" pathLength="300"/>
+    <path class="sp-cover" d="M20,130 C70,120 100,80 130,62 C160,44 200,40 228,30" fill="none" stroke="#051424" stroke-width="11" pathLength="300" stroke-dasharray="300"/>
     <g class="sp-plane"><path d="M0,-14 L2.6,-3 L13,5.5 L13,8.6 L2.6,4.8 L1.6,11.8 L5.4,15.6 L0,14 L-5.4,15.6 L-1.6,11.8 L-2.6,4.8 L-13,8.6 L-13,5.5 L-2.6,-3 Z" fill="#ffffff"/></g>
   </svg>
   <div class="t1">Por dónde <b>voy</b></div>
@@ -237,12 +280,12 @@ audio{width:100%; margin-top:10px;}
 
     <div class="ios-grid">
       <button type="button" class="widget" id="btnIrVuelo">
-        <span class="widget-icon">🛫</span>
+        <span class="widget-icon"><svg class="icon fill"><use href="#i-plane"></use></svg></span>
         <span class="widget-text"><b>Mi vuelo</b><span>Sigue tu vuelo en modo avión, sin datos ni wifi</span></span>
       </button>
 
       <a href="planes/" class="widget">
-        <span class="widget-icon">🗺️</span>
+        <span class="widget-icon"><svg class="icon"><use href="#i-map"></use></svg></span>
         <span class="widget-text"><b>Planes de viaje</b><span>Lanzarote, Gran Canaria y más rutas guardadas</span></span>
       </a>
 
@@ -315,8 +358,8 @@ audio{width:100%; margin-top:10px;}
 
     <div class="card">
       <h2>3 · Entretenimiento para el vuelo</h2>
-      <div class="estado">📰 Noticias del día: <span id="estNoticias">comprobando…</span></div>
-      <label for="podSel">🎧 Podcast (descárgalo con wifi y escúchalo en el avión)</label>
+      <div class="estado"><svg class="icon"><use href="#i-newspaper"></use></svg> Noticias del día: <span id="estNoticias">comprobando…</span></div>
+      <label for="podSel"><svg class="icon"><use href="#i-headphones"></use></svg> Podcast (descárgalo con wifi y escúchalo en el avión)</label>
       <select id="podSel">
         <option value="">Elige un podcast…</option>
         <option value="kuppers">Víctor Küppers</option>
@@ -334,7 +377,7 @@ audio{width:100%; margin-top:10px;}
 
     <div class="spacer"></div>
     <p class="aviso" style="margin:0 18px;">Abre la app en casa con conexión al menos una vez para que quede guardada. En el avión: activa el modo avión y, justo cuando el avión acelere en la pista, pulsa el botón.</p>
-    <button class="bigbtn" id="btnDespegue">🛫 ¡Estamos despegando!</button>
+    <button class="bigbtn" id="btnDespegue"><svg class="icon fill"><use href="#i-plane"></use></svg> ¡Estamos despegando!</button>
   </section>
 
   <!-- ====== PANTALLA 2: VUELO ====== -->
@@ -368,13 +411,13 @@ audio{width:100%; margin-top:10px;}
     </div>
 
     <div style="display:flex; gap:10px; justify-content:center; margin:6px 16px 10px;">
-      <button class="ghostbtn" id="btnGps">📡 Ajustar con GPS</button>
+      <button class="ghostbtn" id="btnGps"><svg class="icon"><use href="#i-satellite"></use></svg> Ajustar con GPS</button>
       <button class="ghostbtn" id="btnFin">Terminar vuelo</button>
     </div>
 
     <div style="display:flex; gap:10px; justify-content:center; margin:0 16px 12px;">
-      <button class="ghostbtn" id="btnNoticias">📰 Noticias del día</button>
-      <button class="ghostbtn" id="btnPodcast">🎧 Podcast</button>
+      <button class="ghostbtn" id="btnNoticias"><svg class="icon"><use href="#i-newspaper"></use></svg> Noticias del día</button>
+      <button class="ghostbtn" id="btnPodcast"><svg class="icon"><use href="#i-headphones"></use></svg> Podcast</button>
     </div>
 
     <a id="saneas" href="https://saneas.es">
@@ -391,8 +434,8 @@ audio{width:100%; margin-top:10px;}
 <!-- ====== PANEL: NOTICIAS ====== -->
 <div class="panel" id="pnlNoticias">
   <div class="cab">
-    <h3>📰 Noticias del día</h3>
-    <button class="ghostbtn" data-cerrar="pnlNoticias">✕ Cerrar</button>
+    <h3><svg class="icon"><use href="#i-newspaper"></use></svg> Noticias del día</h3>
+    <button class="ghostbtn" data-cerrar="pnlNoticias"><svg class="icon"><use href="#i-close"></use></svg> Cerrar</button>
   </div>
   <div class="cuerpo" id="cuerpoNoticias"></div>
 </div>
@@ -400,8 +443,8 @@ audio{width:100%; margin-top:10px;}
 <!-- ====== PANEL: PODCAST ====== -->
 <div class="panel" id="pnlPodcast">
   <div class="cab">
-    <h3>🎧 Tus podcasts</h3>
-    <button class="ghostbtn" data-cerrar="pnlPodcast">✕ Cerrar</button>
+    <h3><svg class="icon"><use href="#i-headphones"></use></svg> Tus podcasts</h3>
+    <button class="ghostbtn" data-cerrar="pnlPodcast"><svg class="icon"><use href="#i-close"></use></svg> Cerrar</button>
   </div>
   <div class="cuerpo" id="cuerpoPodcast"></div>
 </div>
@@ -491,7 +534,7 @@ function tablaDistancia(T){
 
 /* ================= MAPA SVG ================= */
 function construirMapa(){
-  const land = "#155293", landLine = "#2f74c0", sea = "#052a57";
+  const land = "#12283b", landLine = "#2c4a63", sea = "#08202f";
   const Wv = PROY.W, Hv = PROY.H;
   let s = `<svg id="map" viewBox="0 0 ${Wv} ${Hv}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa del vuelo">`;
   s += `<rect width="${Wv}" height="${Hv}" fill="${sea}"/>`;
@@ -504,22 +547,22 @@ function construirMapa(){
     const p = P(la, lo);
     if (nombreDestino().includes(n)) continue;
     if (Math.hypot(p[0]-destP[0], p[1]-destP[1]) < 38) continue;
-    s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="#9ec7f0"/>`;
-    s += `<text x="${p[0].toFixed(1)}" y="${(p[1]-7).toFixed(1)}" font-size="11" fill="#9ec7f0" text-anchor="middle" font-family="inherit">${n}</text>`;
+    s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.2" fill="#7fa3c4"/>`;
+    s += `<text x="${p[0].toFixed(1)}" y="${(p[1]-7).toFixed(1)}" font-size="11" fill="#7fa3c4" text-anchor="middle" font-family="inherit">${n}</text>`;
   }
   const rutaPts = RUTA.map(w => P(w.lat, w.lon));
   const d = rutaPts.map((p,i) => (i?"L":"M") + p.map(n=>n.toFixed(1)).join(",")).join(" ");
-  s += `<path d="${d}" fill="none" stroke="#3a6ea8" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>`;
-  s += `<path id="trail" d="${d}" fill="none" stroke="#f7b731" stroke-width="2.5" stroke-linecap="round"/>`;
+  s += `<path d="${d}" fill="none" stroke="#2c4a63" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>`;
+  s += `<path id="trail" d="${d}" fill="none" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>`;
   for (const [i] of RUTA.entries()){
     const p = rutaPts[i];
-    s += `<circle id="wp${i}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#4a76ad"/>`;
+    s += `<circle id="wp${i}" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#3d5871"/>`;
   }
-  s += `<circle cx="${rutaPts[0][0].toFixed(1)}" cy="${rutaPts[0][1].toFixed(1)}" r="4.5" fill="#eaf3fd"/>`;
-  s += `<circle cx="${destP[0].toFixed(1)}" cy="${destP[1].toFixed(1)}" r="4.5" fill="#f7b731"/>`;
+  s += `<circle cx="${rutaPts[0][0].toFixed(1)}" cy="${rutaPts[0][1].toFixed(1)}" r="4.5" fill="#d4e4fa"/>`;
+  s += `<circle cx="${destP[0].toFixed(1)}" cy="${destP[1].toFixed(1)}" r="4.5" fill="#00e5ff"/>`;
   const dy = destP[1] > Hv - 26 ? -12 : 18;
-  s += `<text x="${destP[0].toFixed(1)}" y="${(destP[1]+dy).toFixed(1)}" font-size="12" font-weight="700" fill="#f7b731" text-anchor="middle" font-family="inherit">${nombreDestino()}</text>`;
-  s += `<g id="plane"><path d="M0,-14 L2.6,-3 L13,5.5 L13,8.6 L2.6,4.8 L1.6,11.8 L5.4,15.6 L0,14 L-5.4,15.6 L-1.6,11.8 L-2.6,4.8 L-13,8.6 L-13,5.5 L-2.6,-3 Z" fill="#ffffff" stroke="#052a57" stroke-width="1"/></g>`;
+  s += `<text x="${destP[0].toFixed(1)}" y="${(destP[1]+dy).toFixed(1)}" font-size="12" font-weight="700" fill="#00e5ff" text-anchor="middle" font-family="inherit">${nombreDestino()}</text>`;
+  s += `<g id="plane"><path d="M0,-14 L2.6,-3 L13,5.5 L13,8.6 L2.6,4.8 L1.6,11.8 L5.4,15.6 L0,14 L-5.4,15.6 L-1.6,11.8 L-2.6,4.8 L-13,8.6 L-13,5.5 L-2.6,-3 Z" fill="#ffffff" stroke="#08202f" stroke-width="1"/></g>`;
   s += `</svg>`;
   $("mapwrap").innerHTML = s;
 }
@@ -668,13 +711,13 @@ function tick(){
 
   RUTA.forEach((w,i) => {
     const el = document.getElementById("wp"+i);
-    if (el) el.setAttribute("fill", CUM[i] <= km ? "#f7b731" : "#4a76ad");
+    if (el) el.setAttribute("fill", CUM[i] <= km ? "#00e5ff" : "#3d5871");
   });
 
   const seg = pos.seg;
   const wp = km < 20 ? RUTA[0] : RUTA[Math.min(seg + (km - CUM[seg] > havKm(RUTA[seg],RUTA[seg+1])/2 ? 1 : 0), RUTA.length-1)];
   if (fin){
-    $("sitLugar").textContent = "🛬 " + RUTA[RUTA.length-1].name;
+    $("sitLugar").innerHTML = '<svg class="icon"><use href="#i-flag"></use></svg> ' + RUTA[RUTA.length-1].name;
     $("sitDetalle").textContent = "Vuelo completado. Rodando hacia la terminal, ¡disfruta del viaje!";
     $("faseTag").textContent = "En tierra";
   } else {
@@ -750,13 +793,13 @@ function pintarNoticias(){
     d.noticias.map(n => {
       const cuerpo = (n.cuerpo || "").split("\n\n").filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
       return `<div class="noti"><div class="fu">${esc(n.fuente)}</div><div class="ti">${esc(n.titulo)}</div><div class="re">${esc(n.resumen)}</div>` +
-        (cuerpo ? `<div class="mas">▾ Leer la noticia completa</div><div class="cu">${cuerpo}</div>` : "") +
+        (cuerpo ? `<div class="mas"><span class="mas-txt">Leer la noticia completa</span><svg class="icon chev"><use href="#i-chevron-down"></use></svg></div><div class="cu">${cuerpo}</div>` : "") +
         `</div>`;
     }).join("");
   c.querySelectorAll(".noti").forEach(el => el.addEventListener("click", () => {
     el.classList.toggle("abierta");
-    const mas = el.querySelector(".mas");
-    if (mas) mas.textContent = el.classList.contains("abierta") ? "▴ Cerrar la noticia" : "▾ Leer la noticia completa";
+    const txt = el.querySelector(".mas-txt");
+    if (txt) txt.textContent = el.classList.contains("abierta") ? "Cerrar la noticia" : "Leer la noticia completa";
   }));
 }
 
@@ -773,12 +816,14 @@ async function cargarEpisodios(id){
     l.innerHTML = d.episodios.slice(0, 5).map(e => `
       <div class="ep">
         <div class="et">${e.titulo}</div>
-        <div class="em">${e.duracion ? "⏱ " + e.duracion : ""}</div>
+        <div class="em">${e.duracion || ""}</div>
         <button class="ghostbtn ${bajados.has(e.audio) ? "listo" : ""}"
           data-audio="${encodeURIComponent(e.audio)}"
           data-titulo="${encodeURIComponent(e.titulo)}"
           data-pod="${encodeURIComponent(d.nombre)}">
-          ${bajados.has(e.audio) ? "✓ Descargado" : "⬇ Descargar para el vuelo"}
+          ${bajados.has(e.audio)
+            ? '<svg class="icon"><use href="#i-check"></use></svg> Descargado'
+            : '<svg class="icon"><use href="#i-download"></use></svg> Descargar para el vuelo'}
         </button>
       </div>`).join("");
     l.querySelectorAll("button[data-audio]").forEach(b =>
@@ -800,10 +845,10 @@ async function descargarEpisodio(btn){
     const eps = episodiosGuardados().filter(e => e.audio !== audio);
     eps.unshift({audio, titulo, pod, ts: Date.now()});
     localStorage.setItem(KEY_EPS, JSON.stringify(eps.slice(0, 10)));
-    btn.textContent = "✓ Descargado"; btn.classList.add("listo"); btn.disabled = false;
-    toast("Episodio guardado para el vuelo 🎧");
+    btn.innerHTML = '<svg class="icon"><use href="#i-check"></use></svg> Descargado'; btn.classList.add("listo"); btn.disabled = false;
+    toast("Episodio guardado para el vuelo");
   } catch(e){
-    btn.disabled = false; btn.textContent = "⬇ Descargar para el vuelo";
+    btn.disabled = false; btn.innerHTML = '<svg class="icon"><use href="#i-download"></use></svg> Descargar para el vuelo';
     toast("No se pudo descargar. Prueba con otro episodio");
   }
 }
@@ -820,8 +865,8 @@ function pintarPodcastPanel(){
         <div class="et">${e.titulo}</div>
         <div class="em">${e.pod}</div>
         <div style="display:flex; gap:8px;">
-          <button class="ghostbtn" style="flex:1" data-play="${i}">▶ Escuchar</button>
-          <button class="ghostbtn" data-borrar="${i}">🗑</button>
+          <button class="ghostbtn" style="flex:1" data-play="${i}"><svg class="icon fill"><use href="#i-play"></use></svg> Escuchar</button>
+          <button class="ghostbtn" data-borrar="${i}" aria-label="Borrar episodio"><svg class="icon"><use href="#i-trash"></use></svg></button>
         </div>
       </div>`).join("");
   c.querySelectorAll("[data-play]").forEach(b => b.addEventListener("click", () => {

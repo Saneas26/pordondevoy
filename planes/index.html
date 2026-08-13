@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <title>Planes de viaje | Por dónde voy</title>
 <meta name="description" content="Rutas familiares interactivas para tus próximos viajes, pensadas para consultar sin conexión.">
-<meta name="theme-color" content="#041e3f">
+<meta name="theme-color" content="#051424">
 <link rel="manifest" href="../manifest.json">
 <link rel="icon" href="../icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="../icon-192.png">
@@ -14,6 +14,13 @@
 <meta name="apple-mobile-web-app-title" content="Planes · Por dónde voy">
 <style>
 @font-face{
+  font-family:"Hanken Grotesk";
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url("../hanken-grotesk-bold.woff2") format("woff2");
+}
+@font-face{
   font-family:"Quicksand";
   font-style:normal;
   font-weight:700;
@@ -21,8 +28,10 @@
   src:url("../quicksand-bold.woff2") format("woff2");
 }
 :root{
-  --bg:#041e3f; --panel:#0a3060; --panel-2:#0d3a73; --line:#1c4d8f;
-  --text:#eaf3fd; --muted:#8fb8e6; --accent:#f7b731; --accent-dark:#4a3403;
+  --bg:#051424; --surface-1:#0d1c2d; --surface-2:#122131; --line:rgba(212,228,250,.14);
+  --text:#d4e4fa; --muted:#8fa3bd; --accent:#00e5ff; --accent-ink:#03222c;
+  --display:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
 html,body{height:100%;}
@@ -32,47 +41,54 @@ body{
   display:flex; justify-content:center;
   padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
+::selection{background:var(--accent); color:var(--accent-ink);}
 #app{width:100%; max-width:480px; min-height:100dvh; display:flex; flex-direction:column;}
+.icon{width:1em; height:1em; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; vertical-align:-.15em;}
 header{display:flex; align-items:center; gap:12px; padding:18px 20px 10px;}
 header .brand{display:flex; align-items:center; gap:12px; flex:1;}
 header img{width:44px; height:44px; border-radius:11px;}
-header h1{font-size:20px; font-weight:700;}
+header h1{font:700 20px/1.2 var(--display);}
 header p{font-size:13px; color:var(--muted);}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
 .gs-boton{background:none; border:0; padding:2px 6px; margin:0 0 0 auto; cursor:pointer;
   text-align:left; line-height:1.15; min-height:0; border-radius:8px;
   font-family:"Quicksand",-apple-system,"Segoe UI",sans-serif;}
-.gs-boton:hover{background:rgba(255,255,255,.14);}
-.gs-b-marca{display:block; font-size:14px; font-weight:700; color:#fff;}
-.gs-b-accion{display:block; font-size:11px; font-weight:700; color:rgba(255,255,255,.78); letter-spacing:.04em;}
+.gs-boton:hover{background:rgba(212,228,250,.1);}
+.gs-b-marca{display:block; font-size:14px; font-weight:700; color:var(--text);}
+.gs-b-marca b{color:var(--accent);}
+.gs-b-accion{display:block; font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.04em;}
 .volver{margin:4px 16px 0; font-size:13px; color:var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:6px;}
-.card{background:var(--panel); border-radius:16px; padding:16px; margin:8px 16px;}
-.card h2{font-size:14px; color:var(--muted); font-weight:600; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px;}
+.card{background:var(--surface-1); border:1px solid var(--line); border-radius:20px; padding:16px; margin:8px 16px;}
+.card h2{font:600 12px/1 var(--mono); color:var(--muted); margin-bottom:12px; text-transform:uppercase; letter-spacing:.08em;}
 .plan-grid{display:grid; gap:12px; margin:10px 16px 4px;}
-.plan-card{display:block; background:#f8f3e6; border-radius:20px; overflow:hidden; text-decoration:none; color:#0a3060; border:1px solid #e6ddc4; padding:12px;}
+.plan-card{display:block; background:#f8f9fa; border-radius:20px; overflow:hidden; text-decoration:none; color:#0a1a2b; border:1px solid #e2e8f0; padding:12px;}
 .plan-card .foto{aspect-ratio:1731/909; background:linear-gradient(145deg,#29272f,#17171c) center/cover no-repeat; position:relative; border-radius:14px; overflow:hidden;}
-.plan-card .foto span{position:absolute; left:14px; bottom:12px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#dfff3f;}
+.plan-card .foto span:not(:empty){position:absolute; left:14px; bottom:12px; font:700 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--accent-ink); background:var(--accent); border-radius:99px; padding:4px 10px;}
 .plan-card .info{padding:14px 4px 4px;}
-.plan-card h3{font-size:19px; font-weight:700; margin-bottom:4px; color:#0a3060;}
-.plan-card p{font-size:13px; color:#3a5a86; line-height:1.5;}
-.plan-card .meta{display:flex; gap:10px; margin-top:10px; font-size:11px; color:#0a3060; flex-wrap:wrap;}
-.plan-card .meta span{background:#e4ecf7; border-radius:99px; padding:4px 10px;}
+.plan-card h3{font:700 19px/1.2 var(--display); margin-bottom:4px; color:#0a1a2b;}
+.plan-card p{font-size:13px; color:#425975; line-height:1.5;}
+.plan-card .meta{display:flex; gap:10px; margin-top:10px; font-size:11px; color:#0a1a2b; flex-wrap:wrap;}
+.plan-card .meta span{background:#e9eef5; border-radius:99px; padding:4px 10px;}
 .region{border-top:1px solid var(--line); margin:0 16px;}
 .region:last-of-type{border-bottom:1px solid var(--line);}
 .region summary{list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:16px 4px; -webkit-tap-highlight-color:transparent;}
 .region summary::-webkit-details-marker{display:none;}
-.region-name{font-size:16px; font-weight:700; color:var(--text);}
+.region-name{font:700 16px/1.2 var(--display); color:var(--text); margin:0;}
 .region-meta{display:flex; align-items:center; gap:10px;}
-.region-count{font-size:12px; font-weight:600; color:var(--muted);}
-.chev{color:var(--muted); font-size:13px; display:inline-block; transition:transform .2s ease;}
+.region-count{font:600 11px/1 var(--mono); color:var(--muted); text-transform:uppercase; letter-spacing:.04em;}
+.chev{color:var(--muted); width:15px; height:15px; display:inline-block; transition:transform .2s ease;}
 .region[open] .chev{transform:rotate(180deg);}
 .region .plan-grid{margin:2px 0 18px;}
-.region-empty{margin:0 0 20px; padding:14px; background:var(--panel-2); border-radius:14px; border:1px dashed var(--line); color:var(--muted); font-size:13px; text-align:center;}
+.region-empty{margin:0 0 20px; padding:14px; background:var(--surface-2); border-radius:14px; border:1px dashed var(--line); color:var(--muted); font-size:13px; text-align:center;}
 #grupoPie{margin:20px 16px 14px;}
-#grupoPie .gs-item b{color:#fff;}
-footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
+#grupoPie .gs-item b{color:var(--text);}
+footer{padding:14px; text-align:center; font-size:11px; color:var(--muted); font-family:var(--mono);}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+</svg>
 <div id="app">
   <header>
     <div class="brand">
@@ -91,7 +107,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
   <a class="volver" href="../">← Mi vuelo</a>
 
   <details class="region" id="region-canarias" open>
-    <summary><span class="region-name">Canarias</span><span class="region-meta"><span class="region-count">4 planes</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Canarias</h2><span class="region-meta"><span class="region-count">4 planes</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="plan-grid">
       <a class="plan-card" href="la-palma/">
         <div class="foto" style="background-image:url('la-palma/la-palma-card.png')"><span></span></div>
@@ -129,7 +145,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
   </details>
 
   <details class="region" id="region-peninsula">
-    <summary><span class="region-name">Península</span><span class="region-meta"><span class="region-count">2 planes</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Península</h2><span class="region-meta"><span class="region-count">2 planes</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="plan-grid">
       <a class="plan-card" href="barcelona/">
         <div class="foto" style="background-image:url('barcelona/barcelona-card.png')"><span>Nuevo</span></div>
@@ -151,47 +167,47 @@ footer{padding:14px; text-align:center; font-size:11px; color:#4a76ad;}
   </details>
 
   <details class="region" id="region-baleares">
-    <summary><span class="region-name">Baleares</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Baleares</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Baleares.</div>
   </details>
 
   <details class="region" id="region-italia">
-    <summary><span class="region-name">Italia</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Italia</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Italia.</div>
   </details>
 
   <details class="region" id="region-francia">
-    <summary><span class="region-name">Francia</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Francia</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Francia.</div>
   </details>
 
   <details class="region" id="region-inglaterra">
-    <summary><span class="region-name">Inglaterra</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Inglaterra</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Inglaterra.</div>
   </details>
 
   <details class="region" id="region-holanda">
-    <summary><span class="region-name">Holanda</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Holanda</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Holanda.</div>
   </details>
 
   <details class="region" id="region-alemania">
-    <summary><span class="region-name">Alemania</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Alemania</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Alemania.</div>
   </details>
 
   <details class="region" id="region-belgica">
-    <summary><span class="region-name">Bélgica</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Bélgica</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Bélgica.</div>
   </details>
 
   <details class="region" id="region-grecia">
-    <summary><span class="region-name">Grecia</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Grecia</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Grecia.</div>
   </details>
 
   <details class="region" id="region-portugal">
-    <summary><span class="region-name">Portugal</span><span class="region-meta"><span class="region-count">Próximamente</span><span class="chev">⌄</span></span></summary>
+    <summary><h2 class="region-name">Portugal</h2><span class="region-meta"><span class="region-count">Próximamente</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
     <div class="region-empty">Todavía no hay planes en Portugal.</div>
   </details>
 

@@ -1,5 +1,5 @@
-const CACHE = "pdv-v31";
-const ASSETS = ["./", "index.html", "rutas.js", "manifest.json", "icon-192.png", "icon-512.png", "quicksand-bold.woff2", "montserrat-bold.woff2",
+const CACHE = "pdv-v32";
+const ASSETS = ["./", "index.html", "rutas.js", "manifest.json", "icon-192.png", "icon-512.png", "quicksand-bold.woff2", "montserrat-bold.woff2", "hanken-grotesk-bold.woff2",
   "js/24-grupo-saneas.js", "js/25-recarga.js", "img/app-saneas-web.png", "img/app-saneas-s.png", "img/app-asesorias.png", "img/app-pordondevoy.png", "img/app-activala.png", "img/app-laora.png", "img/app-acumula.png",
   "planes/", "planes/index.html",
   "planes/lanzarote/", "planes/lanzarote/index.html", "planes/lanzarote/lanzarote.css", "planes/lanzarote/lanzarote.js", "planes/lanzarote/lanzarote-og.png", "planes/lanzarote/lanzarote-card.png", "planes/lanzarote/lanzarote-favicon.svg",
