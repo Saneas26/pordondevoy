@@ -1144,8 +1144,9 @@ $("btnFin").addEventListener("click", () => {
   }
 });
 $("tabEstado").addEventListener("click", () => {
-  if (vuelo){ return; }
-  window.scrollTo({top:0, behavior:"smooth"});
+  document.querySelectorAll(".panel.abierto").forEach(p => p.classList.remove("abierto"));
+  if (vuelo){ window.scrollTo({top:0, behavior:"smooth"}); return; }
+  toast("Aún no has despegado. Configura tu vuelo abajo y pulsa «Volar»");
 });
 $("tabVolar").addEventListener("click", () => {
   if (vuelo) return;
