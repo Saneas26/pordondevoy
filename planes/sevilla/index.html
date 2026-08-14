@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sevilla en 4 días | Por donde voy</title>
+<meta name="description" content="Guía interactiva de Sevilla con tres ritmos, modo calor, alojamientos, Triana, gastronomía y ruta del puerto de Indias.">
+<meta name="theme-color" content="#18201b">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sevilla · Por dónde voy">
+<link rel="canonical" href="https://pordondevoy-saneas.vercel.app/planes/sevilla/">
+<meta property="og:title" content="Sevilla en 4 días | Por donde voy">
+<meta property="og:description" content="La ciudad se vive según la hora.">
+<meta property="og:image" content="https://pordondevoy-saneas.vercel.app/planes/sevilla/sevilla-card.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sevilla en 4 días | Por donde voy">
+<meta name="twitter:description" content="La ciudad se vive según la hora.">
+<meta name="twitter:image" content="https://pordondevoy-saneas.vercel.app/planes/sevilla/sevilla-card.png">
+<link rel="stylesheet" href="sevilla.css">
+</head>
+<body>
+<main class="svq">
+  <header id="top" class="hero">
+    <nav>
+      <a href="#top" class="logo">POR DONDE VOY <i>· PLANES</i></a>
+      <div>
+        <a href="../">← Todos los planes</a>
+        <a href="../../">Mi vuelo</a>
+        <a href="#dormir">Dormir</a>
+        <a href="#ritmo">4 días</a>
+        <a href="#comer">Comer</a>
+      </div>
+    </nav>
+    <div class="heroGrid">
+      <div>
+        <p class="over">SEVILLA · 4 DÍAS · SEGÚN LA HORA</p>
+        <h1>Albero.<br>Sombra.<br>Río.<br><em>Noche.</em></h1>
+        <p class="lead">Sevilla no se termina de ver. Se aprende a vivir según la hora del día.</p>
+        <a class="cta" href="#ritmo">Organiza tu viaje ↓</a>
+      </div>
+      <div class="art">
+        <span class="sun"></span><span class="cliff"></span><span class="sea"></span>
+        <span class="white w1"></span><span class="white w2"></span>
+        <b>37°23′N · 5°59′W</b>
+      </div>
+    </div>
+    <div class="strip"><span>AZAHAR</span><span>ALBERO</span><span>SOMBRA</span><span>GUADALQUIVIR</span></div>
+  </header>
+
+  <section class="intro">
+    <p class="no">00 · LA IDEA</p>
+    <h2>La ciudad cambia<br><i>cuando baja el sol.</i></h2>
+    <div>
+      <p>El viaje no consiste en hacer cola, caminar bajo cuarenta grados y comer donde termina la visita guiada.</p>
+      <blockquote>Monumentos temprano. Pausa real con calor. Barrios y río al final de la tarde.</blockquote>
+    </div>
+  </section>
+
+  <section class="prepare">
+    <p class="no">01 · CÓMO LLEGAR</p>
+    <h2>AVE o low cost.<br><i>Cuenta el viaje completo.</i></h2>
+    <div class="cards">
+      <article><b>01</b><h3>Desde Madrid</h3><p>Compara Renfe, iryo y otros operadores por precio y tiempo centro a centro. Santa Justa te deja dentro de la ciudad y evita aeropuerto, control y maleta limitada.</p></article>
+      <article><b>02</b><h3>Desde Canarias o lejos</h3><p>El vuelo directo suele ganar. Compara siempre el precio final con equipaje, asiento, aeropuerto y traslado; no el reclamo inicial.</p></article>
+      <article><b>03</b><h3>Desde el aeropuerto</h3><p>La línea EA conecta con Sevilla. Comprueba tarifa y horario actualizados antes de viajar.</p><a href="https://www.aena.es/es/sevilla/como-llegar/autobus.html" target="_blank" rel="noopener noreferrer">Aena oficial ↗</a></article>
+    </div>
+  </section>
+
+  <section id="dormir" class="dark">
+    <p class="no lime">02 · ALOJAMIENTO</p>
+    <h2>Elige dónde<br><i>quieres volver.</i></h2>
+    <div class="zones">
+      <article><b>ARENAL</b><h3>Nuestra elección</h3><p>Entre Catedral, río y Triana. Todo cerca sin dormir dentro de la zona más saturada.</p></article>
+      <article><b>ALFALFA</b><h3>Centro y tapas</h3><p>Muy cómoda. Comprueba ruido y aire acondicionado en la vivienda exacta.</p></article>
+      <article><b>TRIANA</b><h3>Volver al barrio</h3><p>Más espacio y una vuelta nocturna cruzando el puente que forma parte del viaje.</p></article>
+      <article><b>ALAMEDA</b><h3>Más vivida</h3><p>Terrazas, ambiente local y menos postal turística.</p></article>
+    </div>
+    <div class="travTabs" id="travTabs"></div>
+    <div class="stay" id="stayDetail"></div>
+  </section>
+
+  <section class="prepare">
+    <p class="no">03 · RESERVAS</p>
+    <h2>Dos puertas.<br><i>Ningún coche.</i></h2>
+    <div class="cards">
+      <article><b>01</b><h3>Real Alcázar</h3><p>Primera hora y solo desde la web oficial. Se agota con facilidad en temporada alta.</p><a href="https://alcazarsevilla.org/prepara-la-visita/" target="_blank" rel="noopener noreferrer">Reservar ↗</a></article>
+      <article><b>02</b><h3>Catedral y Giralda</h3><p>Los horarios cambian por culto, temporada u obras. Confirma siempre en la web oficial.</p><a href="https://www.catedraldesevilla.es/visita-cultural/horarios-y-tarifas/" target="_blank" rel="noopener noreferrer">Reservar ↗</a></article>
+      <article><b>03</b><h3>No alquiles coche</h3><p>Camina, usa tranvía, bus o taxi puntual. Aparcar no mejora Sevilla; la complica.</p></article>
+    </div>
+  </section>
+
+  <section class="decision">
+    <div>
+      <p class="no">EL CALOR MANDA</p>
+      <h2>¿Calor<br><i>o clima suave?</i></h2>
+      <p id="decisionText"></p>
+    </div>
+    <div class="switch" id="heatSwitch"></div>
+  </section>
+
+  <section id="ritmo" class="pace">
+    <p class="no">04 · TU RITMO</p>
+    <h2>¿Cuánta Sevilla<br><i>quieres cada día?</i></h2>
+    <div class="paceTabs" id="paceTabs"></div>
+  </section>
+
+  <section id="ruta" class="route">
+    <p class="no lime">05 · TU SEVILLA</p>
+    <h2>Cuatro días.<br><i>La hora correcta.</i></h2>
+    <div class="dayTabs" id="dayTabs"></div>
+    <div class="day" id="dayDetail"></div>
+  </section>
+
+  <section class="triana">
+    <div>
+      <p class="no lime">06 · TRIANA JUNTO AL AGUA</p>
+      <h2>Arriba Betis.<br><i>Abajo, la O.</i></h2>
+      <p>Mercado, Alfarería y Las Golondrinas. Después Pureza y calle Betis. Termina bajando al paseo de Nuestra Señora de la O: tranquilo, gratuito y frente a Sevilla iluminada.</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=Paseo%20Nuestra%20Se%C3%B1ora%20de%20la%20O%20Sevilla" target="_blank" rel="noopener noreferrer">Abrir el paseo ↗</a>
+    </div>
+    <aside><strong>0 €</strong><span>Y MÁS VALOR QUE MUCHAS ENTRADAS</span><p>Hazlo al atardecer.</p></aside>
+  </section>
+
+  <section class="food towers">
+    <p class="no">07 · EL RÍO Y AMÉRICA</p>
+    <h2>Oro. Plata.<br><i>¿Bronce?</i></h2>
+    <div class="foodGrid">
+      <article><span>ORO</span><h3>Defender el puerto</h3><p>Torre albarrana de 1220–1221, parte del sistema defensivo almohade. No se llamó así porque guardara oro.</p></article>
+      <article><span>PLATA</span><h3>La hermana escondida</h3><p>Octogonal y unida antiguamente a la Torre del Oro por la muralla que protegía el puerto.</p></article>
+      <article><span>¿BRONCE?</span><h3>Un nombre moderno</h3><p>Restos hallados en 2012. "Del Bronce" es una denominación moderna sin respaldo documental histórico: no guardó ese metal.</p></article>
+      <article><span>INDIAS</span><h3>La historia importante</h3><p>Siglos después de la muralla defensiva, el puerto, la Casa de la Moneda, Atarazanas y el Archivo conectaron Sevilla con América.</p></article>
+    </div>
+  </section>
+
+  <section id="comer" class="food">
+    <p class="no">08 · COMER COMO AQUÍ</p>
+    <h2>Menos menú turístico.<br><i>Más barra.</i></h2>
+    <p class="foodLead">Cada mesa está colocada junto al recorrido del día. Los precios son orientativos.</p>
+    <div class="foodGrid" id="foodGrid"></div>
+  </section>
+
+  <section class="check">
+    <div>
+      <p class="no">09 · PREPARATIVOS</p>
+      <h2><span id="progressPct">0</span>%<br><i>preparado.</i></h2>
+      <div class="bar"><span id="progressBar"></span></div>
+    </div>
+    <ul id="checklistWrap"></ul>
+  </section>
+
+  <footer>
+    <p>POR DONDE VOY · SEVILLA</p>
+    <h2>La ciudad se vive<br><i>según la hora.</i></h2>
+    <a href="#top">Volver arriba ↑</a>
+    <small>Comprueba horarios, acceso, culto, temperatura, precios y reservas antes del viaje.</small>
+  </footer>
+  <nav class="dock" aria-label="Accesos rápidos">
+    <a href="../">Planes</a>
+    <a href="#dormir">Dormir</a>
+    <a href="#ritmo">Ritmo</a>
+    <a href="#comer">Comer</a>
+    <a href="#top">Inicio</a>
+  </nav>
+</main>
+<script src="sevilla.js"></script>
+<script src="../../js/25-recarga.js"></script>
+</body>
+</html>
