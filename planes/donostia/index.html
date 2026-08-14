@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Donostia y costa guipuzcoana en 5 días | Por donde voy</title>
+<meta name="description" content="Guía interactiva de Donostia, Zarautz, Getaria y Hondarribia con tres ritmos, alojamientos, pintxos y transporte.">
+<meta name="theme-color" content="#102126">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Donostia · Por dónde voy">
+<link rel="canonical" href="https://pordondevoy-saneas.vercel.app/planes/donostia/">
+<meta property="og:title" content="Donostia y costa guipuzcoana en 5 días | Por donde voy">
+<meta property="og:description" content="La bahía es el principio. Getaria, el motivo.">
+<meta property="og:image" content="https://pordondevoy-saneas.vercel.app/planes/donostia/donostia-card.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Donostia y costa guipuzcoana en 5 días | Por donde voy">
+<meta name="twitter:description" content="La bahía es el principio. Getaria, el motivo.">
+<meta name="twitter:image" content="https://pordondevoy-saneas.vercel.app/planes/donostia/donostia-card.png">
+<link rel="stylesheet" href="donostia.css">
+</head>
+<body>
+<main class="dss">
+  <header id="top" class="hero">
+    <nav>
+      <a href="#top" class="logo">POR DONDE VOY <i>· PLANES</i></a>
+      <div>
+        <a href="../">← Todos los planes</a>
+        <a href="../../">Mi vuelo</a>
+        <a href="#dormir">Dormir</a>
+        <a href="#ritmo">5 días</a>
+        <a href="#comer">Comer</a>
+      </div>
+    </nav>
+    <div class="heroGrid">
+      <div>
+        <p class="over">DONOSTIA · 5 DÍAS · COSTA ADENTRO</p>
+        <h1>Bahía.<br>Pintxo.<br>Parrilla.<br><em>Cantábrico.</em></h1>
+        <p class="lead">Donostia como sede. Zarautz como camino. Getaria como destino. Hondarribia porque sería un error dejarla fuera.</p>
+        <a class="cta" href="#ritmo">Elige tu ritmo ↓</a>
+      </div>
+      <div class="art">
+        <span class="sun"></span><span class="cliff"></span><span class="sea"></span>
+        <span class="white w1"></span><span class="white w2"></span>
+        <b>43°19′N · 1°59′W</b>
+      </div>
+    </div>
+    <div class="strip"><span>TXAKOLI</span><span>PARRILLA</span><span>SAL</span><span>KANTAURI</span></div>
+  </header>
+
+  <section class="intro">
+    <p class="no">00 · LA IDEA</p>
+    <h2>No todo cabe<br><i>en La Concha.</i></h2>
+    <div>
+      <p>Donostia es la base perfecta, pero Gipuzkoa obliga a mirar a ambos lados de la costa.</p>
+      <blockquote>Getaria no es una parada entre Zarautz y Zumaia. Es uno de los grandes motivos del viaje. Aupa ahí.</blockquote>
+    </div>
+  </section>
+
+  <section id="dormir" class="dark">
+    <p class="no lime">01 · ALOJAMIENTO</p>
+    <h2>Elige dónde<br><i>quieres volver.</i></h2>
+    <div class="zones">
+      <article><b>GROS</b><h3>Nuestra elección</h3><p>Zurriola, pintxos y salida fácil hacia la costa.</p></article>
+      <article><b>CENTRO</b><h3>Todo cerca</h3><p>Elegante, práctico y normalmente caro.</p></article>
+      <article><b>ANTIGUO</b><h3>Familias</h3><p>Ondarreta, Matía y noches más tranquilas.</p></article>
+      <article><b>PARTE VIEJA</b><h3>Mucho ambiente</h3><p>Perfecta para cenar; revisa muy bien el ruido para dormir.</p></article>
+    </div>
+    <div class="travTabs" id="travTabs"></div>
+    <div class="stay" id="stayDetail"></div>
+  </section>
+
+  <section class="prepare">
+    <p class="no">02 · MOVERSE</p>
+    <h2>Coche opcional.<br><i>Reserva obligatoria.</i></h2>
+    <div class="cards">
+      <article id="moveCard"></article>
+      <article><b>02</b><h3>Reserva Getaria</h3><p>El pescado entero tiene precio y tamaño. Pregunta ambas cosas antes de sentarte y reserva la parrilla.</p></article>
+      <article><b>03</b><h3>Lleva las dos costas</h3><p>Chubasquero y bañador. En una hora puedes pasar de lluvia fina a playa.</p></article>
+    </div>
+  </section>
+
+  <section class="decision">
+    <div>
+      <p class="no">EL CANTÁBRICO DECIDE</p>
+      <h2>¿Verano<br><i>o resto del año?</i></h2>
+      <p id="seasonText"></p>
+    </div>
+    <div class="switch" id="seasonSwitch"></div>
+  </section>
+
+  <section id="ritmo" class="pace">
+    <p class="no">03 · TU RITMO</p>
+    <h2>¿Cuánto quieres<br><i>andar?</i></h2>
+    <div class="paceTabs" id="paceTabs"></div>
+  </section>
+
+  <section id="ruta" class="route">
+    <p class="no lime">04 · TU COSTA</p>
+    <h2>Cinco días.<br><i>Cuatro formas de mar.</i></h2>
+    <div class="dayTabs" id="dayTabs"></div>
+    <div class="day" id="dayDetail"></div>
+  </section>
+
+  <section class="getaria">
+    <div>
+      <p class="no lime">05 · EL GRAN DÍA</p>
+      <h2>Zarautz camina.<br><i>Getaria cocina.</i></h2>
+      <p>Los 4,5 km de paseo costero desde Zarautz son fáciles y prácticamente llanos, según la información turística oficial. Llegas viendo el Ratón de Getaria —que se aprecia mejor desde Zarautz o los miradores de la carretera que desde el propio pueblo—, entras en un casco medieval que baja al puerto y terminas ante una parrilla encendida.</p>
+      <a href="https://getariaturismo.eus/es/como-llegar/" target="_blank" rel="noopener noreferrer">Información oficial ↗</a>
+    </div>
+    <aside><strong>4,5</strong><span>KM · SOLO IDA</span><p>Si no quieres caminar, llega en bus. Getaria sigue siendo imprescindible: casco, puerto, parrilla y txakoli.</p></aside>
+  </section>
+
+  <section id="comer" class="food">
+    <p class="no">06 · COMER AQUÍ</p>
+    <h2>Un pintxo.<br><i>Y a la siguiente barra.</i></h2>
+    <p class="foodLead">Cada mesa está colocada junto al recorrido del día. En pescado entero, pregunta siempre pieza, peso y precio antes de pedir.</p>
+    <div class="foodGrid" id="foodGrid"></div>
+  </section>
+
+  <section class="check">
+    <div>
+      <p class="no">07 · PREPARATIVOS</p>
+      <h2><span id="progressPct">0</span>%<br><i>preparado.</i></h2>
+      <div class="bar"><span id="progressBar"></span></div>
+    </div>
+    <ul id="checklistWrap"></ul>
+  </section>
+
+  <footer>
+    <p>POR DONDE VOY · DONOSTIA</p>
+    <h2>La bahía es el principio.<br><i>Getaria, el motivo.</i></h2>
+    <a href="#top">Volver arriba ↑</a>
+    <small>Comprueba mar, meteorología, horarios, transporte, precios y reservas en las páginas oficiales antes del viaje.</small>
+  </footer>
+  <nav class="dock" aria-label="Accesos rápidos">
+    <a href="../">Planes</a>
+    <a href="#dormir">Dormir</a>
+    <a href="#ritmo">Ritmo</a>
+    <a href="#comer">Comer</a>
+    <a href="#top">Inicio</a>
+  </nav>
+</main>
+<script src="donostia.js"></script>
+<script src="../../js/25-recarga.js"></script>
+</body>
+</html>
