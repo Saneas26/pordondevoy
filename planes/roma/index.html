@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Roma en 5 días: itinerario, hoteles y restaurantes | Por dónde voy</title>
+<meta name="description" content="Guía interactiva de Roma en cinco días con rutas corta y larga, alojamientos contrastados, restaurantes romanos, seguridad y entradas oficiales.">
+<meta name="theme-color" content="#3c1216">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Roma · Por dónde voy">
+<link rel="canonical" href="https://pordondevoy-saneas.vercel.app/planes/roma/">
+<meta property="og:title" content="Roma · 5 días · Sigue ocurriendo">
+<meta property="og:description" content="No vengas a ver ruinas. Ven a entender una ciudad.">
+<meta property="og:image" content="https://pordondevoy-saneas.vercel.app/planes/roma/roma-card.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Roma · 5 días · Sigue ocurriendo">
+<meta name="twitter:description" content="No vengas a ver ruinas. Ven a entender una ciudad.">
+<meta name="twitter:image" content="https://pordondevoy-saneas.vercel.app/planes/roma/roma-card.png">
+<link rel="stylesheet" href="roma.css">
+</head>
+<body>
+<main class="rom">
+  <header id="top" class="hero">
+    <nav>
+      <a href="#top" class="logo">POR DONDE VOY <i>· PLANES</i></a>
+      <div>
+        <a href="../">← Todos los planes</a>
+        <a href="../../">Mi vuelo</a>
+        <a href="#dormir">Dormir</a>
+        <a href="#ritmo">5 días</a>
+        <a href="#comer">Comer</a>
+      </div>
+    </nav>
+    <div class="heroGrid">
+      <div>
+        <p class="over">ROMA · 5 DÍAS · SIGUE OCURRIENDO</p>
+        <h1>ROMA</h1>
+        <p class="lead">Roma no está bien conservada. <em>Roma sigue ocurriendo.</em></p>
+        <a class="cta" href="#ritmo">Organiza tu viaje ↓</a>
+      </div>
+      <div class="art">
+        <span class="sun"></span>
+        <span class="colosseo"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        <b>753 A.C. · Y TODAVÍA AQUÍ</b>
+      </div>
+    </div>
+    <div class="strip"><span>COLISEO</span><span>VATICANO</span><span>TRASTEVERE</span><span>VIA APPIA</span></div>
+  </header>
+
+  <section class="intro">
+    <p class="no">00 · LA IDEA</p>
+    <h2>No vengas a ver ruinas.<br><i>Ven a entender una ciudad.</i></h2>
+    <div>
+      <p>Una iglesia cualquiera puede esconder un Caravaggio. Una plaza tiene dos mil años debajo. Y el agua de una fuente pública puede ser mejor que la botella que acabas de comprar.</p>
+      <blockquote>Cinco días. Dos ritmos.</blockquote>
+      <p class="small">Veremos lo imprescindible y lo que convierte Roma en algo más que Coliseo, Vaticano y Trevi, sin encadenar reservas hasta odiar las vacaciones.</p>
+    </div>
+  </section>
+
+  <section class="prepare">
+    <p class="no">01 · ANTES DE VOLAR</p>
+    <h2>Roma castiga<br><i>la improvisación cara.</i></h2>
+    <p class="prepLead">Las entradas falsas, las habitaciones "cerca del centro", el coche de alquiler y la mesa con fotografías de comida son errores evitables.</p>
+    <div class="cards cards3">
+      <article><b>01</b><h3>Vuelos</h3><p>Fiumicino tiene tren directo al centro. Ciampino exige más logística: suma el traslado antes de celebrar el precio del billete.</p></article>
+      <article><b>02</b><h3>Alojamiento</h3><p>Centro histórico, Monti, Prati o Testaccio. La calle exacta importa más que el nombre del barrio.</p></article>
+      <article><b>03</b><h3>Entradas</h3><p>Coliseo y Vaticano se compran con antelación en la web oficial de cada uno. Sin reventas.</p></article>
+      <article><b>04</b><h3>Calzado</h3><p>Adoquín, escaleras, piedra irregular y mucho pie cada día. No estrenes zapatos en Roma.</p></article>
+      <article><b>05</b><h3>Iglesias</h3><p>Hombros y rodillas cubiertos para entrar. Lleva una prenda ligera encima incluso con calor.</p></article>
+      <article><b>06</b><h3>Agua</h3><p>Los nasoni reparten agua potable por toda la ciudad. Una botella reutilizable evita gastar en plástico.</p></article>
+    </div>
+  </section>
+
+  <section id="ritmo" class="pace">
+    <p class="no">02 · TU RITMO</p>
+    <h2>Una ciudad.<br><i>Dos ritmos.</i></h2>
+    <p class="paceLead">El contenido de los cinco días cambia de verdad según lo que elijas aquí abajo.</p>
+    <div class="paceTabs" id="paceTabs"></div>
+  </section>
+
+  <section id="dormir" class="dark">
+    <p class="no gold">03 · DÓNDE DORMIR</p>
+    <h2>La reseña importa.<br><i>La calle también.</i></h2>
+    <p class="stayLead">Selección comprobada en agosto de 2026: datos revisables. La disponibilidad y el precio reales solo existen cuando introduces tus fechas.</p>
+    <div class="stayFilters">
+      <div><small>TIPO</small><div class="filterRow" id="typeTabs"></div></div>
+      <div><small>VIAJEROS</small><div class="filterRow" id="groupTabs"></div></div>
+    </div>
+    <div class="stayList" id="stayList"></div>
+    <p class="note">Primera visita: Hotel Artemide, si quieres servicio y equilibrio en el centro. Pareja sin límite de presupuesto: Portrait Roma, en Piazza di Spagna. Familia o grupo: un apartamento con dormitorios y baños suficientes, no un salón bonito con un solo baño. Comida y vida local: Testaccio. Ambiente: Trastevere, comprobando el ruido antes de reservar. Termini es útil por logística, pero no reserves cualquier calle lateral solo por la distancia a la estación.</p>
+  </section>
+
+  <section id="presupuesto" class="budget">
+    <p class="no ink">04 · CUÁNTO GASTAR</p>
+    <h2>Roma gratis es enorme.<br><i>Roma cómoda se reserva.</i></h2>
+    <div class="budgetTabs" id="budgetTabs"></div>
+    <div class="budgetResult" id="budgetResult"></div>
+  </section>
+
+  <section id="ruta" class="route">
+    <p class="no gold">05 · TU ROMA</p>
+    <h2>Cinco días.<br><i>La ruta correcta.</i></h2>
+    <div class="dayTabs" id="dayTabs"></div>
+    <div class="day" id="dayDetail"></div>
+  </section>
+
+  <section id="entradas" class="tickets">
+    <p class="no">06 · ENTRADAS OFICIALES</p>
+    <h2>El guía que te aborda<br><i>en la calle no es tu plan.</i></h2>
+    <p class="ticketsLead">Compra siempre en la web oficial. Comprueba nombre, fecha y documento antes de pagar: ni horarios exactos ni precios ni ventanas de venta se prometen aquí, porque cambian.</p>
+    <div class="ticketGrid">
+      <article>
+        <span>01</span>
+        <h3>Coliseo · Foro Romano · Palatino</h3>
+        <p>La entrada combinada oficial. No prometas a nadie acceso a zonas especiales sin haberlo comprobado en tu propia reserva.</p>
+        <a href="https://ticketing.colosseo.it/" target="_blank" rel="noopener noreferrer">Entradas oficiales ↗</a>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>Museos Vaticanos</h3>
+        <p>Incluye la Capilla Sixtina. Reserva con margen: es la visita que más se estropea por improvisar.</p>
+        <a href="https://tickets.museivaticani.va/home" target="_blank" rel="noopener noreferrer">Entradas oficiales ↗</a>
+      </article>
+    </div>
+  </section>
+
+  <section id="seguridad" class="safety">
+    <p class="no gold">07 · ROMA SIN SUSTOS</p>
+    <h2>No tengas miedo.<br><i>Ten criterio.</i></h2>
+    <p class="safetyLead">Roma no exige paranoia. Exige mirar la mochila donde se concentra la gente y no elegir una calle remota por ahorrar doce euros.</p>
+    <div class="warnings">
+      <article><b>TERMINI</b><p>Útil de día por su logística. De noche, comprueba la calle exacta antes de reservar o de volver caminando.</p></article>
+      <article><b>ESQUILINO</b><p>No es un barrio prohibido. Algunas calles solitarias cerca de la estación pueden resultar incómodas de noche.</p></article>
+      <article><b>METRO Y COLAS</b><p>Mochila y teléfono delante en vagones llenos, en la Fontana di Trevi, el Coliseo y los accesos al Vaticano.</p></article>
+      <article><b>PULSERAS Y FIRMAS</b><p>No aceptes regalos, pulseras ni peticiones de firmas de desconocidos: son el inicio de una petición de dinero.</p></article>
+      <article><b>TAXI</b><p>Solo oficial, con taxímetro visible o tarifa fija de aeropuerto. Evita a quien te aborde en la terminal.</p></article>
+      <article><b>COCHE</b><p>No lo necesitas para el centro. ZTL, tráfico, aparcamiento y multas convierten el alquiler en una carga.</p></article>
+    </div>
+    <div class="emergency"><span>112</span><p>Número único de emergencias en Italia. Guarda también la dirección del alojamiento y la documentación en la nube.</p></div>
+  </section>
+
+  <section id="comer" class="eat">
+    <p class="no">08 · COMER COMO UN ROMANO</p>
+    <h2>La carbonara no lleva nata.<br><i>Y la terraza no garantiza nada.</i></h2>
+    <p class="eatLead">Los romanos cruzan la ciudad por una buena mesa. Nosotros también. Algunos de estos restaurantes son famosos, pero siguen mereciendo la reserva.</p>
+    <div class="foodGrid" id="foodGrid"></div>
+    <div class="pending">
+      <span>!</span>
+      <div>
+        <p class="micro">SEÑAL DE ALERTA</p>
+        <h3>Una carta gigante con fotos junto a un monumento no es una casualidad.</h3>
+        <p>Cuanto más grande la carta y más cerca del monumento, menos probable que cocinen algo de verdad. Aléjate un par de calles y compara.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="probar" class="taste">
+    <p class="no gold">09 · QUÉ PROBAR</p>
+    <h2>Diez platos.<br><i>Ninguno de relleno.</i></h2>
+    <div class="dishes" id="dishesGrid"></div>
+  </section>
+
+  <section class="check">
+    <div>
+      <p class="no">10 · PREPARATIVOS</p>
+      <h2><span id="progressPct">0</span>%<br><i>preparado.</i></h2>
+      <div class="bar"><span id="progressBar"></span></div>
+    </div>
+    <ul id="checklistWrap"></ul>
+  </section>
+
+  <footer>
+    <p>POR DONDE VOY · ROMA</p>
+    <h2>Dos mil años después.<br><i>Todavía no ha terminado.</i></h2>
+    <a href="#top">Volver arriba ↑</a>
+    <small>Comprueba horarios, acceso, precios y reservas oficiales antes del viaje.</small>
+  </footer>
+  <nav class="dock" aria-label="Accesos rápidos">
+    <a href="../">Planes</a>
+    <a href="#dormir">Dormir</a>
+    <a href="#ritmo">Ritmo</a>
+    <a href="#comer">Comer</a>
+    <a href="#top">Inicio</a>
+  </nav>
+</main>
+<script src="roma.js"></script>
+<script src="../../js/25-recarga.js"></script>
+</body>
+</html>
