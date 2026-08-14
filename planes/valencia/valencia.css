@@ -1,0 +1,139 @@
+.vlc{--ink:#13201c;--paper:#f4f0e5;--blue:#087e9b;--orange:#f05d32;--yellow:#ffd646;--green:#4e713e;--muted:#6d746d;--line:rgba(19,32,28,.18)}
+.vlc{overflow:hidden;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.vlc *{box-sizing:border-box}
+.vlc a{text-decoration:none;color:inherit}
+.vlc .hero{min-height:100vh;background:var(--blue);color:#fff}
+.vlc nav{height:74px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.3)}
+.vlc .logo{font-weight:950;letter-spacing:.08em}
+.vlc .logo i{color:var(--yellow);font-style:normal}
+.vlc .hero nav div{display:flex;gap:28px;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em}
+.vlc .heroGrid{min-height:calc(100vh - 124px);display:grid;grid-template-columns:52% 48%}
+.vlc .heroGrid>div:first-child{padding:7vh 4vw 7vh 5vw;z-index:2}
+.vlc .over,.vlc .no{font-size:.69rem;letter-spacing:.17em;text-transform:uppercase;font-weight:950;color:var(--orange)}
+.vlc h1{font-size:clamp(4rem,8vw,8.5rem);line-height:.75;letter-spacing:-.075em;text-transform:uppercase;margin:.18em 0 .25em;font-weight:950}
+.vlc h1 em{display:block;font:400 .25em/1.05 Georgia,serif;text-transform:none;letter-spacing:-.02em;color:var(--yellow);margin-top:.6em}
+.vlc .lead{max-width:560px;color:#d1eaec;line-height:1.65}
+.vlc .cta{display:inline-block;margin-top:22px;background:var(--yellow);color:var(--ink)!important;padding:17px 22px;font-weight:950;text-transform:uppercase;font-size:.68rem;letter-spacing:.1em}
+.vlc .art{position:relative;overflow:hidden;background:linear-gradient(#39a8c3 0 45%,#e7b73c 46% 58%,#425f35 59%);isolation:isolate}
+.vlc .sun{position:absolute;width:min(28vw,410px);aspect-ratio:1;border-radius:50%;background:var(--orange);right:-4vw;top:6vh}
+.vlc .lake{position:absolute;inset:58% -20% -20% -20%;background:#75c7d7;clip-path:polygon(0 20%,25% 7%,43% 30%,60% 0,76% 22%,100% 4%,100% 100%,0 100%);z-index:3}
+.vlc .rice{position:absolute;inset:52% 0 0 0;background:repeating-linear-gradient(160deg,transparent 0 25px,rgba(255,214,70,.55) 26px 30px);z-index:4}
+.vlc .arch{position:absolute;bottom:26%;border:11px solid #fff;border-bottom:0;border-radius:50% 50% 0 0;z-index:5;transform:skewX(-10deg)}
+.vlc .a1{width:44%;height:29%;left:9%}
+.vlc .a2{width:36%;height:43%;left:43%}
+.vlc .art b{position:absolute;bottom:4%;right:5%;z-index:6;font-size:.62rem;letter-spacing:.14em}
+.vlc .strip{height:50px;border-top:1px solid rgba(255,255,255,.3);display:grid;grid-template-columns:repeat(4,1fr);align-items:center;text-align:center;font-size:.6rem;letter-spacing:.17em}
+.vlc .intro,.vlc .prepare,.vlc .pace,.vlc .food,.vlc .check,.vlc .ocean{padding:105px 7vw}
+.vlc .intro{display:grid;grid-template-columns:1fr 1.15fr;gap:7vw}
+.vlc .intro h2,.vlc .dark h2,.vlc .prepare h2,.vlc .ocean h2,.vlc .pace h2,.vlc .route h2,.vlc .pinedo h2,.vlc .food h2,.vlc .check h2,.vlc footer h2{font-size:clamp(3rem,6.5vw,7.2rem);line-height:.84;letter-spacing:-.065em;text-transform:uppercase;margin:.2em 0;font-weight:950}
+.vlc .intro h2 i,.vlc .dark h2 i,.vlc .prepare h2 i,.vlc .ocean h2 i,.vlc .pace h2 i,.vlc .route h2 i,.vlc .pinedo h2 i,.vlc .food h2 i,.vlc .check h2 i,.vlc footer h2 i{font:400 1em Georgia,serif;text-transform:none;color:var(--orange)}
+.vlc .intro>div{padding-top:25px;font-size:1.1rem;line-height:1.7}
+.vlc .intro blockquote{margin:35px 0;padding:22px 25px;border-left:5px solid var(--yellow);background:#e5dfd0;font:1.25rem/1.5 Georgia,serif}
+.vlc .dark,.vlc .route{background:var(--ink);color:var(--paper);padding:105px 7vw}
+.vlc .yellow{color:var(--yellow)}
+.vlc .dark h2 i,.vlc .route h2 i{color:var(--yellow)}
+.vlc .zones{display:grid;grid-template-columns:repeat(4,1fr);margin-top:55px}
+.vlc .zones article{border-top:1px solid #59635d;padding:25px 25px 25px 0;margin-right:25px}
+.vlc .zones b{font-size:.64rem;letter-spacing:.1em;color:var(--yellow)}
+.vlc .zones h3,.vlc .cards h3,.vlc .foodGrid h3{font-size:1.4rem;line-height:1.05}
+.vlc .zones p{color:#adb5b0;line-height:1.55}
+.vlc .travTabs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:45px}
+.vlc .travTabs button,.vlc .dayTabs button{border:0;border-bottom:1px solid #505b55;background:none;color:#8d9690;padding:18px 5px;font-weight:900;cursor:pointer}
+.vlc .travTabs button.active,.vlc .dayTabs button.active{color:var(--yellow);border-color:var(--yellow)}
+.vlc .stay{background:var(--green);padding:35px;margin-top:30px;max-width:850px}
+.vlc .stay span{font-size:.64rem;letter-spacing:.1em}
+.vlc .stay h3{font-size:2.2rem;margin:.35em 0}
+.vlc .stay p{max-width:620px;line-height:1.5}
+.vlc .stay a,.vlc .cards a,.vlc .pinedo a,.vlc .foodGrid a{display:inline-block;margin-top:14px;border-bottom:1px solid currentColor;padding-bottom:4px;font-size:.65rem;font-weight:950;letter-spacing:.08em}
+.vlc .cards{display:grid;grid-template-columns:repeat(3,1fr);margin-top:55px}
+.vlc .cards article{border-top:5px solid var(--ink);padding:28px 35px 20px 0;margin-right:35px}
+.vlc .cards article>b{font-size:2rem;color:var(--orange)}
+.vlc .cards p{line-height:1.55}
+.vlc .ocean{background:var(--yellow);display:grid;grid-template-columns:1.2fr .8fr;gap:7vw;align-items:center}
+.vlc .ocean h2 i{color:var(--blue)}
+.vlc .ocean>div:first-child>p:not(.no){font:1.2rem/1.55 Georgia,serif;margin-top:20px;min-height:5.5em}
+.vlc .switch{display:flex;flex-direction:column;justify-content:center;gap:15px}
+.vlc .switch button{padding:22px;text-align:left;border:2px solid var(--ink);background:none;font-weight:950;font-size:1rem;cursor:pointer;font-family:inherit}
+.vlc .switch button.active{background:var(--ink);color:#fff}
+.vlc .pace{text-align:center}
+.vlc .paceTabs{display:grid;grid-template-columns:repeat(3,1fr);margin:60px auto 0;max-width:1150px}
+.vlc .paceTabs button{min-height:170px;background:none;border:1px solid var(--line);padding:28px;text-align:left;font-size:1.1rem;font-weight:950;cursor:pointer;font-family:inherit;color:var(--ink)}
+.vlc .paceTabs button>span{display:block;color:var(--orange);font-size:.65rem;margin-bottom:35px}
+.vlc .paceTabs small{display:block;color:var(--muted);font-size:.62rem;margin-top:12px;text-transform:uppercase}
+.vlc .paceTabs button.active{background:var(--blue);color:#fff;transform:translateY(-8px);box-shadow:0 20px 50px #bbb}
+.vlc .paceTabs button.active small{color:var(--yellow)}
+.vlc .dayTabs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:55px}
+.vlc .day{display:grid;grid-template-columns:1fr 1.1fr;gap:8vw;padding-top:55px}
+.vlc .day>div>span{color:var(--orange);font-size:.67rem;font-weight:950;letter-spacing:.1em}
+.vlc .day h3{font-size:clamp(2.6rem,5vw,5rem);line-height:.9;text-transform:uppercase;letter-spacing:-.05em;margin:.3em 0}
+.vlc .day>div>b{color:var(--yellow);font-size:.67rem}
+.vlc .day>div>p{color:#aeb6b1;line-height:1.55;font:1.2rem/1.5 Georgia,serif}
+.vlc .day>div>em{color:var(--yellow);font-style:normal;font-size:.7rem;font-weight:950}
+.vlc .day ol{list-style:none;margin:0;padding:0}
+.vlc .day li{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:18px 0;border-bottom:1px solid #465049}
+.vlc .day li span{color:var(--orange);font-size:.65rem}
+.vlc .day li a{font-size:.6rem;color:#929b95}
+.vlc .pinedo{background:var(--green);color:#fff;padding:105px 7vw;display:grid;grid-template-columns:1.25fr .75fr;gap:8vw}
+.vlc .pinedo h2 i{color:var(--yellow)}
+.vlc .pinedo>div>p:not(.no){font-size:1.12rem;line-height:1.6;max-width:650px}
+.vlc .pinedo>div>div{display:flex;gap:22px;flex-wrap:wrap}
+.vlc .pinedo aside{border-left:1px solid #93a789;padding-left:45px;display:flex;flex-direction:column;justify-content:center}
+.vlc .pinedo aside strong{font-size:8rem;line-height:.8;letter-spacing:-.08em;color:var(--yellow)}
+.vlc .pinedo aside span{font-size:.7rem;letter-spacing:.15em;font-weight:950}
+.vlc .pinedo aside p{font:1.2rem/1.5 Georgia,serif}
+.vlc .foodLead{max-width:650px;line-height:1.55}
+.vlc .foodGrid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:55px;gap:25px}
+.vlc .foodGrid article{border-top:5px solid var(--ink);padding:24px 15px 30px 0;min-height:320px;display:flex;flex-direction:column}
+.vlc .foodGrid article>span{color:var(--orange);font-size:.63rem;font-weight:950;letter-spacing:.09em}
+.vlc .foodGrid article>b{color:var(--blue)}
+.vlc .foodGrid p{line-height:1.5}
+.vlc .foodGrid article>div{margin-top:auto;display:flex;gap:18px;flex-wrap:wrap}
+.vlc .check{display:grid;grid-template-columns:1fr 1fr;gap:8vw;background:#e2ded1}
+.vlc .bar{height:7px;background:#c6c2b6}
+.vlc .bar span{display:block;height:100%;background:var(--orange);transition:.3s}
+.vlc .check ul{list-style:none;padding:0;margin:0}
+.vlc .check li{border-bottom:1px solid var(--line)}
+.vlc .check label{display:flex;align-items:center;gap:15px;padding:17px 0;cursor:pointer}
+.vlc .check input{appearance:none;width:22px;height:22px;border:2px solid var(--ink);display:grid;place-content:center}
+.vlc .check input:checked{background:var(--yellow)}
+.vlc .check input:checked:after{content:"✓";font-weight:950}
+.vlc .check input:checked+span{text-decoration:line-through;color:var(--muted)}
+.vlc footer{padding:95px 7vw 45px;background:var(--blue);color:#fff}
+.vlc footer>p{font-size:.68rem;letter-spacing:.15em;color:var(--yellow);font-weight:950}
+.vlc footer h2 i{color:var(--yellow)}
+.vlc footer>a{display:inline-block;border:1px solid #fff;padding:14px 18px;margin:20px 0}
+.vlc footer small{display:block;max-width:650px;color:#cce2e7}
+.vlc .dock{display:none}
+.vlc *:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+@media(max-width:850px){
+  .vlc .hero nav div{display:none}
+  .vlc .heroGrid{grid-template-columns:1fr}
+  .vlc .heroGrid>div:first-child{padding-top:7vh}
+  .vlc .art{min-height:42vh}
+  .vlc h1{font-size:16vw}
+  .vlc .intro,.vlc .day,.vlc .ocean,.vlc .pinedo,.vlc .check{grid-template-columns:1fr}
+  .vlc .zones,.vlc .travTabs{grid-template-columns:1fr 1fr}
+  .vlc .cards,.vlc .foodGrid{grid-template-columns:1fr}
+  .vlc .paceTabs{grid-template-columns:1fr}
+  .vlc .paceTabs button{min-height:auto}
+  .vlc .dayTabs{overflow:auto}
+  .vlc .dayTabs button{min-width:80px}
+  .vlc .pinedo aside{border-left:0;border-top:1px solid #93a789;padding:30px 0}
+  .vlc .dock{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);height:auto;bottom:calc(10px + env(safe-area-inset-bottom));left:4vw;right:4vw;padding:7px;background:rgba(19,32,28,.94);color:#fff;z-index:20;backdrop-filter:blur(12px)}
+  .vlc .dock a{text-align:center;padding:9px 2px;font-size:.54rem;text-transform:uppercase}
+  .vlc footer{padding-bottom:100px}
+}
+@media(max-width:520px){
+  .vlc .intro,.vlc .prepare,.vlc .pace,.vlc .food,.vlc .check,.vlc .ocean,.vlc .dark,.vlc .route,.vlc .pinedo{padding:72px 6vw}
+  .vlc .intro h2,.vlc .dark h2,.vlc .prepare h2,.vlc .ocean h2,.vlc .pace h2,.vlc .route h2,.vlc .pinedo h2,.vlc .food h2,.vlc .check h2,.vlc footer h2{font-size:15vw}
+  .vlc .zones,.vlc .travTabs{grid-template-columns:1fr}
+  .vlc .zones article{margin:0}
+  .vlc .cards article{margin:0}
+  .vlc .heroGrid>div:first-child{padding-left:6vw}
+  .vlc .strip{font-size:.52rem}
+  .vlc .day{gap:20px}
+  .vlc .day li{grid-template-columns:32px 1fr auto}
+  .vlc .pinedo aside strong{font-size:6rem}
+  .vlc .foodGrid article{min-height:auto}
+}
+@media(prefers-reduced-motion:reduce){.vlc *{animation:none!important;transition:none!important}}

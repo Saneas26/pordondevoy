@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Valencia en 4 días | Por donde voy</title>
+<meta name="description" content="Guía interactiva de Valencia con tres ritmos, alojamientos, gastronomía local, Pinedo y la Albufera.">
+<meta name="theme-color" content="#087e9b">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Valencia · Por dónde voy">
+<link rel="canonical" href="https://pordondevoy-saneas.vercel.app/planes/valencia/">
+<meta property="og:title" content="Valencia en 4 días | Por donde voy">
+<meta property="og:description" content="La ciudad, el río, el arrozal y el mar.">
+<meta property="og:image" content="https://pordondevoy-saneas.vercel.app/planes/valencia/valencia-card.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="valencia.css">
+</head>
+<body>
+<main class="vlc">
+  <header id="top" class="hero">
+    <nav>
+      <a href="#top" class="logo">POR DONDE VOY <i>· PLANES</i></a>
+      <div>
+        <a href="../">← Todos los planes</a>
+        <a href="../../">Mi vuelo</a>
+        <a href="#dormir">Dormir</a>
+        <a href="#ritmo">4 días</a>
+        <a href="#comer">Comer</a>
+      </div>
+    </nav>
+    <div class="heroGrid">
+      <div>
+        <p class="over">VALENCIA · 4 DÍAS · DESDE DENTRO</p>
+        <h1>Ciudad.<br>Río.<br>Arrozal.<br><em>Mar.</em></h1>
+        <p class="lead">Cuatro paisajes para entender de dónde sale todo. La Ciudad de las Artes está; pero no se queda con el viaje.</p>
+        <a class="cta" href="#ritmo">Elige tu ritmo ↓</a>
+      </div>
+      <div class="art">
+        <span class="sun"></span><span class="lake"></span><span class="rice"></span>
+        <span class="arch a1"></span><span class="arch a2"></span>
+        <b>39°28′N · 0°22′W</b>
+      </div>
+    </div>
+    <div class="strip"><span>HUERTA</span><span>ARROZ</span><span>LUZ</span><span>MEDITERRÁNEO</span></div>
+  </header>
+
+  <section class="intro">
+    <p class="no">00 · LA IDEA</p>
+    <h2>La paella también<br><i>tiene paisaje.</i></h2>
+    <div>
+      <p>Podrías fotografiar la Ciudad de las Artes y marcharte sin haber entendido Valencia. Nosotros cruzamos un río sin agua, comemos donde reservan los propios valencianos y terminamos dentro del humedal donde nació el arroz.</p>
+      <blockquote>Pinedo + Restaurante Mediterráneo + Albufera no es un extra. Es el día que diferencia esta guía.</blockquote>
+    </div>
+  </section>
+
+  <section id="dormir" class="dark">
+    <p class="no yellow">01 · ALOJAMIENTO</p>
+    <h2>Elige dónde<br><i>quieres volver.</i></h2>
+    <div class="zones">
+      <article><b>RUZAFA / ENSANCHE</b><h3>Nuestra primera opción</h3><p>Cerca del centro, restaurantes y noche con personalidad. Comprueba el ruido de la calle exacta.</p></article>
+      <article><b>CIUTAT VELLA</b><h3>Todo a pie</h3><p>Perfecta para caminar poco. Evita dormir directamente sobre las calles nocturnas de El Carmen.</p></article>
+      <article><b>QUATRE CARRERES</b><h3>Familias y espacio</h3><p>Turia, Gulliver y Ciudad de las Artes al lado. Apartamentos mayores y más tranquilidad.</p></article>
+      <article><b>CABANYAL</b><h3>Terminar junto al mar</h3><p>Barrio marinero y playa. Más desplazamientos para centro y Ruzafa.</p></article>
+    </div>
+    <div class="travTabs" id="travTabs"></div>
+    <div class="stay" id="stayDetail"></div>
+  </section>
+
+  <section class="prepare">
+    <p class="no">02 · ANTES DE RESERVAR</p>
+    <h2>Primero la mesa.<br><i>Después el viaje.</i></h2>
+    <div class="cards">
+      <article><b>01</b><h3>Reserva Mediterráneo</h3><p>Semanas antes si vas en fin de semana. Paella al mediodía y arroz confirmado al llamar.</p><a href="tel:+34963247145">Llamar · 963 247 145</a></article>
+      <article><b>02</b><h3>No alquiles coche</h3><p>Metro, bus, bici y taxi puntual. El coche pasará más tiempo aparcado que moviéndose.</p></article>
+      <article><b>03</b><h3>Coloca el atardecer</h3><p>La barca de la Albufera se organiza según la puesta de sol de tu fecha, no con una hora genérica.</p><a href="https://www.visitvalencia.com/que-hacer-valencia/naturaleza-en-valencia/parques-y-jardines/parque-natural-lalbufera" target="_blank" rel="noopener noreferrer">Información oficial ↗</a></article>
+    </div>
+  </section>
+
+  <section class="ocean">
+    <div>
+      <p class="no">03 · UNA DECISIÓN HONESTA</p>
+      <h2>¿Oceanogràfic<br><i>o más Valencia?</i></h2>
+      <p id="oceanText"></p>
+    </div>
+    <div class="switch" id="oceanSwitch"></div>
+  </section>
+
+  <section id="ritmo" class="pace">
+    <p class="no">04 · TU RITMO</p>
+    <h2>¿Cuánto quieres<br><i>hacer cada día?</i></h2>
+    <div class="paceTabs" id="paceTabs"></div>
+  </section>
+
+  <section class="route">
+    <p class="no yellow" id="routeLabel"></p>
+    <h2>Cuatro días.<br><i>Cuatro paisajes.</i></h2>
+    <div class="dayTabs" id="dayTabs"></div>
+    <div class="day" id="dayDetail"></div>
+  </section>
+
+  <section class="pinedo">
+    <div>
+      <p class="no yellow">06 · EL DÍA PRINCIPAL</p>
+      <h2>Playa local.<br>Paella.<br><i>Atardecer.</i></h2>
+      <p>Primero conoces dónde viven los valencianos el Mediterráneo. Después comes el plato nacido en el arrozal, en el Restaurante Mediterráneo de Pinedo. Finalmente contemplas, en barca, el paisaje que lo explica: la Devesa de El Saler y la Albufera.</p>
+      <div>
+        <a href="tel:+34963247145">Reservar · 963 247 145</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Restaurante%20Mediterr%C3%A1neo%20Pinedo%20Valencia" target="_blank" rel="noopener noreferrer">Google Maps ↗</a>
+      </div>
+    </div>
+    <aside><strong>NO</strong><span>ES UNA CENA</span><p>La paella se come al mediodía, se cocina para un número concreto de comensales y necesita tiempo. Reserva con semanas de antelación —más aún en fin de semana o temporada alta— y confirma el arroz al llamar.</p></aside>
+  </section>
+
+  <section id="comer" class="food">
+    <p class="no">07 · COMER COMO AQUÍ</p>
+    <h2>Menos brunch.<br><i>Más esmorzaret.</i></h2>
+    <p class="foodLead">Cada mesa está colocada junto al recorrido del día. Los precios son orientativos.</p>
+    <div class="foodGrid" id="foodGrid"></div>
+  </section>
+
+  <section class="check">
+    <div>
+      <p class="no">08 · PREPARATIVOS</p>
+      <h2><span id="progressPct">0</span>%<br><i>preparado.</i></h2>
+      <div class="bar"><span id="progressBar"></span></div>
+    </div>
+    <ul id="checklistWrap"></ul>
+  </section>
+
+  <footer>
+    <p>POR DONDE VOY · VALENCIA</p>
+    <h2>Del río sin agua<br><i>al lago con arroz.</i></h2>
+    <a href="#top">Volver arriba ↑</a>
+    <small>Comprueba horarios, precios, reservas y accesos en las páginas oficiales antes del viaje.</small>
+  </footer>
+  <nav class="dock" aria-label="Accesos rápidos">
+    <a href="../">Planes</a>
+    <a href="#dormir">Dormir</a>
+    <a href="#ritmo">Ritmo</a>
+    <a href="#comer">Comer</a>
+    <a href="#top">Inicio</a>
+  </nav>
+</main>
+<script src="valencia.js"></script>
+<script src="../../js/25-recarga.js"></script>
+</body>
+</html>
