@@ -11,8 +11,10 @@
 .svq .heroGrid>div:first-child{z-index:2}
 .svq .over,.svq .no{font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--terracotta)}
 .svq .dark .no,.svq .route .no{color:var(--lime)}
+.svq .hero .over{color:var(--lime)}
+.svq .decision .no{color:#fff}
 .svq .hero h1{font-size:clamp(4.2rem,8vw,8.25rem);font-weight:400;line-height:.78;letter-spacing:-.03em;text-transform:uppercase;margin:.5em 0 .4em;font-family:Georgia,'Times New Roman',serif}
-.svq .hero h1 em{display:block;font-style:italic;color:var(--terracotta)}
+.svq .hero h1 em{display:block;font-style:italic;color:var(--lime)}
 .svq .hero p:not(.over){max-width:510px;font-size:1.1rem;line-height:1.55}
 .svq .cta{display:inline-block;margin-top:24px;border-bottom:2px solid var(--lime);padding:12px 0;font-weight:700}
 .svq .art{position:relative;min-height:600px;isolation:isolate}
@@ -27,7 +29,7 @@
 .svq .intro,.svq .prepare,.svq .pace,.svq .food,.svq .check{padding:115px 7vw}
 .svq .intro h2,.svq .dark h2,.svq .prepare h2,.svq .pace h2,.svq .route h2,.svq .triana h2,.svq .food h2,.svq .check h2,.svq footer h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(3.2rem,7vw,6.6rem);font-weight:400;line-height:.88;margin:.35em 0}
 .svq .intro h2 i,.svq .dark h2 i,.svq .prepare h2 i,.svq .pace h2 i,.svq .route h2 i,.svq .triana h2 i,.svq .food h2 i,.svq .check h2 i,.svq footer h2 i{font-style:italic;color:var(--terracotta)}
-.svq .dark h2 i,.svq .route h2 i,.svq footer h2 i{color:var(--lime)}
+.svq .dark h2 i,.svq .route h2 i,.svq footer h2 i,.svq .triana h2 i{color:var(--lime)}
 .svq .intro{display:grid;grid-template-columns:.45fr 1fr 1fr;gap:5vw}
 .svq .intro>div{padding-top:55px;line-height:1.7;font-size:1.05rem}
 .svq .intro blockquote{border-left:4px solid var(--terracotta);margin:40px 0 0;padding:0 0 0 25px;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:1.5rem}
@@ -35,14 +37,14 @@
 .svq .lime{color:var(--lime)}
 .svq .zones{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ffffff25;margin-top:60px}
 .svq .zones article{background:var(--ink);padding:32px;min-height:230px}
-.svq .zones b{font-size:.68rem;letter-spacing:.16em;color:var(--lime)}
+.svq .zones b{font-size:.7rem;letter-spacing:.16em;color:var(--lime)}
 .svq .zones h3{font-family:Georgia,'Times New Roman',serif;font-size:1.85rem;margin:45px 0 12px}
 .svq .zones p{color:#bcbdb8;line-height:1.55}
 .svq .travTabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:36px}
 .svq .travTabs button,.svq .dayTabs button,.svq .paceTabs button,.svq .switch button{border:1px solid #ffffff35;background:transparent;color:inherit;padding:15px 20px;cursor:pointer}
 .svq .travTabs button.active,.svq .dayTabs button.active{background:var(--lime);color:var(--ink);border-color:var(--lime)}
 .svq .stay{border-top:1px solid #ffffff35;margin-top:25px;padding:35px 0;display:grid;grid-template-columns:.3fr .7fr 1fr .5fr;align-items:center;gap:25px}
-.svq .stay span{font-size:.68rem;letter-spacing:.16em;color:var(--lime)}
+.svq .stay span{font-size:.7rem;letter-spacing:.16em;color:var(--lime)}
 .svq .stay h3{font-family:Georgia,'Times New Roman',serif;font-size:2.1rem;margin:0}
 .svq .stay p{color:#bcbdb8;line-height:1.5}
 .svq .stay a,.svq .cards a,.svq .foodGrid a{font-weight:700;text-decoration:underline}
@@ -60,7 +62,7 @@
 .svq .paceTabs{display:grid;grid-template-columns:repeat(3,1fr);margin-top:60px}
 .svq .paceTabs button{color:var(--ink);border-color:var(--line);padding:30px;text-align:left;font-size:1.3rem}
 .svq .paceTabs button span{display:block;color:var(--terracotta);font-size:.75rem;margin-bottom:45px;letter-spacing:.08em}
-.svq .paceTabs button small{display:block;margin-top:12px;color:#777;font-size:.7rem;text-transform:uppercase}
+.svq .paceTabs button small{display:block;margin-top:12px;color:#5a5248;font-size:.7rem;text-transform:uppercase}
 .svq .paceTabs button.active{background:var(--terracotta);color:white;border-color:var(--terracotta)}
 .svq .paceTabs button.active span,.svq .paceTabs button.active small{color:white}
 .svq .dayTabs{display:flex;margin:55px 0 25px;overflow:auto}
@@ -75,19 +77,19 @@
 .svq .day ol{margin:0;padding:0;list-style:none}
 .svq .day li{display:grid;grid-template-columns:55px 1fr auto;align-items:center;min-height:75px;border-bottom:1px solid #ffffff25;padding:0 25px}
 .svq .day li span{color:var(--lime);font-size:.72rem}
-.svq .day li a{font-size:.68rem;color:var(--paper)}
+.svq .day li a{font-size:.7rem;color:var(--paper)}
 .svq .triana{display:grid;grid-template-columns:1fr 1fr;background:var(--terracotta);color:white;padding:90px 7vw;gap:9vw}
 .svq .triana p{line-height:1.65;font-size:1.05rem}
 .svq .triana a{font-weight:700;text-decoration:underline}
 .svq .triana aside{border:1px solid #ffffff55;padding:55px;display:flex;flex-direction:column;justify-content:center}
 .svq .triana aside strong{font-family:Georgia,'Times New Roman',serif;font-size:6.5rem;line-height:.7}
 .svq .triana aside span{display:block;font-weight:700;letter-spacing:.14em;margin:30px 0;font-size:.75rem}
-.svq .triana .lime{color:var(--ink)}
+.svq .triana .lime{color:#fff}
 .svq .foodLead{max-width:650px;line-height:1.6;font-size:1.05rem}
 .svq .foodGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:60px}
 .svq .towers .foodGrid{grid-template-columns:repeat(4,1fr)}
 .svq .foodGrid article{background:var(--paper);color:var(--ink);padding:32px;min-height:330px;display:flex;flex-direction:column}
-.svq .foodGrid span{color:var(--terracotta);font-size:.68rem;font-weight:700;letter-spacing:.09em}
+.svq .foodGrid span{color:var(--terracotta);font-size:.7rem;font-weight:700;letter-spacing:.09em}
 .svq .foodGrid h3{font-family:Georgia,'Times New Roman',serif;font-size:1.9rem;margin:30px 0 10px}
 .svq .foodGrid article>b{font-size:.8rem}
 .svq .foodGrid p{line-height:1.55;color:#555}
@@ -105,7 +107,7 @@
 .svq footer{background:var(--ink);color:white;padding:110px 7vw 130px}
 .svq footer>p{font-size:.75rem;letter-spacing:.15em;color:var(--lime);font-weight:700;text-transform:uppercase}
 .svq footer>a{display:inline-block;border-bottom:2px solid var(--lime);padding-bottom:8px;margin:20px 0}
-.svq footer small{display:block;color:#777;margin-top:70px;max-width:650px}
+.svq footer small{display:block;color:#9a9a9a;margin-top:70px;max-width:650px}
 .svq .dock{display:none}
 @media(max-width:800px){
   .svq nav{height:62px}
@@ -116,7 +118,7 @@
   .svq .hero p:not(.over){font-size:.95rem}
   .svq .art{min-height:320px;margin-top:-10px}
   .svq .sun{width:220px;height:220px}
-  .svq .strip{font-size:.65rem;overflow:auto;gap:25px;justify-content:flex-start;padding:0 20px}
+  .svq .strip{font-size:.7rem;overflow:auto;gap:25px;justify-content:flex-start;padding:0 20px}
   .svq .intro{grid-template-columns:1fr;padding:80px 6vw;gap:0}
   .svq .intro h2,.svq .dark h2,.svq .prepare h2,.svq .pace h2,.svq .route h2,.svq .triana h2,.svq .food h2,.svq .check h2,.svq footer h2{font-size:3.6rem}
   .svq .intro>div{padding-top:10px}
@@ -136,7 +138,7 @@
   .svq .triana aside strong{font-size:4.6rem}
   .svq .check{grid-template-columns:1fr}
   .svq .dock{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;bottom:0;left:0;right:0;height:auto;background:#101817f2;color:white;z-index:20;padding:8px 6px calc(8px + env(safe-area-inset-bottom));border:0}
-  .svq .dock a{text-align:center;padding:6px 2px;font-size:.62rem;text-transform:uppercase}
+  .svq .dock a{text-align:center;padding:6px 2px;font-size:.7rem;text-transform:uppercase}
   .svq footer{padding-bottom:130px}
 }
 @media(max-width:480px){
