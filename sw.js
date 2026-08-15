@@ -1,4 +1,4 @@
-const CACHE = "pdv-v54";
+const CACHE = "pdv-v55";
 const ASSETS = ["./", "index.html", "rutas.js", "manifest.json", "icon-192.png", "icon-512.png", "quicksand-bold.woff2", "montserrat-bold.woff2", "hanken-grotesk-bold.woff2",
   "js/24-grupo-saneas.js", "js/25-recarga.js", "img/app-saneas-web.png", "img/app-saneas-s.png", "img/app-asesorias.png", "img/app-pordondevoy.png", "img/app-activala.png", "img/app-laora.png", "img/app-acumula.png",
   "planes/", "planes/index.html",
@@ -18,7 +18,8 @@ const ASSETS = ["./", "index.html", "rutas.js", "manifest.json", "icon-192.png",
   "planes/paris/", "planes/paris/index.html", "planes/paris/paris.css", "planes/paris/paris.js", "planes/paris/paris-card.png", "planes/paris/favicon.svg",
   "planes/roma/", "planes/roma/index.html", "planes/roma/roma.css", "planes/roma/roma.js", "planes/roma/roma-card.png", "planes/roma/favicon.svg",
   "planes/londres/", "planes/londres/index.html", "planes/londres/londres.css", "planes/londres/londres.js", "planes/londres/londres-card.png", "planes/londres/favicon.svg",
-  "planes/belgica/", "planes/belgica/index.html", "planes/belgica/belgica.css", "planes/belgica/belgica.js", "planes/belgica/belgica-card.png", "planes/belgica/favicon.svg"];
+  "planes/belgica/", "planes/belgica/index.html", "planes/belgica/belgica.css", "planes/belgica/belgica.js", "planes/belgica/belgica-card.png", "planes/belgica/favicon.svg",
+  "herramientas/comparador-viajes/", "herramientas/comparador-viajes/index.html", "herramientas/comparador-viajes/comparador.css", "herramientas/comparador-viajes/comparador.js", "herramientas/comparador-viajes/comparador-viajes-card.png", "herramientas/comparador-viajes/favicon.svg"];
 
 self.addEventListener("install", e => {
   e.waitUntil(

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Avión, tren o coche? Calcula el coste real | Por dónde voy</title>
+<meta name="description" content="Compara el coste completo y el tiempo puerta a puerta de avión, low cost, tren, coche y autobús antes de reservar.">
+<meta name="theme-color" content="#10100f">
+<link rel="manifest" href="../../manifest.json">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Comparador · Por dónde voy">
+<link rel="canonical" href="https://pordondevoy-saneas.vercel.app/herramientas/comparador-viajes/">
+<meta property="og:title" content="El billete más barato puede salirte caro">
+<meta property="og:description" content="Calcula el precio real y el tiempo puerta a puerta antes de reservar.">
+<meta property="og:image" content="https://pordondevoy-saneas.vercel.app/herramientas/comparador-viajes/comparador-viajes-card.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="comparador.css">
+</head>
+<body>
+<main class="cmp">
+  <header id="top">
+    <a class="back" href="../../planes/">← Planes</a>
+    <nav>
+      <a href="#compara">Comparador</a>
+      <a href="#metodo">El método</a>
+      <a href="#reglas">Trucos reales</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="kicker">Precio real · Tiempo puerta a puerta</p>
+      <h1>El billete<br><em>más barato</em><br>puede salirte<br><span>caro.</span></h1>
+      <p class="lead">Compara el viaje completo. No el número que utiliza una compañía para conseguir tu clic.</p>
+      <a class="cta" href="#compara">Calcular mi viaje ↓</a>
+    </div>
+    <div class="hero-board">
+      <div class="fake-ticket">
+        <small>MAD → PAR</small>
+        <b>29€</b>
+        <span>El precio que viste</span>
+      </div>
+      <div class="real-cost">
+        <small>El viaje real</small>
+        <div><span>Equipaje</span><b>+34€</b></div>
+        <div><span>Traslados</span><b>+42€</b></div>
+        <div><span>Asiento</span><b>+12€</b></div>
+        <strong>117€</strong>
+        <p>+ 7 h 30 min puerta a puerta</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="calculator" id="compara">
+    <div class="section-title">
+      <p>01 · Decide con datos</p>
+      <h2>Tu viaje.<br><em>Tus números.</em></h2>
+    </div>
+
+    <div class="controls">
+      <label>Origen<span class="static-select">Madrid</span></label>
+      <label>Destino<select id="cDestino"></select></label>
+      <label>Adultos<span class="stepper"><button type="button" data-step="adults" data-dir="-1">−</button><b id="cAdultos">2</b><button type="button" data-step="adults" data-dir="1">+</button></span></label>
+      <label>Niños<span class="stepper"><button type="button" data-step="children" data-dir="-1">−</button><b id="cNinos">0</b><button type="button" data-step="children" data-dir="1">+</button></span></label>
+      <label>Maletas<span class="stepper"><button type="button" data-step="bags" data-dir="-1">−</button><b id="cMaletas">1</b><button type="button" data-step="bags" data-dir="1">+</button></span></label>
+    </div>
+
+    <div class="priorities">
+      <span>¿Qué manda?</span>
+      <button type="button" data-priority="balance" class="active">Equilibrio</button>
+      <button type="button" data-priority="price">Precio</button>
+      <button type="button" data-priority="time">Tiempo</button>
+      <button type="button" data-priority="comfort">Comodidad</button>
+    </div>
+
+    <div class="verdict" id="cVerdict"></div>
+    <p class="honesty">Los importes iniciales son ejemplos editables para comparar, no precios en directo. Sustitúyelos por los que veas hoy.</p>
+
+    <div class="results" id="cResults"></div>
+
+    <div class="formula">
+      <b>Qué estamos sumando</b>
+      <span>Billetes × viajeros</span>
+      <span>Tarifa infantil estimada</span>
+      <span>Maletas en avión</span>
+      <span>Traslados ida y vuelta</span>
+      <span>Tiempo puerta a puerta</span>
+      <span>Comodidad según prioridad</span>
+    </div>
+  </section>
+
+  <section class="airport-truth">
+    <p>02 · El aeropuerto no es la ciudad</p>
+    <h2>París no es Beauvais.<br>Londres no es <em>un aeropuerto.</em></h2>
+    <div class="truth-grid">
+      <article><span>París</span><h3>Beauvais</h3><b>El precio necesita apellidos</b><p>Ryanair puede seguir ganando. Pero primero suma autobús, espera, metro, equipaje y el regreso. CDG en RER no es CDG por carretera en hora punta.</p></article>
+      <article><span>Londres</span><h3>6 aeropuertos</h3><b>El barrio decide</b><p>Heathrow, Gatwick, Stansted, Luton, City y Southend no son intercambiables. El mejor depende de dónde vas a dormir y a qué hora vuelas.</p></article>
+      <article><span>La regla</span><h3>Puerta a puerta</h3><b>El vuelo dura poco. El viaje no.</b><p>Cuenta desde que sales de casa hasta que entras en el alojamiento. Esa es la única duración comparable.</p></article>
+    </div>
+  </section>
+
+  <section class="method" id="metodo">
+    <div class="section-title">
+      <p>03 · El método</p>
+      <h2>Buscar bien.<br><em>Comprar una vez.</em></h2>
+    </div>
+    <div class="method-list">
+      <article><span>01</span><h3>Abre Google Flights</h3><p>Compara fechas, gráfico de precios y aeropuertos. Usa «Mejores», no solo «Más económicos».</p></article>
+      <article><span>02</span><h3>Define tu equipaje</h3><p>Una maleta añadida después puede cambiar por completo qué compañía gana.</p></article>
+      <article><span>03</span><h3>Calcula el traslado</h3><p>Precio, duración, primer y último servicio. También a la vuelta.</p></article>
+      <article><span>04</span><h3>Compara tren y coche</h3><p>En Madrid–Valencia, Barcelona y Sevilla, la alta velocidad parte con ventaja.</p></article>
+      <article><span>05</span><h3>Revisa la aerolínea</h3><p>Si la diferencia es pequeña, compra directamente. Sabes quién responde si algo cambia.</p></article>
+      <article><span>06</span><h3>Compra y deja de mirar</h3><p>Cuando el precio es razonable, reserva. Seguir buscando solo sirve para estropear la alegría.</p></article>
+    </div>
+  </section>
+
+  <section class="rules" id="reglas">
+    <p>04 · Sin cuentos</p>
+    <h2>Trucos que sí.<br><em>Mitos que no.</em></h2>
+    <div class="rule-columns">
+      <div>
+        <h3>Sí funciona</h3>
+        <p>✓ Mover ida o vuelta un día</p>
+        <p>✓ Activar alertas de precio</p>
+        <p>✓ Comparar aeropuertos</p>
+        <p>✓ Añadir maletas antes de decidir</p>
+        <p>✓ Comprar dos reservas si se agota una tarifa</p>
+        <p>✓ Mirar primer y último transporte</p>
+        <p>✓ Reservar directo si la diferencia es pequeña</p>
+        <p>✓ Valorar una única reserva en conexiones</p>
+      </div>
+      <div class="no">
+        <h3>No es una estrategia</h3>
+        <p>× Comprar siempre el martes de madrugada</p>
+        <p>× Confiar en incógnito para bajar precios</p>
+        <p>× Esperar indefinidamente</p>
+        <p>× Comparar solo el precio anunciado</p>
+        <p>× Usar autotransbordos con niños sin margen</p>
+        <p>× Reservar un vuelo que no alcanza transporte público</p>
+        <p>× Dar por hecho que low cost es siempre peor</p>
+        <p>× Dar por hecho que una aerolínea tradicional es mejor</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="links">
+    <p>Comprueba. Compara. Reserva.</p>
+    <h2>Las herramientas que<br>sí abriríamos.</h2>
+    <div>
+      <a href="https://www.google.com/travel/flights" target="_blank" rel="noopener noreferrer"><b>Google Flights</b><span>Comparar y seguir precios ↗</span></a>
+      <a href="https://www.renfe.com/" target="_blank" rel="noopener noreferrer"><b>Renfe</b><span>Alta velocidad ↗</span></a>
+      <a href="https://iryo.eu/" target="_blank" rel="noopener noreferrer"><b>Iryo</b><span>Comparar tren ↗</span></a>
+      <a href="https://www.ouigo.com/es/" target="_blank" rel="noopener noreferrer"><b>OUIGO</b><span>Comparar tren ↗</span></a>
+      <a href="https://www.flixbus.es/" target="_blank" rel="noopener noreferrer"><b>FlixBus</b><span>Autobús y rutas nocturnas ↗</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <b>POR DÓNDE VOY</b>
+    <p>No te decimos qué billete comprar. Te enseñamos lo que realmente estás comprando.</p>
+    <a href="#top">Volver arriba ↑</a>
+  </footer>
+
+  <nav class="dock" aria-label="Accesos rápidos">
+    <a href="../../planes/">Planes</a>
+    <a href="#compara">Calcular</a>
+    <a href="https://www.google.com/travel/flights" target="_blank" rel="noopener noreferrer">Vuelos ↗</a>
+    <a href="#reglas">Trucos</a>
+  </nav>
+</main>
+<script src="comparador.js"></script>
+<script src="../../js/25-recarga.js"></script>
+</body>
+</html>

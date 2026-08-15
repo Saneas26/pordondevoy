@@ -69,6 +69,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .plan-card p{font-size:13px; color:#425975; line-height:1.5;}
 .plan-card .meta{display:flex; gap:10px; margin-top:10px; font-size:11px; color:#0a1a2b; flex-wrap:wrap;}
 .plan-card .meta span{background:#e9eef5; border-radius:99px; padding:4px 10px;}
+.herramientas{margin:8px 16px 4px; padding-bottom:14px; border-bottom:1px solid var(--line);}
+.herramientas .region-name{padding:4px 4px 12px;}
 .region{border-top:1px solid var(--line); margin:0 16px;}
 .region:last-of-type{border-bottom:1px solid var(--line);}
 .region summary{list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:16px 4px; -webkit-tap-highlight-color:transparent;}
@@ -105,6 +107,20 @@ footer{padding:14px; text-align:center; font-size:11px; color:var(--muted); font
   </header>
 
   <a class="volver" href="../">← Atrás</a>
+
+  <section class="herramientas">
+    <h2 class="region-name">Herramientas</h2>
+    <div class="plan-grid">
+      <a class="plan-card" href="../herramientas/comparador-viajes/">
+        <div class="foto" style="background-image:url('../herramientas/comparador-viajes/comparador-viajes-card.png')"><span>Herramienta</span></div>
+        <div class="info">
+          <h3>¿Avión, tren o coche?</h3>
+          <p>El billete más barato puede salirte caro. Compara el coste real y el tiempo puerta a puerta.</p>
+          <div class="meta"><span>Vuelos</span><span>Tren</span><span>Coche</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
 
   <details class="region" id="region-canarias" open>
     <summary><h2 class="region-name">Canarias</h2><span class="region-meta"><span class="region-count">4 planes</span><svg class="chev"><use href="#i-chevron-down"></use></svg></span></summary>
