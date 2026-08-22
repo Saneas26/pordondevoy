@@ -7,26 +7,26 @@
 (function(){
   var DAYS = [
     {
-      id:"viernes", short:"VIE", label:"Viernes", title:"La llegada lenta", mood:"Capital · costa · pescado",
-      distance:"≈ 75 km", route:"Puerto → Arrecife → El Golfo → Arrecife",
+      id:"viernes", short:"VIE", label:"Viernes", title:"La llegada lenta", mood:"Barco largo · playa · San Ginés",
+      distance:"≈ 10 km", route:"Puerto → Casa → Playa del Reducto → Charco de San Ginés",
       stops:[
-        {time:"12:00", title:"Llegada, casa y compra rápida", text:"Dejad el equipaje y preparad agua, chaqueta fina y calzado cerrado."},
-        {time:"13:30", title:"Charco de San Ginés", text:"Almuerzo junto al agua y paseo por el Puente de las Bolas y el Castillo de San Gabriel.", type:"food", map:"https://maps.google.com/?q=Charco+de+San+Gines+Arrecife"},
-        {time:"15:30–18:00", title:"Trabajo sin interrupciones", text:"Mientras, la familia puede disfrutar de Playa del Reducto o Marina Lanzarote.", type:"work"},
-        {time:"18:15", title:"El Golfo y Charco de los Clicos", text:"Mirador, paseo por el pueblo y puesta de sol. No bajéis a la laguna.", map:"https://maps.google.com/?q=Charco+de+los+Clicos"},
-        {time:"20:15", title:"Cena frente al Atlántico", text:"Pescado del día en una terraza de El Golfo. Reserva recomendada.", type:"food"}
+        {time:"17:00", title:"Llegada a casa", text:"Entre el barco y el cruce de Fuerteventura, el trayecto puerta a puerta ronda las 7-8 horas. No programéis nada exigente antes de esta hora."},
+        {time:"17:30", title:"Baño en Playa del Reducto", text:"Si los horarios acompañan, un baño corto en la playa de Arrecife antes de que caiga el sol.", map:"https://maps.google.com/?q=Playa+del+Reducto+Arrecife"},
+        {time:"18:30", title:"Compra de esenciales", text:"Súper cercano para desayunos, comidas o cenas de los próximos días, según lo que necesite cada uno."},
+        {time:"20:00", title:"Cena en el Charco de San Ginés", text:"Cualquiera de los restaurantes de la orilla es un acierto: el mejor ambiente de la ciudad, con todo tipo de edades y buenas vistas.", type:"food", map:"https://maps.google.com/?q=Charco+de+San+Gines+Arrecife"}
       ]
     },
     {
-      id:"sabado", short:"SÁB", label:"Sábado", title:"El corazón de fuego", mood:"Volcanes · lava · vino",
-      distance:"≈ 105 km", route:"Arrecife → Timanfaya → costa suroeste → La Geria",
+      id:"sabado", short:"SÁB", label:"Sábado", title:"El corazón de fuego", mood:"Volcanes · costa · atardecer",
+      distance:"≈ 120 km", route:"Arrecife → Timanfaya → El Golfo → Yaiza → Arrecife → Puerto del Carmen",
       stops:[
-        {time:"08:15", title:"Rumbo a Timanfaya", text:"Salir pronto evita la mayor espera. Llevad la entrada preparada."},
-        {time:"09:00–11:15", title:"Montañas del Fuego", text:"Demostraciones geotérmicas y Ruta de los Volcanes en guagua. El imprescindible número uno.", map:"https://maps.google.com/?q=Montañas+del+Fuego+Timanfaya"},
-        {time:"11:40", title:"Los Hervideros y Janubio", text:"Dos paradas cortas de costa volcánica. Prudencia si hay fuerte oleaje.", map:"https://maps.google.com/?q=Los+Hervideros+Lanzarote"},
-        {time:"13:15", title:"Almuerzo en Yaiza", text:"Un descanso tranquilo en uno de los pueblos más cuidados de la isla.", type:"food"},
-        {time:"15:15–17:15", title:"La Geria", text:"Paisaje vitícola y una sola bodega con visita reservada. Quien conduzca, no degusta.", map:"https://maps.google.com/?q=La+Geria+Lanzarote"},
-        {time:"18:15–20:15", title:"Trabajo en Arrecife", text:"Segundo bloque protegido. Cena libre después.", type:"work"}
+        {time:"09:00–11:15", title:"Montañas del Fuego", text:"Demostraciones geotérmicas y Ruta de los Volcanes en guagua por el circuito interno del parque. Un café tranquilo en el restaurante, con vistas al cráter, cierra la visita — y da tiempo para las fotos.", map:"https://maps.google.com/?q=Montañas+del+Fuego+Timanfaya"},
+        {time:"11:45", title:"El Golfo y Charco de los Clicos", text:"Mirador, paseo por el pueblo y la laguna verde. No bajéis a la laguna.", map:"https://maps.google.com/?q=Charco+de+los+Clicos"},
+        {time:"12:45", title:"Salinas de Janubio y Los Hervideros", text:"Dos paradas cortas de costa volcánica, casi seguidas. Prudencia en Los Hervideros si hay fuerte oleaje.", map:"https://maps.google.com/?q=Los+Hervideros+Lanzarote"},
+        {time:"14:00", title:"Almuerzo en La Casona (Yaiza)", text:"Muy recomendable, aunque algo caro. Reserva si podéis: cierra bien la mañana volcánica.", type:"food"},
+        {time:"16:30", title:"Vuelta a casa, ducha y cambio", text:"Un respiro antes de bajar de nuevo hacia el sur."},
+        {time:"19:00", title:"Atardecer en Puerto del Carmen", text:"Paseo por el Puerto Deportivo y la Avenida de las Playas antes de que caiga el sol.", map:"https://maps.google.com/?q=Puerto+del+Carmen+Lanzarote"},
+        {time:"20:30", title:"Cena en Puerto del Carmen", text:"Buen ambiente en el paseo, sin necesidad de coger de nuevo el coche.", type:"food"}
       ]
     },
     {
@@ -42,12 +42,13 @@
       ]
     },
     {
-      id:"lunes", short:"LUN", label:"Lunes", title:"La isla de Manrique", mood:"Arquitectura · calma · regreso",
-      distance:"≈ 25 km", route:"Arrecife → Tahíche → puerto",
+      id:"lunes", short:"LUN", label:"Lunes", title:"El sur antes del barco", mood:"Playas · calas · regreso",
+      distance:"≈ 45 km", route:"Arrecife → Papagayo → Playa Blanca → Puerto de Arrecife",
       stops:[
-        {time:"08:00–10:30", title:"Trabajo y equipaje", text:"Último bloque protegido. Dejad el coche listo y confirmad la hora de embarque.", type:"work"},
-        {time:"11:00–12:45", title:"Fundación César Manrique", text:"Su casa sobre cinco burbujas volcánicas: la mejor forma de entender Lanzarote.", map:"https://maps.google.com/?q=Fundacion+Cesar+Manrique"},
-        {time:"13:00", title:"Almuerzo sin prisas", text:"Comida cerca de Arrecife, repostaje y margen generoso antes del barco.", type:"food"},
+        {time:"09:30", title:"Equipaje y salida", text:"Coche listo y rumbo al sur: aprovechad que hay que bajar de todas formas."},
+        {time:"10:30–13:30", title:"Playas de Papagayo", text:"Calas de arena dorada y agua tranquila, de las mejores de la isla. Acceso por pista de tierra; id con calma.", map:"https://maps.google.com/?q=Playas+de+Papagayo+Lanzarote"},
+        {time:"14:00", title:"Playa Blanca", text:"Comida libre en el paseo marítimo — hay oferta de sobra, sin necesidad de reservar.", map:"https://maps.google.com/?q=Playa+Blanca+Lanzarote"},
+        {time:"16:00", title:"Tarde de playa urbana", text:"Las playas del paseo, más cómodas para el último baño antes de las maletas."},
         {time:"Según billete", title:"Puerto de Arrecife", text:"Presentaos con la antelación indicada por la naviera al viajar con vehículo.", map:"https://maps.google.com/?q=Puerto+de+Arrecife"}
       ]
     }
@@ -55,20 +56,17 @@
 
   var DINING = {
     viernes: [
-      { type:"Comida", time:"13:30",
-        primary:{ name:"Tasca La Raspa", place:"Charco de San Ginés · Arrecife", price:"20–30 €", note:"La llegada fácil: cocina canaria junto al paseo que ya forma parte de la ruta.", order:"Croquetas, pulpo y pescado del día para compartir.", phone:"+34928808405", map:"https://maps.google.com/?q=Tasca+La+Raspa+Arrecife" },
-        backup:{ name:"Lilium", place:"Marina Lanzarote · Arrecife", price:"35–40 €", note:"La alternativa gastronómica sin alejarse de casa. Solo carta, no menú degustación.", order:"Dos entrantes, un principal por persona y postre compartido.", phone:"+34928524978", map:"https://maps.google.com/?q=Restaurante+Lilium+Arrecife" } },
-      { type:"Cena", time:"19:45",
-        primary:{ name:"Restaurante Bogavante", place:"El Golfo", price:"25–40 €", note:"Cena marinera después del Charco de los Clicos y la puesta de sol.", order:"Gofio escaldado, pulpo y pescado local. Evitar el bogavante para respetar el presupuesto.", phone:"+34928173505", map:"https://maps.google.com/?q=Restaurante+Bogavante+El+Golfo+Lanzarote" },
-        backup:{ name:"Casa Torano", place:"El Golfo", price:"25–40 €", note:"A pocos metros, con pescado fresco y terraza frente al mar.", order:"Preguntar peso y precio total del pescado antes de pedir.", phone:"+34928173058", map:"https://maps.google.com/?q=Casa+Torano+El+Golfo+Lanzarote" } }
+      { type:"Cena", time:"20:00",
+        primary:{ name:"Tasca La Raspa", place:"Charco de San Ginés · Arrecife", price:"20–30 €", note:"La llegada fácil tras un día largo de barco: cocina canaria junto al paseo, sin necesidad de buscar más.", order:"Croquetas, pulpo y pescado del día para compartir.", phone:"+34928808405", map:"https://maps.google.com/?q=Tasca+La+Raspa+Arrecife" },
+        backup:{ name:"Naia", place:"Charco de San Ginés · Arrecife", price:"25–40 €", note:"A un paso, cocina canaria actual con el mismo ambiente de paseo y agua.", order:"Tapas y platos para compartir mantienen bien el presupuesto.", phone:"+34928805797", map:"https://maps.google.com/?q=Restaurante+Naia+Arrecife" } }
     ],
     sabado: [
-      { type:"Comida", time:"13:30",
-        primary:{ name:"La Bodega de Santiago", place:"Yaiza", price:"30–40 €", note:"Exactamente entre la costa volcánica y La Geria, sin desvíos inútiles.", order:"Queso local, pescado o carne y un postre para compartir.", phone:"+34928836204", map:"https://maps.google.com/?q=La+Bodega+de+Santiago+Yaiza" },
-        backup:{ name:"La Casona de Yaiza", place:"Yaiza", price:"30–40 €", note:"A cinco minutos, producto local y cocina canaria contemporánea.", order:"Pedir a la carta y evitar vinos de precio alto.", phone:"+34646891949", map:"https://maps.google.com/?q=La+Casona+de+Yaiza+Restaurante" } },
+      { type:"Comida", time:"14:00",
+        primary:{ name:"La Casona de Yaiza", place:"Yaiza", price:"35–45 €", note:"Muy recomendable después de la mañana volcánica, aunque algo cara — merece la pena.", order:"Producto local y cocina canaria contemporánea; pedir a la carta.", phone:"+34646891949", map:"https://maps.google.com/?q=La+Casona+de+Yaiza+Restaurante" },
+        backup:{ name:"La Bodega de Santiago", place:"Yaiza", price:"30–40 €", note:"A cinco minutos, entre la costa volcánica y el pueblo, sin desvíos inútiles.", order:"Queso local, pescado o carne y un postre para compartir.", phone:"+34928836204", map:"https://maps.google.com/?q=La+Bodega+de+Santiago+Yaiza" } },
       { type:"Cena", time:"20:30",
-        primary:{ name:"Lilium", place:"Marina Lanzarote · Arrecife", price:"35–40 €", note:"La mejor cena gastronómica dentro del límite, después del bloque de trabajo.", order:"Carta: entrantes y postre compartidos. No pedir el menú de degustación.", phone:"+34928524978", map:"https://maps.google.com/?q=Restaurante+Lilium+Marina+Lanzarote" },
-        backup:{ name:"Naia", place:"Charco de San Ginés · Arrecife", price:"25–40 €", note:"Cocina canaria actual y ambiente agradable, sin volver a coger carretera.", order:"Tapas y platos para compartir mantienen bien el presupuesto.", phone:"+34928805797", map:"https://maps.google.com/?q=Restaurante+Naia+Arrecife" } }
+        primary:{ name:"El Marinero", place:"Playa Chica · Puerto del Carmen", price:"20–30 €", note:"Ambiente familiar y de barrio, a un paso del paseo y del mar, después del atardecer.", order:"Pescado fresco del día para compartir.", phone:"+34928511364", map:"https://maps.google.com/?q=Restaurante+El+Marinero+Puerto+del+Carmen" },
+        backup:{ name:"El Cangrejo Rojo", place:"Puerto Deportivo · Puerto del Carmen", price:"30–45 €", note:"Vistas al puerto y mariscada de las buenas, para una noche algo más especial.", order:"Zamburiñas, pescado del día y paella para compartir.", phone:"+34928512191", map:"https://maps.google.com/?q=El+Cangrejo+Rojo+Puerto+del+Carmen" } }
     ],
     domingo: [
       { type:"Comida", time:"14:00",
@@ -78,20 +76,16 @@
         primary:{ name:"El Risco", place:"Caleta de Famara", price:"35–40 €", note:"Bib Gourmand Michelin y cierre natural del día junto al Risco de Famara.", order:"Sugerencia de pescado o arroz sencillo y entrantes compartidos.", phone:"+34928528550", map:"https://maps.google.com/?q=Restaurante+El+Risco+Famara" },
         backup:{ name:"Dunas de Famara", place:"Caleta de Famara", price:"25–40 €", note:"En el mismo entorno, útil como alternativa inmediata sin alterar la ruta.", order:"Pescado y platos canarios; confirmar precio antes de pedir piezas enteras.", phone:"+34928178477", map:"https://maps.google.com/?q=Restaurante+Dunas+de+Famara" } }
     ],
-    lunes: [
-      { type:"Comida", time:"13:00",
-        primary:{ name:"Teleclub de Tahíche", place:"Tahíche", price:"15–25 €", note:"A minutos de la Fundación Manrique y en dirección al puerto.", order:"Queso frito, ensaladilla con pulpo, carne de cabra o plato del día.", phone:"+34606737799", map:"https://maps.google.com/?q=Teleclub+de+Tahiche" },
-        backup:{ name:"Los Aljibes de Tahíche", place:"Tahíche", price:"25–40 €", note:"Muy cerca, comida casera y carnes al horno en un espacio singular.", order:"Plato principal y entrante compartido para salir con tiempo hacia el barco.", phone:"+34610454294", map:"https://maps.google.com/?q=Los+Aljibes+de+Tahiche" } }
-    ]
+    lunes: []
   };
 
   var TASKS = [
     "Entradas con hora para Timanfaya y Cueva de los Verdes",
     "Comprobar si compensa el bono de centros turísticos",
-    "Reservar bodega y las dos comidas clave",
-    "Confirmar ferry y hora de embarque con vehículo",
+    "Reservar La Casona de Yaiza y la cena en Puerto del Carmen",
+    "Con coche: estar en el puerto 45 minutos antes de embarcar",
     "Revisar viento y oleaje antes de Famara y Los Hervideros",
-    "Preparar portátil, cargadores y datos móviles"
+    "Cargadores, datos y entretenimiento — el barco son 7-8 horas puerta a puerta"
   ];
 
   var active = "viernes";
@@ -188,7 +182,7 @@
         + '</article>';
     }).join("");
     if (foodDay === "lunes"){
-      html += '<aside class="ferry-note"><span>Sin cena en la isla</span><p>Después de comer se continúa directamente hacia el puerto para regresar a Gran Canaria.</p></aside>';
+      html += '<aside class="ferry-note"><span>Sin reserva necesaria</span><p>Comida libre en el paseo de Playa Blanca. Después, rumbo al puerto para regresar a Gran Canaria.</p></aside>';
     }
     document.getElementById("mealGrid").innerHTML = html;
   }
