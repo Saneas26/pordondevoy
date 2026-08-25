@@ -1,0 +1,25 @@
+# Node / Capacitor
+node_modules/
+www/
+# Android: salidas de compilación y ficheros locales (el proyecto android/ SÍ se versiona)
+android/app/build/
+android/build/
+android/.gradle/
+android/.idea/
+android/local.properties
+android/captures/
+android/*.iml
+android/app/*.iml
+android/app/release/
+android/app/debug/
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+android/app/src/main/res/xml/config.xml
+# Claves de firma: JAMÁS en el repo
+*.p12
+*.mobileprovision
+*.p8
+*.jks
+*.keystore
+.DS_Store

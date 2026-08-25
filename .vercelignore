@@ -1,0 +1,20 @@
+# Vercel sirve la web estática desde la raíz. Nada de esto debe publicarse en
+# pordondevoy-saneas.vercel.app.
+android
+ios
+node_modules
+www
+resources
+scripts
+.github
+package.json
+package-lock.json
+capacitor.config.json
+ANDROID.md
+IOS.md
+# Documentación interna: nunca debe quedar accesible en producción
+DESIGN.md
+PRODUCT.md
+TRASPASO_TIENDAS.md
+build_rutas.py
+.claude

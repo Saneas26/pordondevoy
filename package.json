@@ -1,0 +1,20 @@
+{
+  "name": "pordondevoy-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Por dónde voy · PWA estática de vuelo y guías de viaje empaquetada como app Android con Capacitor",
+  "scripts": {
+    "build:www": "bash scripts/build-www.sh",
+    "cap:sync": "npm run build:www && npx cap sync android",
+    "cap:open": "npx cap open android",
+    "android:iconos": "python3 scripts/iconos_android.py"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/core": "^8.5.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.0"
+  }
+}

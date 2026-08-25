@@ -892,7 +892,8 @@ function ajustarGPS(){
 }
 
 /* ================= NOTICIAS Y PODCAST (para el modo avión) ================= */
-const API = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+const API = (location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    || (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()))
   ? "https://pordondevoy-saneas.vercel.app" : "";
 const KEY_NOT = "pdv-noticias", KEY_EPS = "pdv-episodios";
 
@@ -1197,6 +1198,7 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
 </script>
 <script src="js/24-grupo-saneas.js"></script>
 <script src="js/25-recarga.js"></script>
+<script src="js/26-nativo.js"></script>
 <script>
 GrupoSaneas.init({ actual: "pordondevoy", logos: "img/", extras: [
   { id: "asesorias", nombre: "Asesora Saneas", logo: "app-asesorias.png", url: "https://saneas.es/asesorias",
