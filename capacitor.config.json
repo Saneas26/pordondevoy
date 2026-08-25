@@ -1,0 +1,12 @@
+{
+  "appId": "es.saneas.pordondevoy",
+  "appName": "Por dónde voy",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#041e3f"
+  }
+}

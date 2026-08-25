@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navy de marca Por dónde voy -->
+    <color name="colorPrimary">#041E3F</color>
+    <color name="colorPrimaryDark">#031832</color>
+    <color name="colorAccent">#041E3F</color>
+</resources>
