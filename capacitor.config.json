@@ -8,5 +8,10 @@
   "android": {
     "allowMixedContent": false,
     "backgroundColor": "#041e3f"
+  },
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#041e3f",
+    "preferredContentMode": "mobile"
   }
 }

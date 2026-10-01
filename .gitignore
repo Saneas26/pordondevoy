@@ -16,6 +16,19 @@ android/app/src/main/assets/public/
 android/app/src/main/assets/capacitor.config.json
 android/app/src/main/assets/capacitor.plugins.json
 android/app/src/main/res/xml/config.xml
+# iOS: salidas de compilación y ficheros locales (el proyecto ios/ SÍ se versiona)
+ios/App/App/public/
+ios/App/App/capacitor.config.json
+ios/App/App/config.xml
+ios/App/build/
+ios/App/Pods/
+ios/App/output/
+ios/App/DerivedData/
+ios/App/xcuserdata/
+ios/App/**/xcuserdata/
+ios/App/App.xcodeproj/project.xcworkspace/xcuserdata/
+ios/App/App.xcodeproj/xcuserdata/
+ios/App/CapApp-SPM/.build/
 # Claves de firma: JAMÁS en el repo
 *.p12
 *.mobileprovision
