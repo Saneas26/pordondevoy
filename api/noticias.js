@@ -1,5 +1,7 @@
-// /api/noticias — devuelve las 10 noticias del día CON el texto completo del artículo.
-// La app las guarda en el móvil para leerlas enteras sin conexión durante el vuelo.
+// /api/noticias — devuelve las noticias del día: titular, el resumen que el propio
+// periódico publica en su RSS para que se comparta, la fuente y el enlace.
+// NUNCA el artículo completo: copiar el texto entero de un periódico sin licencia es
+// un problema legal y motivo de rechazo en Apple (5.2). El artículo se lee en su web.
 
 const FEEDS = [
   { fuente: "20minutos", url: "https://www.20minutos.es/rss/" },
@@ -33,34 +35,11 @@ function parseRss(xml, fuente) {
     if (!t) continue;
     const titulo = limpiar(t[1]);
     let resumen = limpiar(d ? d[1] : "");
-    if (resumen.length > 480) resumen = resumen.slice(0, 477).trimEnd() + "…";
+    if (resumen.length > 300) resumen = resumen.slice(0, 297).trimEnd() + "…";
     if (!titulo || titulo.length < 15) continue;
     items.push({ fuente, titulo, resumen, url: l ? limpiar(l[1]) : "" });
   }
   return items;
-}
-
-// Extrae el texto del artículo: párrafos largos dentro de <article> (o de toda la página)
-async function cuerpoDe(url) {
-  if (!url) return "";
-  try {
-    const html = await fetch(url, { headers: UA, redirect: "follow", signal: AbortSignal.timeout(8000) }).then(r => r.text());
-    const art = html.match(/<article[\s\S]*?<\/article>/i);
-    const zona = art ? art[0] : html;
-    const parrafos = [];
-    const re = /<p[^>]*>([\s\S]*?)<\/p>/gi;
-    let m, total = 0;
-    while ((m = re.exec(zona)) && total < 7000) {
-      const t = limpiar(m[1]);
-      if (t.length < 60) continue;
-      if (/cookies|suscr[ií]bete|newsletter|whatsapp|tel[eé]gram|reg[ií]strate|hazte premium|derechos reservados/i.test(t)) continue;
-      parrafos.push(t);
-      total += t.length;
-    }
-    return parrafos.join("\n\n");
-  } catch (e) {
-    return "";
-  }
 }
 
 export default async function handler(req, res) {
@@ -84,9 +63,6 @@ export default async function handler(req, res) {
       noticias.push(n);
     }
   }
-
-  // Texto completo de cada una (en paralelo)
-  await Promise.allSettled(noticias.map(n => cuerpoDe(n.url).then(c => { n.cuerpo = c; delete n.url; })));
 
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "s-maxage=900, stale-while-revalidate=3600");

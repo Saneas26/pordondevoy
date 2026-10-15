@@ -280,8 +280,8 @@ footer{padding:20px; text-align:center; font-size:12px; color:var(--muted); font
 .noti .fu{font:700 12px/1 var(--mono); color:var(--accent); text-transform:uppercase; letter-spacing:.08em;}
 .noti .ti{font:600 19px/1.35 var(--display); margin:10px 0 8px;}
 .noti .re{font-size:15px; color:var(--muted); line-height:1.6;}
-.noti .mas{display:flex; align-items:center; gap:6px; font-size:13px; color:var(--accent); margin-top:10px; font-weight:600;}
-.noti .mas .chev{width:14px; height:14px; transition:transform .2s ease;}
+.noti .mas{text-decoration:none; display:flex; align-items:center; gap:6px; font-size:13px; color:var(--accent); margin-top:10px; font-weight:600;}
+.noti .mas .chev{width:14px; height:14px; transform:rotate(-90deg);}
 .noti.abierta .mas .chev{transform:rotate(180deg);}
 .noti .cu{display:none; margin-top:14px; border-top:1px solid var(--line); padding-top:14px;}
 .noti.abierta .cu{display:block;}
@@ -921,18 +921,14 @@ function pintarNoticias(){
   }
   const esc = s => (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const cuando = new Date(d.actualizado).toLocaleString("es-ES", {day:"numeric", month:"long", hour:"2-digit", minute:"2-digit"});
-  c.innerHTML = `<p class="estado">Actualizadas el ${cuando} · toca una noticia para leerla entera</p>` +
+  const enlace = u => /^https:\/\//.test(u || "") ? u : "";
+  c.innerHTML = `<p class="estado">Actualizadas el ${cuando} · el artículo completo, en la web de cada periódico cuando tengas conexión</p>` +
     d.noticias.map(n => {
-      const cuerpo = (n.cuerpo || "").split("\n\n").filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
+      const u = enlace(n.url);
       return `<div class="noti"><div class="fu">${esc(n.fuente)}</div><div class="ti">${esc(n.titulo)}</div><div class="re">${esc(n.resumen)}</div>` +
-        (cuerpo ? `<div class="mas"><span class="mas-txt">Leer la noticia completa</span><svg class="icon chev"><use href="#i-chevron-down"></use></svg></div><div class="cu">${cuerpo}</div>` : "") +
+        (u ? `<a class="mas" href="${esc(u).replace(/"/g, "&quot;")}" target="_blank" rel="noopener">Leer en ${esc(n.fuente)}<svg class="icon chev"><use href="#i-chevron-down"></use></svg></a>` : "") +
         `</div>`;
     }).join("");
-  c.querySelectorAll(".noti").forEach(el => el.addEventListener("click", () => {
-    el.classList.toggle("abierta");
-    const txt = el.querySelector(".mas-txt");
-    if (txt) txt.textContent = el.classList.contains("abierta") ? "Cerrar la noticia" : "Leer la noticia completa";
-  }));
 }
 
 function episodiosGuardados(){ return JSON.parse(localStorage.getItem(KEY_EPS) || "[]"); }
