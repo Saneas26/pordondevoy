@@ -22,7 +22,7 @@ function limpiar(s) {
     .replace(/&nbsp;/g, " ")
     .replace(/&#(\d+);/g, (m, n) => String.fromCharCode(n))
     .replace(/Leer la noticia completa.*$/i, "")
-    .replace(/\s+Leer$/i, "")
+    .replace(/\s*Leer\s*$/i, "")
     .replace(/\s+/g, " ").trim();
 }
 

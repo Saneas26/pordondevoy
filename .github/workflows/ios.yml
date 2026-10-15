@@ -1,0 +1,225 @@
+# Por dónde voy · compila la app del iPhone y del iPad (Capacitor, carpeta ios/) en un Mac de
+# GitHub: en el Mac de Óscar NO hay Xcode y no hace falta instalarlo.
+# A diferencia de Saneas y la Academia, la web va EMPAQUETADA dentro del binario (webDir www,
+# sin server.url): la app funciona en modo avión desde el primer arranque, que es su gracia.
+# Por eso cualquier cambio de index.html, js/, img/, rutas.js o sw.js necesita compilación nueva.
+# - SIEMPRE: archive SIN FIRMAR → comprueba que compila (artefacto pordondevoy-ios-unsigned).
+# - Con APPLE_TEAM_ID + la API key de App Store Connect (rol Admin): firma en la nube al exportar
+#   y sube el .ipa a TestFlight. Mismo esquema que Trivial y la Academia.
+name: iOS (Capacitor)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'ios/**'
+      - 'index.html'
+      - 'js/**'
+      - 'img/**'
+      - 'planes/**'
+      - 'herramientas/**'
+      - 'rutas.js'
+      - 'sw.js'
+      - 'manifest.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'capacitor.config.json'
+      - 'scripts/build-www.sh'
+      - '.github/workflows/ios.yml'
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compilar iOS
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+      APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+      APP_STORE_CONNECT_API_KEY_P8_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}
+      PROYECTO: ios/App/App.xcodeproj
+      ESQUEMA: App
+      # App Store Connect rechaza en silencio un .ipa con la misma versión+build que otro ya subido.
+      BUILD_NUM: ${{ github.run_number }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: npm ci
+        run: npm ci --no-audit --no-fund
+
+      - name: Capacitor sync ios
+        run: |
+          set -euo pipefail
+          npm run build:www
+          npx cap sync ios
+          test -f ios/App/App/public/index.html
+          test -f ios/App/App/public/rutas.js
+          # Sin server.url: si alguien la pone, la app deja de funcionar sin conexión.
+          if grep -q '"url"' ios/App/App/capacitor.config.json; then echo "ERROR: la app no debe cargar la web en vivo (server.url)"; exit 1; fi
+
+      - name: Xcode
+        run: |
+          set -euo pipefail
+          # Apple exige el SDK de iOS 26 (Xcode 26+) para subir: el Xcode más nuevo del runner.
+          NUEVO=$(ls -d /Applications/Xcode*.app | sort -V | tail -n 1)
+          sudo xcode-select -s "$NUEVO"
+          xcodebuild -version
+          # Nada de `| head` tras xcodebuild con pipefail: SIGPIPE («Broken pipe»).
+          MAJOR=$(xcodebuild -version 2>/dev/null | awk 'NR==1{print $2}' | cut -d. -f1)
+          if [ "$MAJOR" -lt 26 ]; then echo "::error title=Xcode::el runner no tiene Xcode 26+ (tiene $MAJOR): cambia runs-on a macos-26"; exit 1; fi
+
+      - name: Resolver paquetes Swift (SPM)
+        run: |
+          set -euo pipefail
+          xcodebuild -resolvePackageDependencies \
+            -project "$PROYECTO" -scheme "$ESQUEMA" \
+            -clonedSourcePackagesDirPath "$RUNNER_TEMP/spm" \
+            -skipPackagePluginValidation -skipMacroValidation
+
+      - name: Archive SIN FIRMAR
+        run: |
+          set -euo pipefail
+          LOG="$RUNNER_TEMP/xcodebuild-unsigned.log"
+          if ! xcodebuild \
+              -project "$PROYECTO" -scheme "$ESQUEMA" -configuration Release \
+              -sdk iphoneos -destination 'generic/platform=iOS' \
+              -archivePath "$RUNNER_TEMP/App.xcarchive" archive \
+              -clonedSourcePackagesDirPath "$RUNNER_TEMP/spm" \
+              -skipPackagePluginValidation -skipMacroValidation \
+              CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+              DEVELOPMENT_TEAM="" "CURRENT_PROJECT_VERSION=$BUILD_NUM" > "$LOG" 2>&1; then
+            echo "::error title=xcodebuild::el archive sin firmar ha fallado"
+            grep -nE "error:|fatal error|\*\* ARCHIVE FAILED" "$LOG" | head -n 60 || true
+            tail -n 120 "$LOG"
+            exit 1
+          fi
+          grep -E "ARCHIVE SUCCEEDED" "$LOG"
+
+      - name: Verificar App.app
+        run: |
+          set -euo pipefail
+          APP="$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app"
+          PL="$APP/Info.plist"; PB=/usr/libexec/PlistBuddy
+          BID=$("$PB" -c 'Print :CFBundleIdentifier' "$PL")
+          VER=$("$PB" -c 'Print :CFBundleShortVersionString' "$PL")
+          BUILD=$("$PB" -c 'Print :CFBundleVersion' "$PL")
+          NOMBRE=$("$PB" -c 'Print :CFBundleDisplayName' "$PL")
+          ENC=$("$PB" -c 'Print :ITSAppUsesNonExemptEncryption' "$PL")
+          FAMILIA=$("$PB" -c 'Print :UIDeviceFamily' "$PL" | tr -d '\n' | tr -s ' ')
+          ORI=$("$PB" -c 'Print :UISupportedInterfaceOrientations' "$PL" | tr -d '\n' | tr -s ' ')
+          ORI_IPAD=$("$PB" -c 'Print :UISupportedInterfaceOrientations~ipad' "$PL" | tr -d '\n' | tr -s ' ')
+          echo "$BID · $NOMBRE · $VER ($BUILD) · cifrado=$ENC"
+          echo "familia=$FAMILIA · iPhone=$ORI · iPad=$ORI_IPAD"
+          [ "$BID" = "es.saneas.pordondevoy" ] || { echo "ERROR: CFBundleIdentifier != es.saneas.pordondevoy"; exit 1; }
+          [ "$NOMBRE" = "Por dónde voy" ] || { echo "ERROR: CFBundleDisplayName != Por dónde voy"; exit 1; }
+          [ "$BUILD" = "$BUILD_NUM" ] || { echo "ERROR: CFBundleVersion=$BUILD y debería ser $BUILD_NUM"; exit 1; }
+          [ "$ENC" = "false" ] || { echo "ERROR: ITSAppUsesNonExemptEncryption debe ser false"; exit 1; }
+          # Universal: 1 = iPhone, 2 = iPad. Si se pierde el 2, Apple la publica como app de iPhone
+          # y en el iPad sale la ventanita pequeña con marco negro.
+          if ! { echo "$FAMILIA" | grep -q "1" && echo "$FAMILIA" | grep -q "2"; }; then
+            echo "ERROR: la app tiene que ser universal (iPhone y iPad)"; exit 1
+          fi
+          echo "$ORI_IPAD" | grep -q "Landscape" || { echo "ERROR: en el iPad falta el apaisado"; exit 1; }
+          # El ÚNICO permiso es la ubicación mientras se usa (el GPS pegado a la ventanilla). Si
+          # aparece otro, alguien ha metido un plugin sin querer: Apple pregunta por cada uno.
+          PERMISOS=$("$PB" -c 'Print' "$PL" | grep -oE "NS[A-Za-z]*UsageDescription" | sort -u | tr '\n' ' ')
+          echo "permisos: $PERMISOS"
+          [ "$PERMISOS" = "NSLocationWhenInUseUsageDescription " ] || { echo "::error title=Permisos::solo puede pedir la ubicación mientras se usa (tiene: $PERMISOS)"; exit 1; }
+          test -f "$APP/public/index.html" || { echo "ERROR: falta index.html dentro del binario"; exit 1; }
+          test -f "$APP/public/rutas.js" || { echo "ERROR: faltan las rutas dentro del binario"; exit 1; }
+          # El icono de la App Store no puede llevar transparencia: Apple rechaza la subida.
+          ICONO=$(find "$APP" -name 'AppIcon*.png' | head -n 1 || true)
+          if [ -n "$ICONO" ] && sips -g hasAlpha "$ICONO" 2>/dev/null | grep -q "hasAlpha: yes"; then
+            echo "::error title=Icono::el icono tiene canal alfa"; exit 1
+          fi
+          {
+            echo "## Por dónde voy · iOS"
+            echo "- **$BID** · $NOMBRE · $VER ($BUILD) · familia $FAMILIA"
+            echo "- **Commit**: \`${GITHUB_SHA}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+          mkdir -p salida
+          ditto -c -k --keepParent "$APP" salida/pordondevoy-ios-unsigned.zip
+
+      - name: Subir artefacto pordondevoy-ios-unsigned
+        uses: actions/upload-artifact@v4
+        with:
+          name: pordondevoy-ios-unsigned
+          path: salida/pordondevoy-ios-unsigned.zip
+          if-no-files-found: error
+          retention-days: 14
+
+      # ─────────────── FIRMA EN LA NUBE + TESTFLIGHT (solo con los secretos de Apple) ───────────────
+      - name: ¿Hay secretos de Apple?
+        id: apple
+        run: |
+          if [ -n "${APPLE_TEAM_ID:-}" ] && [ -n "${APP_STORE_CONNECT_API_KEY_ID:-}" ] && [ -n "${APP_STORE_CONNECT_ISSUER_ID:-}" ] && [ -n "${APP_STORE_CONNECT_API_KEY_P8_BASE64:-}" ]; then
+            echo "firmar=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "firmar=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=SIN FIRMA::Faltan APPLE_TEAM_ID o la API key de App Store Connect: solo se ha comprobado que compila."
+          fi
+
+      - name: Firmar, exportar .ipa y subir a TestFlight
+        if: steps.apple.outputs.firmar == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p ~/private_keys
+          KEY=~/private_keys/AuthKey_"$APP_STORE_CONNECT_API_KEY_ID".p8
+          printf '%s' "$APP_STORE_CONNECT_API_KEY_P8_BASE64" | tr -d ' \n\r\t' | base64 -d > "$KEY"
+          cat > "$RUNNER_TEMP/export.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>teamID</key><string>$APPLE_TEAM_ID</string>
+            <key>uploadSymbols</key><true/>
+            <key>destination</key><string>export</string>
+            <key>signingStyle</key><string>automatic</string>
+          </dict></plist>
+          EOF
+          # El archive va sin firmar (firmar el archive pediría un perfil de desarrollo con un iPhone
+          # registrado); se firma al EXPORTAR con el perfil App Store, que no lo exige.
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/export.plist" -exportPath "$RUNNER_TEMP/export" \
+            -allowProvisioningUpdates -authenticationKeyPath "$KEY" \
+            -authenticationKeyID "$APP_STORE_CONNECT_API_KEY_ID" -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
+          IPA=$(ls "$RUNNER_TEMP"/export/*.ipa | head -n1)
+          test -s "$IPA" || { echo "ERROR: no hay .ipa"; exit 1; }
+          # OJO (aprendido con Loro el 08/10/2026): `altool` SALE CON CÓDIGO 0 AUNQUE FALLE.
+          # Apple rechazó una subida con «The train version '1.0' is closed for new build
+          # submissions» y la compilación se dio por BUENA; se estuvo media hora esperando un
+          # build que nunca iba a llegar. Así que no se mira el código de salida: se lee lo que
+          # escribe y se falla a mano si aparece un error.
+          mira_altool() {
+            local etiqueta="$1"; shift
+            local salida
+            salida=$(xcrun altool "$@" 2>&1) || true
+            echo "$salida"
+            if echo "$salida" | grep -qiE "UPLOAD FAILED|Validation failed|\bERROR\b"; then
+              echo "::error title=$etiqueta::Apple ha rechazado el envío. Mira el detalle justo encima."
+              return 1
+            fi
+          }
+          mira_altool "Validación" --validate-app -f "$IPA" -t ios --apiKey "$APP_STORE_CONNECT_API_KEY_ID" --apiIssuer "$APP_STORE_CONNECT_ISSUER_ID"
+          mira_altool "Subida a TestFlight" --upload-app -f "$IPA" -t ios --apiKey "$APP_STORE_CONNECT_API_KEY_ID" --apiIssuer "$APP_STORE_CONNECT_ISSUER_ID"
+          echo "- **TestFlight**: subido a App Store Connect (build $BUILD_NUM; procesa en unos minutos)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Limpiar la clave
+        if: always()
+        run: rm -f ~/private_keys/AuthKey_*.p8 || true
