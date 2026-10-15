@@ -65,7 +65,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - name: Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
         with:
           log-accepted-android-sdk-licenses: false
       - name: Gradle (con caché)
