@@ -5,7 +5,7 @@
 
 const FEEDS = [
   { fuente: "20minutos", url: "https://www.20minutos.es/rss/" },
-  { fuente: "RTVE", url: "https://www.rtve.es/rss/temas_noticias.xml" },
+  { fuente: "Europa Press", url: "https://www.europapress.es/rss/rss.aspx" },  // el RSS de RTVE se quedó parado en 2022
   { fuente: "El Mundo", url: "https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml" },
 ];
 const UA = { "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36" };
@@ -32,7 +32,11 @@ function parseRss(xml, fuente) {
     const t = bloque.match(/<title>([\s\S]*?)<\/title>/);
     const d = bloque.match(/<description>([\s\S]*?)<\/description>/);
     const l = bloque.match(/<link>([\s\S]*?)<\/link>/);
+    const f = bloque.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
     if (!t) continue;
+    // Solo noticias de verdad de hoy: un canal abandonado sigue sirviendo las viejas
+    const fecha = f ? Date.parse(limpiar(f[1])) : NaN;
+    if (!isNaN(fecha) && Date.now() - fecha > 48 * 3600 * 1000) continue;
     const titulo = limpiar(t[1]);
     let resumen = limpiar(d ? d[1] : "");
     if (resumen.length > 300) resumen = resumen.slice(0, 297).trimEnd() + "…";

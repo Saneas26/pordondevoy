@@ -921,7 +921,7 @@ function pintarNoticias(){
   }
   const esc = s => (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const cuando = new Date(d.actualizado).toLocaleString("es-ES", {day:"numeric", month:"long", hour:"2-digit", minute:"2-digit"});
-  const enlace = u => /^https:\/\//.test(u || "") ? u : "";
+  const enlace = u => /^https?:\/\//.test(u || "") ? u : "";
   c.innerHTML = `<p class="estado">Actualizadas el ${cuando} · el artículo completo, en la web de cada periódico cuando tengas conexión</p>` +
     d.noticias.map(n => {
       const u = enlace(n.url);
