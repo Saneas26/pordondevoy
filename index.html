@@ -318,6 +318,64 @@ audio{width:100%; margin-top:12px;}
     animation-duration:.01s !important; animation-delay:0s !important;
   }
 }
+/* ---- instalar la app: solo en la web, nunca dentro de la app instalada ---- */
+.instalar-fila{display:flex; justify-content:center; padding:10px 24px 0;}
+.instalar-fila[hidden]{display:none;}
+.instalar-btn{
+  display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:10px 20px;
+  border-radius:99px; border:1px solid rgba(0,229,255,.5); background:rgba(0,229,255,.08);
+  color:var(--accent); font:700 16px/1 var(--display); cursor:pointer;
+}
+.instalar-btn .icon{width:19px; height:19px;}
+.instalar-btn:active{transform:scale(.97);}
+#instalar{
+  position:fixed; inset:0; z-index:60; display:flex; align-items:flex-end; justify-content:center;
+  background:rgba(1,10,20,.74); opacity:0; visibility:hidden;
+  transition:opacity .22s ease, visibility 0s linear .22s;
+}
+#instalar.abierto{opacity:1; visibility:visible; transition:opacity .22s ease;}
+.instalar-hoja{
+  width:100%; max-width:600px; max-height:92dvh; overflow-y:auto; background:var(--surface-1);
+  border-radius:26px 26px 0 0; box-shadow:0 -10px 30px -8px rgba(1,10,20,.6), inset 0 0 0 1px var(--ring);
+  padding:22px 24px calc(28px + env(safe-area-inset-bottom));
+  transform:translateY(28px); transition:transform .28s cubic-bezier(.2,.8,.2,1);
+}
+#instalar.abierto .instalar-hoja{transform:none;}
+@media (min-width:640px){
+  #instalar{align-items:center;}
+  .instalar-hoja{max-width:480px; border-radius:26px;}
+}
+.instalar-cab{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+.instalar-cab h3{flex:1; font:700 24px/1.25 var(--display);}
+.instalar-cab button{
+  width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  background:none; border:0; border-radius:50%; color:var(--muted); cursor:pointer;
+}
+.instalar-cab button[hidden]{display:none;}
+.instalar-cab .icon{width:22px; height:22px;}
+.instalar-cab #instalarAtras{margin-left:-10px;}
+.instalar-sub{font-size:16px; line-height:1.55; color:var(--muted); margin:0 0 16px;}
+.instalar-sub b{color:var(--text);}
+.instalar-op{
+  display:flex; align-items:center; gap:16px; width:100%; min-height:72px; margin-top:12px; padding:14px 16px;
+  background:var(--surface-2); border:1px solid var(--ring); border-radius:18px; color:var(--text);
+  text-align:left; text-decoration:none; cursor:pointer; font:inherit;
+}
+.instalar-op:active{transform:scale(.985);}
+.instalar-ic{width:48px; height:48px; flex-shrink:0; display:flex; align-items:center; justify-content:center; border-radius:50%; background:rgba(0,229,255,.12); color:var(--accent);}
+.instalar-ic .icon{width:24px; height:24px;}
+.instalar-tx{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;}
+.instalar-tx b{font:700 21px/1.2 var(--display);}
+.instalar-tx span{font-size:15px; line-height:1.4; color:var(--muted);}
+.instalar-fl{width:22px; height:22px; flex-shrink:0; color:var(--muted);}
+.instalar-lista{list-style:none; display:flex; flex-direction:column; gap:18px; margin:4px 0 0; padding:0;}
+.instalar-lista li{display:flex; align-items:flex-start; gap:14px; font-size:18px; line-height:1.5; color:var(--text);}
+.instalar-lista .card-num{margin-top:1px;}
+.instalar-lista b{color:var(--accent);}
+.instalar-lista .icon{width:1.15em; height:1.15em; vertical-align:-.2em; color:var(--accent);}
+@media (prefers-reduced-motion: reduce){
+  #instalar, .instalar-hoja{transition-duration:.01s !important;}
+}
 </style>
 </head>
 <body>
@@ -346,6 +404,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <symbol id="i-skip-back" viewBox="0 0 24 24"><path d="M20 5v14L10 12l10-7z" fill="currentColor" stroke="none"/><rect x="5" y="5" width="3" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-skip-forward" viewBox="0 0 24 24"><path d="M4 5v14l10-7L4 5z" fill="currentColor" stroke="none"/><rect x="16" y="5" width="3" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-stop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2.5" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V4M8.5 7.5 12 4l3.5 3.5"/><path d="M8 11H6.5A1.5 1.5 0 0 0 5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6A1.5 1.5 0 0 0 17.5 11H16"/></symbol>
+  <symbol id="i-plus-square" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M12 8.5v7M8.5 12h7"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
 </svg>
 <div id="splash" aria-hidden="true">
   <svg viewBox="0 0 260 150" aria-hidden="true">
@@ -375,6 +438,10 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <span class="gs-b-accion">despliega</span>
       </button>
     </header>
+
+    <div class="instalar-fila" id="instalarFila" hidden>
+      <button type="button" class="instalar-btn" id="instalarBtn"><svg class="icon"><use href="#i-phone"></use></svg>Instala la app</button>
+    </div>
 
     <div class="hero">
       <h2>Sigue tu vuelo sin conexión<br><span class="lime">de datos o wifi</span></h2>
@@ -578,6 +645,36 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     </div>
     <div class="playlist" id="playlist"></div>
     <audio id="player" preload="none"></audio>
+  </div>
+</div>
+<div id="instalar" role="dialog" aria-modal="true" aria-labelledby="instalarTit">
+  <div class="instalar-hoja">
+    <div class="instalar-cab">
+      <button type="button" id="instalarAtras" aria-label="Volver" hidden><svg class="icon"><use href="#i-chevron-left"></use></svg></button>
+      <h3 id="instalarTit">Instala la app</h3>
+      <button type="button" id="instalarCerrar" aria-label="Cerrar"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <div id="instalarElige">
+      <p class="instalar-sub">Gratis, sin registro y sin anuncios. ¿Qué móvil tienes?</p>
+      <a class="instalar-op" id="instalarAndroid" href="https://play.google.com/store/apps/details?id=es.saneas.pordondevoy" target="_blank" rel="noopener">
+        <span class="instalar-ic"><svg class="icon fill"><use href="#i-play"></use></svg></span>
+        <span class="instalar-tx"><b>Android</b><span>Descárgala en Google Play</span></span>
+        <svg class="icon instalar-fl"><use href="#i-chevron-right"></use></svg>
+      </a>
+      <button type="button" class="instalar-op" id="instalarIphone">
+        <span class="instalar-ic"><svg class="icon"><use href="#i-plus-square"></use></svg></span>
+        <span class="instalar-tx"><b>iPhone</b><span>Te explicamos cómo añadirla a tu pantalla de inicio</span></span>
+        <svg class="icon instalar-fl"><use href="#i-chevron-right"></use></svg>
+      </button>
+    </div>
+    <div id="instalarPasos" hidden>
+      <p class="instalar-sub">Desde <b>Safari</b>, en tres pasos. Quedará como una app más en tu iPhone, y funcionará sin conexión.</p>
+      <ol class="instalar-lista">
+        <li><span class="card-num">1</span><span>Pulsa <b>Compartir</b> <svg class="icon"><use href="#i-share"></use></svg> en la barra de Safari.</span></li>
+        <li><span class="card-num">2</span><span>Desliza y elige <b>«Añadir a pantalla de inicio»</b> <svg class="icon"><use href="#i-plus-square"></use></svg></span></li>
+        <li><span class="card-num">3</span><span>Pulsa <b>«Añadir»</b>. Ya la tienes en tu pantalla de inicio.</span></li>
+      </ol>
+    </div>
   </div>
 </div>
 <div id="toast"></div>
@@ -1084,6 +1181,47 @@ document.addEventListener("visibilitychange", () => {
   const cerrar = () => { sp.classList.add("fuera"); setTimeout(() => sp.remove(), 400); };
   sp.addEventListener("click", cerrar);
   setTimeout(cerrar, 1900);
+})();
+/* ================= INSTALAR LA APP (solo en la web) ================= */
+(function(){
+  const nativa = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  const instalada = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  if (nativa || instalada) return;   // dentro de la app o ya instalada: el botón no existe
+  const ov = $("instalar"), elige = $("instalarElige"), pasos = $("instalarPasos"), atras = $("instalarAtras"), tit = $("instalarTit");
+  let previo = null;
+  const verElige = () => { elige.hidden = false; pasos.hidden = true; atras.hidden = true; tit.textContent = "Instala la app"; };
+  const abrir = () => {
+    previo = document.activeElement;
+    verElige();
+    document.documentElement.style.overflow = "hidden";
+    ov.classList.add("abierto");
+    setTimeout(() => $("instalarAndroid").focus(), 40);
+  };
+  const cerrar = () => {
+    ov.classList.remove("abierto");
+    document.documentElement.style.overflow = "";
+    if (previo) previo.focus();
+  };
+  $("instalarFila").hidden = false;
+  $("instalarBtn").addEventListener("click", abrir);
+  $("instalarCerrar").addEventListener("click", cerrar);
+  ov.addEventListener("click", (ev) => { if (ev.target === ov) cerrar(); });
+  $("instalarAndroid").addEventListener("click", () => setTimeout(cerrar, 150));
+  $("instalarIphone").addEventListener("click", () => {
+    elige.hidden = true; pasos.hidden = false; atras.hidden = false; tit.textContent = "En tu iPhone";
+    atras.focus();
+  });
+  atras.addEventListener("click", () => { verElige(); $("instalarIphone").focus(); });
+  document.addEventListener("keydown", (ev) => {
+    if (!ov.classList.contains("abierto")) return;
+    if (ev.key === "Escape") { cerrar(); return; }
+    if (ev.key !== "Tab") return;
+    const f = [...ov.querySelectorAll("a[href], button")].filter(el => !el.hidden && el.offsetParent !== null);
+    if (!f.length) return;
+    const primero = f[0], ultimo = f[f.length - 1];
+    if (ev.shiftKey && document.activeElement === primero) { ev.preventDefault(); ultimo.focus(); }
+    else if (!ev.shiftKey && document.activeElement === ultimo) { ev.preventDefault(); primero.focus(); }
+  });
 })();
 pintarSelector();
 setRuta(rutaId, "ida");
