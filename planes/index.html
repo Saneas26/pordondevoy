@@ -334,7 +334,7 @@ footer{padding:14px; text-align:center; font-size:11px; color:var(--muted); font
     <div class="region-empty">Todavía no hay planes en Portugal.</div>
   </details>
 
-  <div id="grupoPie"></div>
+  
   <footer>Por dónde voy · planes de viaje sin conexión</footer>
 </div>
 
@@ -345,7 +345,7 @@ GrupoSaneas.init({ actual: "pordondevoy", logos: "../img/", extras: [
   { id: "academia", nombre: "Academia Saneas", logo: "app-asesorias.png", url: "https://saneas.es/academia",
     texto: "Si te gusta el mundo de la nutrición, ahora tú también puedes. Más fácil que nunca." }
 ] });
-document.getElementById("grupoPie").innerHTML = GrupoSaneas.gridHTML();
+
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("../sw.js");
 </script>
 </body>
