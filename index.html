@@ -351,6 +351,7 @@ audio{width:100%; margin-top:12px;}
   background:none; border:1px dashed var(--line); border-radius:12px; color:var(--accent); font:700 15px/1 var(--display); cursor:pointer;
 }
 .ep-info .em{display:block;}
+.nw{white-space:nowrap;}
 .buscar-barra{padding:4px 24px 10px; max-width:600px; width:100%; margin:0 auto;}
 .buscar-ayuda{font-size:15px; line-height:1.5; color:var(--muted); margin:2px 0 0;}
 .buscar-campo{display:flex; align-items:center; gap:10px; min-height:56px; padding:0 8px 0 16px; background:var(--surface-1); border:1.5px solid var(--ring); border-radius:16px;}
@@ -1123,11 +1124,11 @@ function haceTiempo(iso){
 }
 function filaEpisodio(e, d, bajados){
   const hecho = bajados.has(e.audio);
-  const meta = [haceTiempo(e.iso), e.duracion].filter(Boolean).join(" · ");
+  const meta = [haceTiempo(e.iso), e.duracion].filter(Boolean).map(t => '<span class="nw">' + escHtml(t) + '</span>').join(" · ");
   return `
       <div class="ep-row estatico">
         <span class="ep-icon"><svg class="icon"><use href="#i-headphones"></use></svg></span>
-        <span class="ep-info"><span class="et">${escHtml(e.titulo)}</span><span class="em">${escHtml(meta)}</span></span>
+        <span class="ep-info"><span class="et">${escHtml(e.titulo)}</span><span class="em">${meta}</span></span>
         <button type="button" class="ep-action ${hecho ? "listo" : ""}"
           aria-label="${hecho ? "Descargado" : "Descargar para el vuelo"}"
           data-audio="${encodeURIComponent(e.audio)}"
