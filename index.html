@@ -318,6 +318,72 @@ audio{width:100%; margin-top:12px;}
     animation-duration:.01s !important; animation-delay:0s !important;
   }
 }
+/* ---- buscador de podcasts ---- */
+.pod-ayuda{font-size:14px; line-height:1.5; color:var(--muted); margin:10px 0 10px;}
+.pod-campo{
+  display:flex; align-items:center; gap:12px; width:100%; min-height:56px; padding:12px 16px;
+  background:var(--surface-2); border:1px solid var(--ring); border-radius:16px; color:var(--text);
+  font:600 17px/1.2 var(--display); text-align:left; cursor:pointer;
+}
+.pod-campo .icon{width:21px; height:21px; flex-shrink:0; color:var(--accent);}
+.pod-campo span{flex:1;}
+.pod-campo .pod-fl{color:var(--muted); width:20px; height:20px;}
+.pod-campo[hidden]{display:none;}
+.pod-campo:active{transform:scale(.99);}
+.pod-elegido{display:flex; align-items:center; gap:12px; padding:10px; background:var(--surface-2); border:1px solid var(--ring); border-radius:16px;}
+.pod-elegido[hidden]{display:none;}
+.pod-elegido .pod-portada{width:48px; height:48px; border-radius:12px; font-size:17px;}
+.pod-elegido .pod-nom{flex:1; min-width:0; font:700 16px/1.3 var(--display); color:var(--text);}
+.pod-cambiar{
+  display:inline-flex; align-items:center; min-height:44px; padding:0 16px; flex-shrink:0; border-radius:99px;
+  background:none; border:1px solid var(--accent); color:var(--accent); font:700 15px/1 var(--display); cursor:pointer;
+}
+.pod-portada{
+  position:relative; width:56px; height:56px; flex-shrink:0; border-radius:14px; overflow:hidden;
+  display:flex; align-items:center; justify-content:center; color:#fff; font:700 20px/1 var(--display); letter-spacing:.02em;
+}
+.pod-portada img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+.pod-fresco{font-size:14px; line-height:1.5; color:var(--muted); margin:14px 0 0;}
+.pod-fresco b{color:var(--text); font-weight:600;}
+.pod-fresco.viejo b{color:var(--warn);}
+.pod-mas{
+  display:flex; align-items:center; justify-content:center; width:100%; min-height:44px; margin-top:8px;
+  background:none; border:1px dashed var(--line); border-radius:12px; color:var(--accent); font:700 15px/1 var(--display); cursor:pointer;
+}
+.ep-info .em{display:block;}
+.buscar-barra{padding:4px 24px 10px; max-width:600px; width:100%; margin:0 auto;}
+.buscar-ayuda{font-size:15px; line-height:1.5; color:var(--muted); margin:2px 0 0;}
+.buscar-campo{display:flex; align-items:center; gap:10px; min-height:56px; padding:0 8px 0 16px; background:var(--surface-1); border:1.5px solid var(--ring); border-radius:16px;}
+.buscar-campo:focus-within{border-color:var(--accent);}
+.buscar-campo .icon{width:21px; height:21px; flex-shrink:0; color:var(--muted);}
+.buscar-campo input{flex:1; min-width:0; height:54px; background:none; border:0; outline:0; color:var(--text); font:500 17px/1 var(--display); -webkit-appearance:none; appearance:none;}
+.buscar-campo input::placeholder{color:var(--muted);}
+.buscar-campo input::-webkit-search-cancel-button{-webkit-appearance:none; display:none;}
+.buscar-campo button{width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:none; border:0; border-radius:50%; color:var(--muted); cursor:pointer;}
+.buscar-campo button[hidden]{display:none;}
+.buscar-chips{display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 0;}
+.chip-tema{
+  min-height:44px; padding:0 18px; border-radius:99px; background:var(--surface-1); border:1px solid var(--ring);
+  color:var(--text); font:600 15px/1 var(--display); white-space:nowrap; cursor:pointer;
+}
+.chip-tema[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
+.buscar-cuenta{font:600 12px/1.4 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin:8px 0 4px;}
+.pod-item{
+  display:flex; align-items:center; gap:14px; width:100%; min-height:84px; margin-top:10px; padding:12px;
+  background:var(--surface-1); border:1px solid var(--ring); border-radius:18px; color:var(--text); text-align:left; font:inherit; cursor:pointer;
+}
+.pod-item:active{transform:scale(.99);}
+.pod-item.activo{border-color:var(--accent);}
+.pod-txt{flex:1; min-width:0; display:flex; flex-direction:column; gap:4px;}
+.pod-txt b{font:700 17px/1.25 var(--display); color:var(--text);}
+.pod-txt .pod-desc{font-size:14px; line-height:1.4; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+.pod-txt .pod-tema{font:600 12px/1.3 var(--mono); letter-spacing:.04em; text-transform:uppercase; color:#bdf4ff;}
+.pod-txt .pod-estado{font:600 13px/1.3 var(--mono); color:var(--ok);}
+mark{background:rgba(0,229,255,.22); color:#fff; border-radius:4px; padding:0 2px;}
+#buscarCuerpo{padding-bottom:calc(120px + env(safe-area-inset-bottom));}
+.buscar-vacio{padding:26px 4px; text-align:center; color:var(--muted); font-size:16px; line-height:1.55;}
+.buscar-vacio b{color:var(--text);}
+.buscar-vacio .ghostbtn{margin-top:14px; min-height:44px;}
 /* ---- instalar la app: solo en la web, nunca dentro de la app instalada ---- */
 .instalar-fila{display:flex; justify-content:center; padding:10px 24px 0;}
 .instalar-fila[hidden]{display:none;}
@@ -408,6 +474,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V4M8.5 7.5 12 4l3.5 3.5"/><path d="M8 11H6.5A1.5 1.5 0 0 0 5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6A1.5 1.5 0 0 0 17.5 11H16"/></symbol>
   <symbol id="i-plus-square" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M12 8.5v7M8.5 12h7"/></symbol>
   <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
   <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
 </svg>
 <div id="splash" aria-hidden="true">
@@ -519,21 +586,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         </div>
         <div class="subcard">
           <div class="subcard-head podcast"><svg class="icon"><use href="#i-headphones"></use></svg><h3>Podcast</h3><span class="badge-offline">OFFLINE</span></div>
-          <label for="podSel" style="margin:10px 0 8px;">Descárgalo con wifi y escúchalo en el avión</label>
-          <select id="podSel">
-            <option value="">Elige un podcast…</option>
-            <option value="kuppers">Víctor Küppers</option>
-            <option value="marian">Marian Rojas Estapé</option>
-            <option value="aprendemos">BBVA Aprendemos juntos</option>
-            <option value="dietacojea">Mi Dieta Cojea — nutrición con Aitor Sánchez</option>
-            <option value="tengounplan">Tengo un Plan</option>
-            <option value="isabelvina">Dra. Isabel Viña — Tus amigas las hormonas</option>
-            <option value="worldcast">WORLDCAST — Pedro Buerbaum</option>
-            <option value="urisabat">La Fórmula del Éxito — Uri Sabat</option>
-            <option value="adriansaenz">Adrián Sáenz Podcast</option>
-            <option value="rocaproject">ROCA PROJECT</option>
-            <option value="wildproject">The Wild Project — Jordi Wild</option>
-          </select>
+          <p class="pod-ayuda">Descárgalo con wifi y escúchalo en el avión</p>
+          <button type="button" class="pod-campo" id="podAbrir" aria-haspopup="dialog">
+            <svg class="icon"><use href="#i-search"></use></svg><span>Busca un podcast</span><svg class="icon pod-fl"><use href="#i-chevron-right"></use></svg>
+          </button>
+          <div class="pod-elegido" id="podElegido" hidden></div>
           <div id="epLista"></div>
         </div>
       </div>
@@ -620,6 +677,27 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     <button class="ghostbtn" data-cerrar="pnlNoticias"><svg class="icon"><use href="#i-close"></use></svg> Volver</button>
   </div>
   <div class="cuerpo" id="cuerpoNoticias"></div>
+</div>
+
+<!-- ====== PANEL: BUSCADOR DE PODCASTS ====== -->
+<div class="panel" id="pnlBuscar" role="dialog" aria-modal="true" aria-labelledby="buscarTit">
+  <div class="cab">
+    <h3 id="buscarTit" tabindex="-1"><svg class="icon"><use href="#i-headphones"></use></svg> Elige un podcast</h3>
+    <button class="ghostbtn" data-cerrar="pnlBuscar"><svg class="icon"><use href="#i-close"></use></svg> Volver</button>
+  </div>
+  <div class="buscar-barra">
+    <div class="buscar-campo">
+      <svg class="icon"><use href="#i-search"></use></svg>
+      <input type="search" id="buscarTxt" placeholder="Ej.: salud, negocios, Küppers…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" aria-label="Buscar un podcast">
+      <button type="button" id="buscarLimpiar" aria-label="Borrar búsqueda" hidden><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+  </div>
+  <div class="cuerpo" id="buscarCuerpo">
+    <p class="buscar-ayuda">Toca un podcast para ver sus últimos episodios.</p>
+    <div class="buscar-chips" id="buscarChips" role="group" aria-label="Filtrar por tema"></div>
+    <p class="buscar-cuenta" id="buscarCuenta" aria-live="polite"></p>
+    <div id="buscarLista"></div>
+  </div>
 </div>
 
 <!-- ====== PANEL: PODCAST ====== -->
@@ -1029,37 +1107,75 @@ function pintarNoticias(){
 }
 
 function episodiosGuardados(){ return JSON.parse(localStorage.getItem(KEY_EPS) || "[]"); }
+const escHtml = t => String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+function haceTiempo(iso){
+  if (!iso) return "";
+  const d = new Date(iso + "T00:00:00");
+  if (isNaN(d)) return "";
+  const dias = Math.round((new Date().setHours(0, 0, 0, 0) - d.getTime()) / 86400000);
+  if (dias <= 0) return "hoy";
+  if (dias === 1) return "ayer";
+  if (dias < 14) return "hace " + dias + " días";
+  if (dias < 60) return "hace " + Math.round(dias / 7) + " semanas";
+  const meses = Math.round(dias / 30.4);
+  if (meses < 24) return "hace " + meses + " meses";
+  return "hace " + Math.round(meses / 12) + " años";
+}
+function filaEpisodio(e, d, bajados){
+  const hecho = bajados.has(e.audio);
+  const meta = [haceTiempo(e.iso), e.duracion].filter(Boolean).join(" · ");
+  return `
+      <div class="ep-row estatico">
+        <span class="ep-icon"><svg class="icon"><use href="#i-headphones"></use></svg></span>
+        <span class="ep-info"><span class="et">${escHtml(e.titulo)}</span><span class="em">${escHtml(meta)}</span></span>
+        <button type="button" class="ep-action ${hecho ? "listo" : ""}"
+          aria-label="${hecho ? "Descargado" : "Descargar para el vuelo"}"
+          data-audio="${encodeURIComponent(e.audio)}"
+          data-titulo="${encodeURIComponent(e.titulo)}"
+          data-pod="${encodeURIComponent(d.nombre)}"
+          data-podid="${encodeURIComponent(d.id || "")}">
+          <svg class="icon"><use href="#${hecho ? "i-check" : "i-download"}"></use></svg>
+        </button>
+      </div>`;
+}
 async function cargarEpisodios(id){
   const l = $("epLista");
   if (!id){ l.innerHTML = ""; return; }
   l.innerHTML = '<p class="estado">Cargando episodios…</p>';
   try {
-    const r = await fetch(API + "/api/podcast?id=" + id, {signal: AbortSignal.timeout(15000)});
+    const r = await fetch(API + "/api/podcast?id=" + encodeURIComponent(id), {signal: AbortSignal.timeout(15000)});
     const d = await r.json();
     if (!d.episodios || !d.episodios.length) throw 0;
+    if (id !== podActual) return;   // el usuario ya cambió de podcast mientras cargaba
+    d.id = d.id || id;
     const bajados = new Set(episodiosGuardados().map(e => e.audio));
-    l.innerHTML = '<div class="playlist">' + d.episodios.slice(0, 5).map(e => `
-      <div class="ep-row estatico">
-        <span class="ep-icon"><svg class="icon"><use href="#i-headphones"></use></svg></span>
-        <span class="ep-info"><span class="et">${e.titulo}</span><span class="em">${e.duracion || ""}</span></span>
-        <button type="button" class="ep-action ${bajados.has(e.audio) ? "listo" : ""}"
-          aria-label="${bajados.has(e.audio) ? "Descargado" : "Descargar para el vuelo"}"
-          data-audio="${encodeURIComponent(e.audio)}"
-          data-titulo="${encodeURIComponent(e.titulo)}"
-          data-pod="${encodeURIComponent(d.nombre)}">
-          <svg class="icon"><use href="#${bajados.has(e.audio) ? "i-check" : "i-download"}"></use></svg>
-        </button>
-      </div>`).join("") + '</div>';
-    l.querySelectorAll("button[data-audio]").forEach(b =>
-      b.addEventListener("click", () => descargarEpisodio(b)));
+    const ultimo = d.episodios[0];
+    const rel = haceTiempo(ultimo.iso);
+    const viejo = ultimo.iso && (Date.now() - new Date(ultimo.iso + "T00:00:00").getTime()) > 120 * 86400000;
+    const POR_VEZ = 5;
+    l.innerHTML = (rel ? `<p class="pod-fresco${viejo ? " viejo" : ""}"><b>Último episodio:</b> ${escHtml(rel)}${viejo ? " · este podcast publica poco" : ""}</p>` : "") +
+      '<div class="playlist">' + d.episodios.slice(0, POR_VEZ).map(e => filaEpisodio(e, d, bajados)).join("") + '</div>' +
+      (d.episodios.length > POR_VEZ ? `<button type="button" class="pod-mas" id="podMas">Ver ${d.episodios.length - POR_VEZ} episodios más</button>` : "");
+    const enlazar = () => l.querySelectorAll("button[data-audio]").forEach(b => { if (!b._ok){ b._ok = 1; b.addEventListener("click", () => descargarEpisodio(b)); } });
+    enlazar();
+    const mas = $("podMas");
+    if (mas) mas.addEventListener("click", () => {
+      l.querySelector(".playlist").insertAdjacentHTML("beforeend", d.episodios.slice(POR_VEZ).map(e => filaEpisodio(e, d, bajados)).join(""));
+      mas.remove(); enlazar();
+    });
   } catch(e){
-    l.innerHTML = '<p class="estado">No se pudieron cargar los episodios. ¿Tienes conexión?</p>';
+    if (id !== podActual) return;
+    const sinRed = navigator.onLine === false;
+    l.innerHTML = '<p class="estado">' + (sinRed ? "Sin conexión. Conéctate a internet para ver y descargar episodios." : "No se pudieron cargar los episodios. ¿Tienes conexión?") + '</p>' +
+      '<button type="button" class="pod-mas" id="podReintentar">Reintentar</button>';
+    $("podReintentar").addEventListener("click", () => cargarEpisodios(id));
   }
 }
 async function descargarEpisodio(btn){
   const audio = decodeURIComponent(btn.dataset.audio);
   const titulo = decodeURIComponent(btn.dataset.titulo);
   const pod = decodeURIComponent(btn.dataset.pod);
+  const podId = decodeURIComponent(btn.dataset.podid || "");
   btn.disabled = true; btn.innerHTML = '<svg class="icon"><use href="#i-download"></use></svg>'; btn.setAttribute("aria-label", "Descargando…");
   try {
     const c = await caches.open("pdv-audio");
@@ -1067,7 +1183,7 @@ async function descargarEpisodio(btn){
     const resp = await fetch(req);
     await c.put(req, resp);
     const eps = episodiosGuardados().filter(e => e.audio !== audio);
-    eps.unshift({audio, titulo, pod, ts: Date.now()});
+    eps.unshift({audio, titulo, pod, podId, ts: Date.now()});
     localStorage.setItem(KEY_EPS, JSON.stringify(eps.slice(0, 10)));
     btn.innerHTML = '<svg class="icon"><use href="#i-check"></use></svg>'; btn.classList.add("listo"); btn.disabled = false;
     btn.setAttribute("aria-label", "Descargado");
@@ -1131,7 +1247,7 @@ function pintarPlaylist(){
   c.innerHTML = colaEps.map((e, i) => `
     <div class="ep-row ${i === idxActual ? "activo" : ""}" data-idx="${i}">
       <span class="ep-icon"><svg class="icon${i === idxActual ? " fill" : ""}"><use href="#${i === idxActual ? "i-play" : "i-headphones"}"></use></svg></span>
-      <span class="ep-info"><span class="et">${e.titulo}</span><span class="em">${e.pod}</span></span>
+      <span class="ep-info"><span class="et">${escHtml(e.titulo)}</span><span class="em">${escHtml(e.pod)}</span></span>
       <button type="button" class="ep-action" data-borrar="${i}" aria-label="Borrar episodio"><svg class="icon"><use href="#i-trash"></use></svg></button>
     </div>`).join("");
   c.querySelectorAll(".ep-row").forEach(row => row.addEventListener("click", (ev) => {
@@ -1245,7 +1361,131 @@ function cambiarSentido(dir){
 }
 $("dirIda").addEventListener("click", () => cambiarSentido("ida"));
 $("dirVuelta").addEventListener("click", () => cambiarSentido("vuelta"));
-$("podSel").addEventListener("change", () => cargarEpisodios($("podSel").value));
+/* ================= BUSCADOR DE PODCASTS ================= */
+const TEMAS = {mente: "Mente y bienestar", salud: "Salud y nutrición", negocios: "Negocios", cultura: "Cultura y actualidad"};
+const TEMAS_CORTO = {mente: "Mente", salud: "Salud", negocios: "Negocios", cultura: "Cultura"};
+/* Copia sin conexión del catálogo de api/podcast.js: mantenerlas iguales. Los podcasts nuevos que añada el
+   servidor aparecen solos (refrescarCatalogo); esta lista es la que se ve la primera vez y sin red. */
+const PODCASTS_BASE = [
+  {"id":"kuppers","nombre":"Víctor Küppers — Aprendemos juntos","autor":"Víctor Küppers","tema":"mente","descripcion":"Sus charlas sobre actitud y ánimo en Aprendemos juntos.","claves":"actitud animo motivacion optimismo","imagen":null},
+  {"id":"marian","nombre":"Marian Rojas Estapé — Aprendemos juntos","autor":"Marian Rojas Estapé","tema":"mente","descripcion":"La psiquiatra habla de emociones, estrés y bienestar mental.","claves":"psiquiatra psicologia estres emociones cerebro","imagen":null},
+  {"id":"aprendemos","nombre":"BBVA Aprendemos juntos","autor":"BBVA","tema":"cultura","descripcion":"Entrevistas con científicos, artistas y pensadores. Lo último, primero.","claves":"ciencia cultura entrevistas arte musica historia","imagen":"img/podcasts/aprendemos.jpg"},
+  {"id":"dietacojea","nombre":"Mi Dieta Cojea — Aitor Sánchez","autor":"Aitor Sánchez","tema":"salud","descripcion":"Nutrición y ciencia de la alimentación, contadas sin tópicos.","claves":"dieta alimentacion nutricion dietista comer","imagen":"img/podcasts/dietacojea.jpg"},
+  {"id":"tengounplan","nombre":"Tengo un Plan","autor":"Sergio Beguería y Juan Domínguez","tema":"mente","descripcion":"Entrevistas largas sobre mente, hábitos y actualidad.","claves":"habitos psicologia entrevistas neurociencia vida","imagen":"img/podcasts/tengounplan.jpg"},
+  {"id":"isabelvina","nombre":"Dra. Isabel Viña — Tus amigas las hormonas","autor":"Dra. Isabel Viña","tema":"salud","descripcion":"Salud y hormonas de la mujer, explicadas por una doctora.","claves":"hormonas mujer menopausia regla endometriosis medicina doctora","imagen":"img/podcasts/isabelvina.jpg"},
+  {"id":"worldcast","nombre":"WORLDCAST — Pedro Buerbaum","autor":"Pedro Buerbaum","tema":"cultura","descripcion":"Conversaciones y casos reales con Pedro Buerbaum.","claves":"entrevistas casos reales crimen sociedad","imagen":"img/podcasts/worldcast.jpg"},
+  {"id":"urisabat","nombre":"La Fórmula del Éxito — Uri Sabat","autor":"Uri Sabat","tema":"negocios","descripcion":"Entrevistas sobre negocios, deporte y casos reales.","claves":"negocios emprendimiento deporte entrevistas exito","imagen":"img/podcasts/urisabat.jpg"},
+  {"id":"adriansaenz","nombre":"Adrián Sáenz Podcast","autor":"Adrián Sáenz","tema":"negocios","descripcion":"Dinero, negocios y emprendimiento, con invitados de primera.","claves":"dinero finanzas inversion negocios empresa trader","imagen":"img/podcasts/adriansaenz.jpg"},
+  {"id":"rocaproject","nombre":"ROCA PROJECT","autor":"Carlos Roca","tema":"cultura","descripcion":"Conversaciones largas sobre historias de vida.","claves":"entrevistas vida historias sociedad","imagen":"img/podcasts/rocaproject.jpg"},
+  {"id":"wildproject","nombre":"The Wild Project — Jordi Wild","autor":"Jordi Wild","tema":"cultura","descripcion":"Entrevistas largas sobre actualidad, política y sociedad.","claves":"politica actualidad entrevistas sociedad","imagen":"img/podcasts/wildproject.jpg"}
+];
+let podcasts = PODCASTS_BASE.slice(), podActual = null, temaSel = "", buscarPrevio = null;
+const norm = t => (t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const iniciales = p => (p.autor || p.nombre || "?").split(/\s+/).filter(w => w.length > 2 || /^[A-ZÁÉÍÓÚ]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join("") || "?";
+function colorPod(p){ let h = 0; for (const c of p.id || p.nombre) h = (h * 31 + c.charCodeAt(0)) % 360; return "hsl(" + h + " 42% 30%)"; }
+function portadaPod(p){
+  return '<span class="pod-portada" style="background:' + colorPod(p) + '">' + escHtml(iniciales(p)) +
+    (p.imagen ? '<img src="' + escHtml(p.imagen) + '" alt="" loading="lazy">' : "") + '</span>';
+}
+function resaltar(texto, tokens){
+  if (!tokens.length) return escHtml(texto);
+  const cs = [...texto], n = cs.map(c => norm(c)[0] || c).join(""), marca = new Array(cs.length).fill(false);
+  tokens.forEach(t => { let i = n.indexOf(t); while (i !== -1){ for (let k = i; k < i + t.length; k++) marca[k] = true; i = n.indexOf(t, i + t.length); } });
+  let out = "", abierto = false;
+  cs.forEach((c, i) => {
+    if (marca[i] && !abierto){ out += "<mark>"; abierto = true; }
+    if (!marca[i] && abierto){ out += "</mark>"; abierto = false; }
+    out += escHtml(c);
+  });
+  return out + (abierto ? "</mark>" : "");
+}
+function descargadosDe(p){ return episodiosGuardados().filter(e => e.podId ? e.podId === p.id : e.pod === p.nombre).length; }
+function pintarBuscador(){
+  const q = norm($("buscarTxt").value).split(/\s+/).filter(Boolean);
+  $("buscarLimpiar").hidden = !$("buscarTxt").value;
+  // temas presentes, en el orden de TEMAS y luego los que añada el servidor
+  const ordenTema = t => { const i = Object.keys(TEMAS).indexOf(t); return i < 0 ? 99 : i; };
+  const temas = [...new Set(podcasts.map(p => p.tema).filter(Boolean))].sort((a, b) => ordenTema(a) - ordenTema(b));
+  $("buscarChips").innerHTML = [["", "Todos"]].concat(temas.map(t => [t, TEMAS_CORTO[t] || t])).map(([v, et]) =>
+    '<button type="button" class="chip-tema" data-tema="' + escHtml(v) + '" aria-pressed="' + (temaSel === v) + '">' + escHtml(et) + '</button>').join("");
+  const res = podcasts.filter(p => (!temaSel || p.tema === temaSel) &&
+    q.every(w => norm([p.nombre, p.autor, TEMAS[p.tema], p.descripcion, p.claves].join(" ")).includes(w)));
+  $("buscarCuenta").textContent = !res.length ? "Sin resultados" : (!q.length && !temaSel) ? res.length + " podcasts" : res.length + (res.length === 1 ? " resultado" : " resultados");
+  const l = $("buscarLista");
+  if (!res.length){
+    l.innerHTML = '<div class="buscar-vacio"><p>No hay ningún podcast con <b>«' + escHtml($("buscarTxt").value.trim() || (TEMAS[temaSel] || temaSel)) + '»</b>.</p>' +
+      '<p>Prueba con otra palabra: un tema (<i>salud</i>, <i>negocios</i>…) o el nombre de quien habla.</p>' +
+      '<button type="button" class="ghostbtn" id="buscarTodos">Ver todos los podcasts</button></div>';
+    $("buscarTodos").addEventListener("click", () => { $("buscarTxt").value = ""; temaSel = ""; pintarBuscador(); });
+    return;
+  }
+  l.innerHTML = res.map(p => {
+    const n = descargadosDe(p), actual = p.id === podActual;
+    return '<button type="button" class="pod-item' + (actual ? " activo" : "") + '" data-id="' + escHtml(p.id) + '">' + portadaPod(p) +
+      '<span class="pod-txt"><b>' + resaltar(p.nombre, q) + '</b><span class="pod-desc">' + resaltar(p.descripcion || "", q) + '</span>' +
+      '<span class="pod-tema">' + escHtml(TEMAS[p.tema] || p.tema || "") + '</span>' +
+      (actual || n ? '<span class="pod-estado">✓ ' + (actual ? "Elegido" : "") + (actual && n ? " · " : "") + (n ? n + (n === 1 ? " episodio descargado" : " episodios descargados") : "") + '</span>' : "") + '</span></button>';
+  }).join("");
+  l.querySelectorAll(".pod-portada img").forEach(i => i.addEventListener("error", () => i.remove()));
+}
+function pintarElegido(){
+  const p = podcasts.find(x => x.id === podActual), caja = $("podElegido");
+  $("podAbrir").hidden = !!p; caja.hidden = !p;
+  if (!p){ caja.innerHTML = ""; return; }
+  caja.innerHTML = portadaPod(p) + '<span class="pod-nom">' + escHtml(p.nombre) + '</span><button type="button" class="pod-cambiar" id="podCambiar">Cambiar</button>';
+  caja.querySelectorAll(".pod-portada img").forEach(i => i.addEventListener("error", () => i.remove()));
+  $("podCambiar").addEventListener("click", abrirBuscador);
+}
+function abrirBuscador(){
+  buscarPrevio = document.activeElement;
+  $("buscarTxt").value = ""; temaSel = "";
+  pintarBuscador();
+  $("pnlBuscar").classList.add("abierto");
+  $("buscarCuerpo").scrollTop = 0;
+  if (window.matchMedia && matchMedia("(pointer:fine)").matches) $("buscarTxt").focus(); else $("buscarTit").focus();
+  refrescarCatalogo();
+}
+function cerrarBuscador(){
+  $("pnlBuscar").classList.remove("abierto");
+  const volver = !$("podElegido").hidden ? $("podCambiar") : $("podAbrir");
+  if (volver) volver.focus();
+}
+function elegirPodcast(id){
+  podActual = id;
+  $("pnlBuscar").classList.remove("abierto");
+  pintarElegido();
+  const b = $("podCambiar"); if (b) b.focus();
+  cargarEpisodios(id);
+}
+async function refrescarCatalogo(){
+  try {
+    const r = await fetch(API + "/api/podcast", {signal: AbortSignal.timeout(8000)});
+    const d = await r.json();
+    if (!d.podcasts || !d.podcasts.length) return;
+    const porId = new Map(podcasts.map(p => [p.id, p]));
+    d.podcasts.forEach(p => porId.set(p.id, Object.assign({}, porId.get(p.id) || {}, p)));
+    podcasts = [...porId.values()];
+    if ($("pnlBuscar").classList.contains("abierto")) pintarBuscador();
+  } catch(_){}
+}
+$("podAbrir").addEventListener("click", abrirBuscador);
+/* al escribir o filtrar, se sube hasta el contador para ver ya los resultados (con el teclado abierto no sobra sitio) */
+function verResultados(){
+  const c = $("buscarCuerpo"), conFiltro = $("buscarTxt").value.trim() || temaSel;
+  c.scrollTop = conFiltro ? c.scrollTop + $("buscarCuenta").getBoundingClientRect().top - c.getBoundingClientRect().top - 6 : 0;
+}
+$("buscarTxt").addEventListener("input", () => { pintarBuscador(); verResultados(); });
+$("buscarTxt").addEventListener("keydown", (ev) => {
+  if (ev.key !== "Enter") return;
+  ev.preventDefault();
+  const primero = $("buscarLista").querySelector(".pod-item");
+  if (primero) elegirPodcast(primero.dataset.id); else $("buscarTxt").blur();
+});
+$("buscarLimpiar").addEventListener("click", () => { $("buscarTxt").value = ""; pintarBuscador(); $("buscarTxt").focus(); });
+$("buscarChips").addEventListener("click", (ev) => { const b = ev.target.closest("[data-tema]"); if (!b) return; temaSel = b.dataset.tema; pintarBuscador(); verResultados(); });
+$("buscarLista").addEventListener("click", (ev) => { const b = ev.target.closest(".pod-item"); if (b) elegirPodcast(b.dataset.id); });
+document.querySelector('[data-cerrar="pnlBuscar"]').addEventListener("click", cerrarBuscador);
+document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && $("pnlBuscar").classList.contains("abierto")) cerrarBuscador(); });
 $("btnNoticias").addEventListener("click", () => { pintarNoticias(); $("pnlNoticias").classList.add("abierto"); });
 $("btnPodcast").addEventListener("click", () => { pintarPodcastPanel(); $("pnlPodcast").classList.add("abierto"); });
 document.querySelectorAll("[data-cerrar]").forEach(b => b.addEventListener("click", () => {
