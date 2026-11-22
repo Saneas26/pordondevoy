@@ -435,6 +435,7 @@ mark{background:rgba(0,229,255,.22); color:#fff; border-radius:4px; padding:0 2p
 .instalar-tx b{font:700 21px/1.2 var(--display);}
 .instalar-tx span{font-size:15px; line-height:1.4; color:var(--muted);}
 .instalar-fl{width:22px; height:22px; flex-shrink:0; color:var(--muted);}
+.instalar-alt{display:block; width:100%; min-height:48px; margin-top:14px; padding:10px 8px; background:none; border:0; color:var(--accent); font:600 16px/1.35 var(--display); text-align:center; text-decoration:underline; text-underline-offset:4px; cursor:pointer;}
 .instalar-lista{list-style:none; display:flex; flex-direction:column; gap:18px; margin:4px 0 0; padding:0;}
 .instalar-lista li{display:flex; align-items:flex-start; gap:14px; font-size:18px; line-height:1.5; color:var(--text);}
 .instalar-lista .card-num{margin-top:1px;}
@@ -740,11 +741,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <span class="instalar-tx"><b>Android</b><span>Descárgala en Google Play</span></span>
         <svg class="icon instalar-fl"><use href="#i-chevron-right"></use></svg>
       </a>
-      <button type="button" class="instalar-op" id="instalarIphone">
-        <span class="instalar-ic"><svg class="icon"><use href="#i-plus-square"></use></svg></span>
-        <span class="instalar-tx"><b>iPhone</b><span>Te explicamos cómo añadirla a tu pantalla de inicio</span></span>
+      <a class="instalar-op" id="instalarIphone" href="https://apps.apple.com/es/app/por-d%C3%B3nde-voy/id6823295817" target="_blank" rel="noopener">
+        <span class="instalar-ic"><svg class="icon"><use href="#i-phone"></use></svg></span>
+        <span class="instalar-tx"><b>iPhone</b><span>Descárgala en la App Store</span></span>
         <svg class="icon instalar-fl"><use href="#i-chevron-right"></use></svg>
-      </button>
+      </a>
+      <button type="button" class="instalar-alt" id="instalarAcceso">¿Prefieres no descargar nada? Crea un acceso directo en tu iPhone</button>
     </div>
     <div id="instalarPasos" hidden>
       <p class="instalar-sub">Desde <b>Safari</b>, en tres pasos. Quedará como una app más en tu iPhone, y funcionará sin conexión.</p>
@@ -1324,11 +1326,12 @@ document.addEventListener("visibilitychange", () => {
   $("instalarCerrar").addEventListener("click", cerrar);
   ov.addEventListener("click", (ev) => { if (ev.target === ov) cerrar(); });
   $("instalarAndroid").addEventListener("click", () => setTimeout(cerrar, 150));
-  $("instalarIphone").addEventListener("click", () => {
-    elige.hidden = true; pasos.hidden = false; atras.hidden = false; tit.textContent = "En tu iPhone";
+  $("instalarIphone").addEventListener("click", () => setTimeout(cerrar, 150));
+  $("instalarAcceso").addEventListener("click", () => {
+    elige.hidden = true; pasos.hidden = false; atras.hidden = false; tit.textContent = "Acceso directo en iPhone";
     atras.focus();
   });
-  atras.addEventListener("click", () => { verElige(); $("instalarIphone").focus(); });
+  atras.addEventListener("click", () => { verElige(); $("instalarAcceso").focus(); });
   document.addEventListener("keydown", (ev) => {
     if (!ov.classList.contains("abierto")) return;
     if (ev.key === "Escape") { cerrar(); return; }
